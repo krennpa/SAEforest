@@ -8,7 +8,7 @@
 #' and should not be directly used by the reguluar user. Recommended exceptions are applications exceeding
 #' the scope of existing wrapper functions or further research. The function \code{MERFranger}
 #' allows to model complex patterns of structural relations (see Examples). The function returns
-#' an object of class \code{MERFmodel}, which can be used to produce unit-level predictions. In contrast to
+#' an object of class \code{MERFranger}, which can be used to produce unit-level predictions. In contrast to
 #' the wrapping functions, this function does not directly provide SAE estimates on domain-specific indicators.
 #'
 #' @param Y Continuous input value of target variable.
@@ -32,7 +32,7 @@
 #' in each node), or \code{num.trees} (number of trees). For further details on possible parameters
 #' see \link[ranger]{ranger} and the example below.
 #'
-#' @return Object of class MERFmodel includes the following elements:
+#' @return Object of class MERFranger includes the following elements:
 #'
 #' \item{\code{Forest}}{A random forest of class \link[ranger]{ranger} modelling fixed effects
 #' of the model.}
@@ -50,10 +50,6 @@
 #' \item{\code{initialRandomEffects}}{Numeric value or vector of intial specification of random effects.}
 #' \item{\code{MaxIterations}}{Numeric value specifying the maximal amount of iterations for the
 #' MERF algorithm.}
-#' \item{\code{call}}{The summarized function call producing the object.}
-#' \item{\code{data_specs}}{Data characteristics such as domain specific sample sizes or number of
-#' out-of-sample areas.}
-#' \item{\code{data}}{The used survey sample data.}
 #'
 #' @details
 #' There exists a generic function for \code{predict} for objects obtained by \code{MERFranger}.
@@ -64,7 +60,7 @@
 #' of the algorithm is monitored by log-likelihood of a joint model of both components. For
 #' further details see Krennmair and Schmid or Hajem et. al. (2014).
 #'
-#' Note that the \code{MERFmodel} object is a composition of elements from a random forest of class
+#' Note that the \code{MERFranger} object is a composition of elements from a random forest of class
 #' \code{ranger} and a random effects model of class \code{\link[lme4]{merMod}}. Thus, all generic functions are
 #' applicable to corresponding objects. For further details on generic functions see \code{\link[ranger]{ranger}}
 #' and \code{\link[lme4]{lmer}} as well as the examples below.
@@ -157,14 +153,14 @@ MERFranger <- function(Y, X, random, data, importance = "none", initialRandomEff
                  initialRandomEffects = initialRandomEffects,
                  MaxIterations = MaxIterations)
 
-  class(result) <- "MERFmodel"
+  class(result) <- "MERFranger"
 
   return(result)
 }
 
 
 #' @export
-predict.MERFmodel <- function(object, ...){
+predict.MERFranger <- function(object, ...){
   retval <- predict(object$Forest, ...)$predictions+
     predict(object$EffectModel, allow.new.levels=TRUE, ...)
 

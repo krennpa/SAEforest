@@ -12,10 +12,10 @@
 #' @param x An object of class \code{SAEforest} including a random forest model of class \code{\link[ranger]{ranger}}.
 #' @param num_features Number of features for which a partial dependence plot is required.
 #' @param col Parameter specifying the color of selected plots. The argument must be specified
-#' such that it can be process by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+#' such that it can be processed by \code{\link[ggplot2]{aes}}. Default is to a character name of the
 #' color "darkgreen".
 #' @param fill Parameter specifying the fill of selected plots. The argument must be specified
-#' such that it can be process by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+#' such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 #' color "darkgreen".
 #' @param alpha Parameter specifying the transparency of \code{fill} for vip plots.
 #' The argument must be a number in \code{[0,1]}.
@@ -82,7 +82,9 @@ plot.SAEforest <- function(x,
   vip_plot <- vip::vip(x$MERFmodel$Forest, aes = list(col =col, fill = fill, alpha=alpha),
                   include_type =include_type, horizontal = horizontal, num_features=num_features)+ ggtitle("Variable Importance")+ gg_theme
 
-  print(vip_plot)
+  eval(print(vip_plot))
+  cat("Press [enter] to continue")
+  line <- readline()
 
   # PdP PLOT
   # Check if variables are factors or characters
@@ -102,11 +104,12 @@ plot.SAEforest <- function(x,
   forest_imp <- forest_imp[order(forest_imp$Importance, decreasing = TRUE),]
   forest_imp <- forest_imp[!forest_imp[,"Variable"] %in% set_rm,]
   forest_imp <- na.omit(forest_imp[1:num_features,])
+  y_name <- as.character(x$MERFmodel$call$Y)
 
   pdp_curves <- lapply(forest_imp[,"Variable"], FUN = function(feature) {
     pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = x$MERFmodel$data, plot=FALSE)
-    colnames(pd)[2] <- "y"
-    ggplot(data=pd, aes_string(y = "y", x = feature)) + geom_line(linetype = lty, color=col, size=lsize)+
+    colnames(pd)[2] <- y_name
+    ggplot(data=pd, aes_string(y = y_name, x = feature)) + geom_line(linetype = lty, color=col, size=lsize)+
       ggtitle(paste("Partial Dependence of",feature)) + gg_theme
   })
 

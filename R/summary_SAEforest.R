@@ -36,24 +36,24 @@ summary.SAEforest <- function(object, ...) {
 
   call_SAE <- object$MERFmodel$call
 
-  total_dom <- object$MERFmodel$data_specs$n_total
-  in_dom <- object$MERFmodel$data_specs$n_in
-  oos_dom <- object$MERFmodel$data_specs$n_out
+  total_dom <- object$MERFmodel$data_specs$D_total
+  in_dom <- object$MERFmodel$data_specs$D_in
+  oos_dom <- object$MERFmodel$data_specs$D_out
 
   dom_info <- data.frame(in_dom, oos_dom, total_dom)
   rownames(dom_info) <- c("")
   colnames(dom_info) <- c("In-sample", "Out-of-sample", "Total")
 
-  smp_size <- object$MERFmodel$data_specs$n_surv
-  pop_size <- object$MERFmodel$data_specs$n_pop
+  smp_size <- object$MERFmodel$data_specs$N_surv
+  pop_size <- object$MERFmodel$data_specs$N_pop
 
   if(inherits(object, "SAEforest_meanAGG")){
     pop_size <- NULL
   }
 
 
-  smp_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$n_smp)[,"Freq"])
-  pop_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$n_cns)[,"Freq"])
+  smp_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_smp)[,"Freq"])
+  pop_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_pop)[,"Freq"])
 
   sizedom_smp_pop <- rbind(Sample_domains = smp_size_dom,
                            Population_domains = pop_size_dom)
@@ -117,6 +117,7 @@ print.summary.SAEforest <- function(x, ...) {
   cat("\n")
   print(x$dom_info)
   cat("\n")
+  cat("Totals:\n")
   cat("Units in sample:", x$smp_size, "\n")
   if(!is.null(x$pop_size)){
   cat("Units in population:", x$pop_size, "\n")

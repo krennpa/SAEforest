@@ -22,10 +22,10 @@
 #' @param tuneGrid A data.frame with possible tuning values. The columns must have the same names as the
 #' tuning parameters. For this tuning function the grid must comprise entries for the following parameters:
 #' \code{num.trees, mtry, min.node.size, splitrule}.
-#' @param seed Enabling reproduceability of for cross-validation and tuning. Defaults to \code{11235}.
+#' @param seed Enabling reproducibility of for cross-validation and tuning. Defaults to \code{11235}.
 #' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.
 #' @param plot_res Optional logical. If \code{TRUE}, the plot with results of cross-validation and tuning
-#' is shown. Defaults to TRUE.
+#' is shown. Defaults to \code{TRUE}.
 #' @param return_plot If set to \code{TRUE}, a list of the comparative plot produced by \pkg{ggplot2}
 #' is returned for further individual customization and processing.
 #' @param ... Additional parameters are directly passed to the random forest \link[ranger]{ranger} and/or
@@ -66,10 +66,17 @@
 
 tune_parameters <- function(Y, X, data, dName, trControl, tuneGrid,
                              seed = 11235, gg_theme = theme_minimal(),
-                             plot_res =TRUE, return_plot = FALSE, ...){
+                             plot_res =TRUE, return_plot = FALSE,na.rm=TRUE, ...){
 
   input_checks_tune(Y = Y, X = X, data = data, seed = seed, gg_theme = gg_theme,
                     plot_res = plot_res, return_plot = return_plot)
+
+  if(na.rm == TRUE){
+    comp_smp <- complete.cases(data)
+    data <- data[comp_smp,]
+    Y <- Y[comp_smp]
+    X <- X[comp_smp,]
+  }
 
   MERF <- define_method(X = X, dName = dName, ...)
 

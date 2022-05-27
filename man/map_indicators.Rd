@@ -107,7 +107,7 @@ map_tab <- data.frame(pop_data_id = model1$Indicators$district[dom_ord],
                     shape_id = shape_austria_dis@data$BKZ)
 
 # Create map plot for mean indicator - using the numerical domain
-identifiers of the shape file. Additionally save the figure in as a list element.
+# identifiers of the shape file. Additionally save the figure in as a list element.
 
 map_obj <- map_indicators(object = model1, MSE = FALSE, CV = FALSE,
            map_obj = shape_austria_dis, indicator = c("Mean"),

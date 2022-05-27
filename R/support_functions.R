@@ -47,13 +47,13 @@ sae_specs <- function(dName,cns,smp){
   OOsamp <- !total_dom %in% in_dom
 
   return(list(
-    n_surv = length(smp[[dName]]),
-    n_pop = length(cns[[dName]]),
-    n_out = sum(OOsamp),
-    n_in = length(in_dom),
-    n_total = length(total_dom),
-    n_smp = table(smp[[dName]]),
-    n_cns = table(cns[[dName]])))
+    N_surv = length(smp[[dName]]),
+    N_pop = length(cns[[dName]]),
+    D_out = sum(OOsamp),
+    D_in = length(in_dom),
+    D_total = length(total_dom),
+    ni_smp = table(smp[[dName]]),
+    ni_pop = table(cns[[dName]])))
 }
 
 

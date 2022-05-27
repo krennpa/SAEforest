@@ -15,6 +15,7 @@ tune_parameters(
   gg_theme = theme_minimal(),
   plot_res = TRUE,
   return_plot = FALSE,
+  na.rm = TRUE,
   ...
 )
 }
@@ -38,12 +39,12 @@ and the example below.}
 tuning parameters. For this tuning function the grid must comprise entries for the following parameters:
 \code{num.trees, mtry, min.node.size, splitrule}.}
 
-\item{seed}{Enabling reproduceability of for cross-validation and tuning. Defaults to \code{11235}.}
+\item{seed}{Enabling reproducibility of for cross-validation and tuning. Defaults to \code{11235}.}
 
 \item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.}
 
 \item{plot_res}{Optional logical. If \code{TRUE}, the plot with results of cross-validation and tuning
-is shown. Defaults to TRUE.}
+is shown. Defaults to \code{TRUE}.}
 
 \item{return_plot}{If set to \code{TRUE}, a list of the comparative plot produced by \pkg{ggplot2}
 is returned for further individual customization and processing.}

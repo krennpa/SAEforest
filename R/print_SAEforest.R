@@ -14,16 +14,16 @@ print.SAEforest <- function(x, ...) {
   cat("________________________________________________________________\n")
   cat("\n")
   cat("Information on Domains\n")
-  total_dom <- x$MERFmodel$data_specs$n_total
-  in_dom <- x$MERFmodel$data_specs$n_in
-  oos_dom <- x$MERFmodel$data_specs$n_out
+  total_dom <- x$MERFmodel$data_specs$D_total
+  in_dom <- x$MERFmodel$data_specs$D_in
+  oos_dom <- x$MERFmodel$data_specs$D_out
 
   dom_info <- data.frame(in_dom, oos_dom, total_dom)
   rownames(dom_info) <- c("")
   colnames(dom_info) <- c("In-sample", "Out-of-sample", "Total")
 
-  smp_size <- x$MERFmodel$data_specs$n_surv
-  pop_size <- x$MERFmodel$data_specs$n_pop
+  smp_size <- x$MERFmodel$data_specs$N_surv
+  pop_size <- x$MERFmodel$data_specs$N_pop
 
   print(dom_info)
   cat("\n")

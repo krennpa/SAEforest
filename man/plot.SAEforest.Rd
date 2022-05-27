@@ -27,11 +27,11 @@
 \item{num_features}{Number of features for which a partial dependence plot is required.}
 
 \item{col}{Parameter specifying the color of selected plots. The argument must be specified
-such that it can be process by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+such that it can be processed by \code{\link[ggplot2]{aes}}. Default is to a character name of the
 color "darkgreen".}
 
 \item{fill}{Parameter specifying the fill of selected plots. The argument must be specified
-such that it can be process by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 color "darkgreen".}
 
 \item{alpha}{Parameter specifying the transparency of \code{fill} for vip plots.

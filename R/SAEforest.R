@@ -22,9 +22,15 @@
 #' provided functions within this package can be be seen with \code{help(package="SAEforest")}.
 #'
 #' @references
-#' Krennmair, P. and Schmid, T. (202X). WP 1
-#' Krennmair, P. Würz, N. and Schmid, T. (202X). WP 2
-#' Krennmair, P., Schmid, T. and Tzavidis N. (202X). WP 3
+#' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
+#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+#'
+#' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
+#' Mixed Effects Random Forests under Aggregated Census Data.
+#' Available from https://arxiv.org/pdf/2204.10736.
+#'
+#' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
+#' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
 #'
 #' @docType package
 #' @name SAEforest

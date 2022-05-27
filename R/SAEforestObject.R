@@ -1,9 +1,9 @@
 #' Fitted SAEforest object
 #'
 #' An object of class \code{SAEforest} always includes point estimates of regionally disaggregated economic
-#' and inequality indicators and a \code{MERFmodel} object including information on the model fit for fixed
+#' and inequality indicators and a \code{MERFmodel} element including information on the model fit for fixed
 #' effects as well as random effects. Optionally an \code{SAEforestObject} includes corresponding MSE estimates.
-#' In the case of domain-level means using aggregated covariate information, the \code{SAEforestObject} object additionally
+#' In the case of mean estimates and aggregated covariate information, the \code{SAEforestObject} object additionally
 #' includes an element, capturing the number of variables used in the weighting process from aggregated
 #' covariate information. For an object of class \code{SAEforestObject}, the following generic functions are applicable:
 #' \code{\link{print}}, \code{\link{plot}}, \code{\link{summary}} and \code{\link{summarize_indicators}}.
@@ -35,7 +35,7 @@
 #' \item{\code{EffectModel}}{A model of random effects of class \code{\link[lme4]{merMod}} capturing
 #' structural components of MERFs and modeling random components.}
 #' \item{\code{RandomEffects}}{List element containing the values of random intercepts from \code{EffectModel}.}
-#' \item{\code{RanEffSD}}{Numeric value of the standard deviation of random intercepts.}
+#' \item{\code{RanEffSD}}{Numeric value of standard deviation of random intercepts.}
 #' \item{\code{ErrorSD}}{Numeric value of standard devition of unit-level errors.}
 #' \item{\code{VarianceCovariance}}{VarCor matrix from \code{EffectModel}.}
 #' \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
@@ -58,11 +58,15 @@
 #' and \code{\link[lme4]{lmer}} as well as the examples below.
 #'
 #' @references
-#' Krennmair, P. and Schmid, T. (202X). WP 1
+#' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
+#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
 #'
-#' Krennmair, P. Wuerz, N. and Schmid, T. (202X). WP 2
+#' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
+#' Mixed Effects Random Forests under Aggregated Census Data.
+#' Available from https://arxiv.org/pdf/2204.10736.
 #'
-#' Krennmair, P., Schmid, T. and Tzavidis N. (202X). WP 3
+#' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
+#' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
 #'
 #' @seealso \code{\link{SAEforest_model}}, \code{ \link[ranger]{ranger}},
 #' \code{ \link[lme4]{lmer}}
@@ -79,7 +83,7 @@
 #'#Example 1:
 #'#Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
+#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 #'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop)
 #'
 #'#SAEforest generics:

@@ -49,7 +49,7 @@
 #' see \link[ranger]{ranger} and the example below.
 #' @param threshold Set a custom threshold for indicators, such as the head count ratio. The threshold
 #' can be a known numeric value or function of \code{Y}. If the threshold is \code{NULL}, 60 \% of the
-#' median of \code{Y} are taken as threshold. Defaults to NULL.
+#' median of \code{Y} is taken as threshold. Defaults to NULL.
 #' @param custom_indicator A list of additional functions containing the indicators to be
 #' calculated. These functions must only depend on the target variable \code{Y} and optionally the
 #' \code{threshold}. Defaults to \code{NULL}
@@ -86,15 +86,16 @@
 #' from the forest to be correct. Overall convergence of the algorithm is monitored by log-likelihood of a
 #' joint model of both components. For further details see Krennmair and Schmid (2022).
 #'
-#' Users that are particlarly interested in the estimation of domain-level means save compuation
+#' Users that are particularly interested in the estimation of domain-level means save compuation
 #' time setting \code{meanOnly = TRUE}. The MERF requires covariate micro-data. This function, however also
 #' allows for the use of aggregated covariate information, by setting \code{aggData = TRUE}. Aggregated
 #' covariate information is adaptively incorporated through calibration-weights based on empirical likelihood
 #' for the estimation of area-level means. See methodological details in Krennmair et al. (2022a)
 #'
-#' For the estimation of (nonlinear) poverty estimators and/or quantiles, we need information on the
-#' area-specific CDF of \code{Y}. Krennmair et al. (2022b) propose a smearing approach originated by Duan (1983).
-#' Alternatively, Monte-Carlo methods are used to simulate the doamain specific CDF of \code{Y}.
+#' For the estimation of (nonlinear) poverty indicators and/or quantiles, we need information on the
+#' area-specific cumulative distribution function (CDF) of \code{Y}. Krennmair et al. (2022b) propose a smearing
+#' approach originated by Duan (1983). Alternatively, Monte-Carlo methods are used to simulate the domain-specific
+#' CDF of \code{Y}.
 #'
 #' For the estimation of the MSE, the bootstrap population is built based on a bias-corrected residual
 #' variance as discussed in Krennmair and Schmid (2022). The bootstrap bias correction follows Mendez and Lohr (2011).
@@ -158,7 +159,7 @@
 #'
 #'#Example 3:
 #'#Calculating point + MSE estimates and passing arguments to the forest.
-#'#Two additional indicators and function as threshold are added.
+#'#Two additional custom indicators and the threshold is defined as a custom function of Y.
 #'#Note that B is unrealistically low to improve example speed.
 #'
 #'model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
