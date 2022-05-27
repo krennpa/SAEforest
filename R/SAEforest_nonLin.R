@@ -20,10 +20,10 @@
 #' @param pop_data data.frame of unit-level population or census level covariate data for
 #' covariates \code{X}. Please note that the column names of predictive covariates must match
 #' column names of \code{smp_data}. This holds especially for the name of the domain identifier.
-#' @param mse Character input specifying the type of uncertainty estimates. Available options are:
+#' @param MSE Character input specifying the type of uncertainty estimates. Available options are:
 #' (i) "none" if only point estimates are requested,
-#' (ii) "nonparametric" following the mse bootstrap procedure proposed by Krennmair & Schmid (202X) or
-#' (iii) "wild" following the mse bootstrap procedure proposed by Krennmair & Schmid (202X). Defaults to "none".
+#' (ii) "nonparametric" following the MSE bootstrap procedure proposed by Krennmair & Schmid (202X) or
+#' (iii) "wild" following the MSE bootstrap procedure proposed by Krennmair & Schmid (202X). Defaults to "none".
 #' @param importance Variable importance mode processed by the
 #' random forest from \pkg{ranger}. Must be 'none', 'impurity', 'impurity_corrected',
 #' 'permutation'. Defaults to "none". If you wish to produce informative plots with the generic function
@@ -33,7 +33,7 @@
 #' @param ErrorTolerance Numeric value to monitor the MERF algorithm's convergence. Defaults to 1e-04.
 #' @param MaxIterations Numeric value specifying the maximal amount of iterations for the
 #' MERF algorithm. Defaults to 25.
-#' @param B Number of bootstrap replications for mse estimation procedure proposed by
+#' @param B Number of bootstrap replications for MSE estimation procedure proposed by
 #' Krennmair et al. (202X). Defaults to 100.
 #' @param B_adj Number of bootstrap replications for the adjustment of residual variance proposed
 #' by Mendez and Lohr (2001). Defaults to 100.
@@ -158,11 +158,6 @@ SAEforest_nonLin <- function(Y, X, dName, smp_data, pop_data, smearing = TRUE, m
     pop_data <- pop_data[complete.cases(pop_data),]
   }
 
-  input_checks_nonLin(Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data =pop_data, smearing =smearing,
-                      initialRandomEffects =initialRandomEffects, ErrorTolerance =ErrorTolerance,
-                      MaxIterations =MaxIterations, mse=mse, B=B, B_adj=B_adj,B_MC=B_MC, threshold = threshold,
-                      importance = importance, custom_indicator = custom_indicator, na.rm =na.rm)
-
   out_call <- match.call()
 
   # Make domain variable to character and sort data-sets
@@ -210,12 +205,12 @@ if(smearing == TRUE){
   }
 
   if(mse == "wild"){
-    mse_estims <- MSE_SAEforest_nonLin_wild(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
-                                            pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
-                                            threshold = threshold, initialRandomEffects = initialRandomEffects,
-                                            ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
-                                            custom_indicator =custom_indicator, ...)
-
+    mse_estims <- MSE_SAEforest_nonLin(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
+                                       pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
+                                       threshold = threshold, initialRandomEffects = initialRandomEffects,
+                                       ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
+                                       custom_indicator =custom_indicator, wild =TRUE, MC =FALSE,
+                                       B_point=B_MC,...)
     result <- list(
       MERFmodel = c(nonLin_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
       Indicators = sortAlpha(nonLin_preds[[1]],dName =dName),
@@ -227,11 +222,12 @@ if(smearing == TRUE){
   }
 
   if(mse == "nonparametric"){
-    mse_estims <- MSE_SAEforest_nonLin_REB(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
-                                           pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
-                                           threshold = threshold, initialRandomEffects = initialRandomEffects,
-                                           ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
-                                           custom_indicator =custom_indicator, ...)
+    mse_estims <- MSE_SAEforest_nonLin(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
+                                       pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
+                                       threshold = threshold, initialRandomEffects = initialRandomEffects,
+                                       ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
+                                       custom_indicator =custom_indicator, wild =FALSE, MC =FALSE,
+                                       B_point=B_MC,...)
 
     result <- list(
       MERFmodel = c(nonLin_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
@@ -276,11 +272,12 @@ if(mse != "none"){
 }
 
 if(mse == "wild"){
-  mse_estims <- MSE_MC_MERF_nonLin_wild(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
-                                        pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B, B_point =B_MC,
-                                        threshold = threshold, initialRandomEffects = initialRandomEffects,
-                                        ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
-                                        custom_indicator =custom_indicator, ...)
+  mse_estims <- MSE_SAEforest_nonLin(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
+                                     pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
+                                     threshold = threshold, initialRandomEffects = initialRandomEffects,
+                                     ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
+                                     custom_indicator =custom_indicator, wild =TRUE, MC =TRUE,
+                                     B_point=B_MC,...)
 
   result <- list(
     MERFmodel = c(nonLin_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
@@ -293,11 +290,12 @@ if(mse == "wild"){
 }
 
 if(mse == "nonparametric"){
-  mse_estims <- MSE_MC_MERF_nonLin_REB(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
-                                       pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B, B_point =B_MC,
-                                       threshold = threshold, initialRandomEffects = initialRandomEffects,
-                                       ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
-                                       custom_indicator =custom_indicator, ...)
+  mse_estims <- MSE_SAEforest_nonLin(Y=Y, X = X, mod=nonLin_preds[[2]], smp_data = smp_data,
+                                     pop_data = pop_data, dName = dName, ADJsd = adj_SD , B=B,
+                                     threshold = threshold, initialRandomEffects = initialRandomEffects,
+                                     ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
+                                     custom_indicator =custom_indicator, wild =FALSE, MC =TRUE,
+                                     B_point=B_MC,...)
 
   result <- list(
     MERFmodel = c(nonLin_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),

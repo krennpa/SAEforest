@@ -122,7 +122,7 @@ ran_comp <- function(mod, smp_data, Y, dName, ADJsd){
 
 ran_comp_wild <- function(mod, smp_data, Y, dName, ADJsd){
 
-  forest_res <- Y - predict(mod$Forest, smp_data)$predictions-predict(mod$EffectModel, smp_data)
+  forest_res <- Y - mod$Forest$predictions-predict(mod$EffectModel, smp_data)
   forest_res <- forest_res-mean(forest_res)
 
   # Random Effects
@@ -151,7 +151,7 @@ block_sample <- function(domains, in_samp, smp_data, dName, pop_data){
 }
 
 
-wild_errors <- function(x, mod, smp_data){
+wild_errors <- function(x, mod, smp_data, forest_res){
   fitted_s <- predict(mod$Forest, smp_data)$predictions + predict(mod$EffectModel, smp_data)
   indexer <- vapply(x, function(x) {which.min(abs(x - fitted_s))},
                     FUN.VALUE = integer(1))

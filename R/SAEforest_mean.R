@@ -18,8 +18,8 @@
 #' covariates \code{X}. Please note that the column names of predictive covariates and the domain-level
 #' identifier must match the column names of \code{smp_data}. Also note, that if aggregated covariate data
 #' is used, the function parameter \code{aggData} must be set to \code{TRUE}.
-#' @param mse Character input specifying the type of uncertainty estimates. Currently available options are:
-#' (i) "none" if only point estimates are requested or (ii) "nonparametric" following the mse boostrap procedure
+#' @param MSE Character input specifying the type of uncertainty estimates. Currently available options are:
+#' (i) "none" if only point estimates are requested or (ii) "nonparametric" following the MSE boostrap procedure
 #' proposed by Krennmair & Schmid (202X) and by Krennmair et al (202X) if \code{aggData = TRUE}.
 #' @param importance Variable importance mode processed by the
 #' random forest from \pkg{ranger}. Must be one of the following options: (i)'impurity', (ii) 'impurity_corrected'
@@ -33,7 +33,7 @@
 #' @param ErrorTolerance Numeric value to monitor the MERF algorithm's convergence. Defaults to 1e-04.
 #' @param MaxIterations Numeric value specifying the maximal amount of iterations for the
 #' MERF algorithm. Defaults to 25.
-#' @param B Number of bootstrap replications for mse estimation procedure proposed by
+#' @param B Number of bootstrap replications for MSE estimation procedure proposed by
 #' Krennmair et al. (202X). Defaults to 100.
 #' @param B_adj Number of bootstrap replications for the adjustment of residual variance. Defaults to 100.
 #' @param na.rm Logical. Whether missing values should be removed. Defaults to \code{TRUE}.
@@ -115,7 +115,7 @@
 #'
 #' model2 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
 #'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop,
-#'                          mse = "nonparametric", B = 5, mtry=5,
+#'                          MSE = "nonparametric", B = 5, mtry=5,
 #'                          num.trees = 100)
 #'
 #'#SAEforest generics:
@@ -128,7 +128,7 @@
 #'
 #' model3 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
 #'                             smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
-#'                             mse = "nonparametric", popnsize = popNsize,
+#'                             MSE = "nonparametric", popnsize = popNsize,
 #'                             B = 5, mtry=5, num.trees = 100, aggData = TRUE)
 #'
 #'#SAEforest generics:
@@ -139,7 +139,7 @@
 #'
 #' @export
 
-SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggData =FALSE,
+SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, MSE = "none", aggData =FALSE,
                            popnsize = NULL, OOsample_obs = 25, ADDsamp_obs=0, w_min=3,
                            importance = "impurity", initialRandomEffects = 0,
                            ErrorTolerance = 0.0001, MaxIterations = 25,  B=100,
@@ -157,10 +157,6 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
     X <- X[comp_smp,]
     pop_data <- pop_data[complete.cases(pop_data),]
   }
-
-  input_checks_mean(Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data =pop_data,
-                    initialRandomEffects =initialRandomEffects, ErrorTolerance =ErrorTolerance, MaxIterations =MaxIterations,
-                    mse=mse, B=B, importance = importance, na.rm = na.rm)
 
   out_call <- match.call()
 
@@ -185,12 +181,13 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
   data_specs <- sae_specs(dName = dName,cns = pop_data,smp = smp_data)
 
 
-  if(mse == "none"){
+  if(MSE == "none"){
     result <- list(
       MERFmodel = c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
       Indicators = sortAlpha(mean_preds[[1]],dName =dName),
       MSE_Estimates = NULL,
-      AdjustedSD = NULL)
+      AdjustedSD = NULL,
+      NrCovar = NULL)
 
     class(result) <- c("SAEforest_mean", "SAEforest")
     return(result)
@@ -199,14 +196,14 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
   # MSE Estimation
   #________________________________________
 
-  if(mse != "none"){
+  if(MSE != "none"){
     print(paste("Error SD Bootstrap started:"))
     adj_SD <- adjust_ErrorSD(Y=Y, X=X, smp_data = smp_data, mod = mean_preds[[2]], B = B_adj, ...)
     print(paste("Bootstrap with", B,"rounds started"))
   }
 
-  if(mse == "nonparametric"){
-    mse_estims <- MSE_SAEforest_mean_REB(Y=Y, X = X, dName = dName, smp_data = smp_data,
+  if(MSE == "nonparametric"){
+    MSE_estims <- MSE_SAEforest_mean_REB(Y=Y, X = X, dName = dName, smp_data = smp_data,
                                          mod=mean_preds[[2]], ADJsd = adj_SD, pop_data = pop_data, B = B,
                                          initialRandomEffects = initialRandomEffects,
                                          ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations, ...)
@@ -214,8 +211,9 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
     result <- list(
       MERFmodel = c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
       Indicators =  sortAlpha(mean_preds[[1]],dName =dName),
-      MSE_Estimates =  sortAlpha(mse_estims, dName =dName),
-      AdjustedSD = adj_SD)
+      MSE_Estimates =  sortAlpha(MSE_estims, dName =dName),
+      AdjustedSD = adj_SD,
+      NrCovar = NULL)
 
     class(result) <- c("SAEforest_mean", "SAEforest")
     return(result)
@@ -236,7 +234,7 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
 
     input_checks_meanAGG(Y = Y, X = X, dName = dName, smp_data =smp_data, Xpop_agg =pop_data,
                          initialRandomEffects = initialRandomEffects, ErrorTolerance =ErrorTolerance,
-                         MaxIterations =MaxIterations, mse =mse, B = B, popnsize =popnsize,
+                         MaxIterations =MaxIterations, MSE =MSE, B = B, popnsize =popnsize,
                          OOsample_obs =OOsample_obs, ADDsamp_obs = ADDsamp_obs, w_min =w_min,
                          importance = importance, na.rm = na.rm)
 
@@ -246,7 +244,7 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
     # Make domain variable to character and sort data-sets
     smp_data[[dName]] <- factor(smp_data[[dName]], levels=unique(smp_data[[dName]]))
     pop_data[[dName]] <- factor(pop_data[[dName]], levels = unique(pop_data[[dName]]))
-    if(mse != "none"){
+    if(MSE != "none"){
       popnsize[[dName]] <- factor(popnsize[[dName]], levels = unique(pop_data[[dName]]))
     }
 
@@ -266,7 +264,7 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
     data_specs <- sae_specs(dName = dName,cns = pop_data, smp = smp_data)
 
 
-    if(mse == "none"){
+    if(MSE == "none"){
       result <- list(
         MERFmodel =  c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
         Indicators = sortAlpha(mean_preds[[1]],dName =dName),
@@ -281,15 +279,15 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
     # MSE Estimation
     #________________________________________
 
-    if(mse != "none"){
+    if(MSE != "none"){
       print(paste("Error SD Bootstrap started:"))
       adj_SD <- adjust_ErrorSD(Y=Y, X=X, smp_data = smp_data, mod = mean_preds[[2]], B = B_adj, ...)
       print(paste("Bootstrap with", B,"rounds started"))
     }
 
-    if(mse == "nonparametric"){
+    if(MSE == "nonparametric"){
 
-      mse_estims <- MSE_SAEforest_aggOOB_wSet(Y=Y, X = X, mod = mean_preds, smp_data = smp_data,
+      MSE_estims <- MSE_SAEforest_aggOOB_wSet(Y=Y, X = X, mod = mean_preds, smp_data = smp_data,
                                               Xpop_agg = pop_data, dName = dName, ADJsd = adj_SD , B=B,
                                               initialRandomEffects = initialRandomEffects,
                                               ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
@@ -298,7 +296,7 @@ SAEforest_mean <- function(Y, X, dName, smp_data, pop_data, mse = "none", aggDat
       result <- list(
         MERFmodel =  c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data=list(smp_data)),
         Indicators = sortAlpha(mean_preds[[1]],dName =dName),
-        MSE_Estimates = sortAlpha(mse_estims,dName =dName) ,
+        MSE_Estimates = sortAlpha(MSE_estims,dName =dName) ,
         AdjustedSD = adj_SD,
         NrCovar = mean_preds$wAreaInfo)
 

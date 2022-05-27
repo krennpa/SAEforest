@@ -11,7 +11,7 @@ SAEforest_nonLin(
   smp_data,
   pop_data,
   smearing = TRUE,
-  mse = "none",
+  MSE = "none",
   importance = "none",
   initialRandomEffects = 0,
   ErrorTolerance = 1e-04,
@@ -44,10 +44,10 @@ column names of \code{smp_data}. This holds especially for the name of the domai
 point estimates should be obtained. MC should be used if computational constraints do not allow for a
 smearing based approach. For theoretical details see (WP). Defaults to \code{TRUE}.}
 
-\item{mse}{Character input specifying the type of uncertainty estimates. Available options are:
+\item{MSE}{Character input specifying the type of uncertainty estimates. Available options are:
 (i) "none" if only point estimates are requested,
-(ii) "nonparametric" following the mse bootstrap procedure proposed by Krennmair & Schmid (202X) or
-(iii) "wild" following the mse bootstrap procedure proposed by Krennmair & Schmid (202X). Defaults to "none".}
+(ii) "nonparametric" following the MSE bootstrap procedure proposed by Krennmair & Schmid (202X) or
+(iii) "wild" following the MSE bootstrap procedure proposed by Krennmair & Schmid (202X). Defaults to "none".}
 
 \item{importance}{Variable importance mode processed by the
 random forest from \pkg{ranger}. Must be 'none', 'impurity', 'impurity_corrected',
@@ -62,7 +62,7 @@ Defaults to 0.}
 \item{MaxIterations}{Numeric value specifying the maximal amount of iterations for the
 MERF algorithm. Defaults to 25.}
 
-\item{B}{Number of bootstrap replications for mse estimation procedure proposed by
+\item{B}{Number of bootstrap replications for MSE estimation procedure proposed by
 Krennmair et al. (202X). Defaults to 100.}
 
 \item{B_adj}{Number of bootstrap replications for the adjustment of residual variance proposed
@@ -164,7 +164,7 @@ summary(model2)
 #Note that B is unrealistically low to improve example speed.
 
 model3 <- SAEforest_nonLin(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                          pop_data = eusilcA_pop, mse = "nonparametric", B = 5, mtry=5,
+                          pop_data = eusilcA_pop, MSE = "nonparametric", B = 5, mtry=5,
                           num.trees = 100, threshold = function(Y){0.5 * median(Y)},
                           custom_indicator = list(my_max = function(Y, threshold){max(Y)},
                           my_quant = function(Y, threshold){quantile(Y, probs=c(0.05,0.95))}),

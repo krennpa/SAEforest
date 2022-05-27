@@ -10,7 +10,7 @@ SAEforest_mean(
   dName,
   smp_data,
   pop_data,
-  mse = "none",
+  MSE = "none",
   aggData = FALSE,
   popnsize = NULL,
   OOsample_obs = 25,
@@ -42,8 +42,8 @@ covariates \code{X}. Please note that the column names of predictive covariates 
 identifier must match the column names of \code{smp_data}. Also note, that if aggregated covariate data
 is used, the function parameter \code{aggData} must be set to \code{TRUE}.}
 
-\item{mse}{Character input specifying the type of uncertainty estimates. Currently available options are:
-(i) "none" if only point estimates are requested or (ii) "nonparametric" following the mse boostrap procedure
+\item{MSE}{Character input specifying the type of uncertainty estimates. Currently available options are:
+(i) "none" if only point estimates are requested or (ii) "nonparametric" following the MSE boostrap procedure
 proposed by Krennmair & Schmid (202X) and by Krennmair et al (202X) if \code{aggData = TRUE}.}
 
 \item{aggData}{Logical input indicating whether aggregated covariate information or unit-level covariate information
@@ -78,7 +78,7 @@ Defaults to 0.}
 \item{MaxIterations}{Numeric value specifying the maximal amount of iterations for the
 MERF algorithm. Defaults to 25.}
 
-\item{B}{Number of bootstrap replications for mse estimation procedure proposed by
+\item{B}{Number of bootstrap replications for MSE estimation procedure proposed by
 Krennmair et al. (202X). Defaults to 100.}
 
 \item{B_adj}{Number of bootstrap replications for the adjustment of residual variance. Defaults to 100.}
@@ -156,7 +156,7 @@ summary(model1)
 
 model2 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
                          smp_data = eusilcA_smp, pop_data = eusilcA_pop,
-                         mse = "nonparametric", B = 5, mtry=5,
+                         MSE = "nonparametric", B = 5, mtry=5,
                          num.trees = 100)
 
 #SAEforest generics:
@@ -169,7 +169,7 @@ summarize_indicators(model2, MSE = TRUE, CV =TRUE)
 
 model3 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
                             smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
-                            mse = "nonparametric", popnsize = popNsize,
+                            MSE = "nonparametric", popnsize = popNsize,
                             B = 5, mtry=5, num.trees = 100, aggData = TRUE)
 
 #SAEforest generics:

@@ -325,9 +325,7 @@ point_MC_nonLin <- function(Y, X, dName, threshold, smp_data, pop_data, initialR
   my_agg <-  function(x){tapply(x, indi_agg, calc_indicat, threshold = thresh, custom = custom_indicator)}
   tau_star <- apply(y_star, my_agg, MARGIN = 2, simplify = FALSE)
 
-  ifelse(is.null(custom_indicator),
-         col_names <- names(tau_star[[1]]$`1`),
-         col_names <- colnames(tau_star[[1]]$`1`))
+  col_names <- colnames(tau_star[[1]]$`1`)
 
   comb <- function(x){matrix(unlist(x), nrow = length(popSize$N_i), byrow = TRUE)}
   tau_star <- sapply(tau_star, comb, simplify = FALSE)

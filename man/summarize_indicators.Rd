@@ -56,7 +56,7 @@ X_covar <- eusilcA_smp[,-c(1,16,17,18)]
 #practical applications.
 
 model1 <- SAEforest_nonLin(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                          pop_data = eusilcA_pop, mse = "nonparametric", B = 2, mtry=5,
+                          pop_data = eusilcA_pop, MSE = "nonparametric", B = 2, mtry=5,
                           num.trees = 50, smearing = FALSE)
 
 #Extract indicator and try generics:

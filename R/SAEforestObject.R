@@ -20,7 +20,7 @@
 #' \item{\code{Indicators}}{A data frame where the first column is the area-level identifier and additional columns
 #' are the indicators of interest. Note that objects from \code{\link{SAEforest_mean}}
 #' only report the "Mean".}
-#' \item{\code{MSE_estimates}}{Only if mse results requested. A data frame where the first column is the area-level
+#' \item{\code{MSE_estimates}}{Only if MSE results requested. A data frame where the first column is the area-level
 #' identifier and additional columns are the MSE estimates for indicators of interest. Note that objects from
 #' \code{\link{SAEforest_mean}} only report MSE values for the "Mean".}
 #' \item{\code{NrCovar}}{Only if means under aggregated covariate information are estimated, i.e.

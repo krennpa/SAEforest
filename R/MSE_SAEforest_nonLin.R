@@ -1,5 +1,5 @@
 MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, pop_data, B = 100,
-                                 initialRandomEffects = 0, ErrorTolerance = 0.0001,
+                                 B_point, initialRandomEffects = 0, ErrorTolerance = 0.0001,
                                  MaxIterations = 25, custom_indicator, wild, MC, ...) {
   rand_struc <- paste0(paste0("(1|", dName), ")")
   domains <- t(unique(pop_data[dName]))
@@ -16,7 +16,7 @@ MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, p
     forest_res <- ran_obj$forest_res
 
     sample_e <- function(x) {
-      wild_errors(x = x, mod = mod, smp_data = smp_data)
+      wild_errors(x = x, mod = mod, smp_data = smp_data, forest_res=forest_res)
     }
   }
 
@@ -61,7 +61,7 @@ MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, p
   }
   tau_star <- sapply(y_star_L, my_agg, simplify = FALSE)
   comb <- function(x) {
-    matrix(unlist(x), nrow = length(n_i), byrow = TRUE)
+    matrix(unlist(x), nrow = length(N_i), byrow = TRUE)
   }
   tau_star <- sapply(tau_star, comb, simplify = FALSE)
 
@@ -73,7 +73,7 @@ MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, p
     boots_sample[[i]] <- sample_select(pop_data, smp = smp_data, dName = dName)
   }
 
-  # USE BOOTSTRAP SAMPLE TO ESITMATE
+  # uses sample to estimate tau_b
   if (MC == TRUE) {
     my_estim_f <- function(x) {
       point_MC_nonLin(
