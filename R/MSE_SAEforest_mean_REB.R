@@ -1,78 +1,74 @@
-MSE_SAEforest_mean_REB <- function(Y, X, dName, smp_data, mod, ADJsd, pop_data, B=100,
-                                   initialRandomEffects = 0, ErrorTolerance = 0.0001,
-                                   MaxIterations = 25, ...){
-
-  forest_m1 <- mod
-  rand_struc = paste0(paste0("(1|",dName),")")
+MSE_SAEforest_mean <- function(Y, X, dName, smp_data, mod, ADJsd, pop_data, B = 100,
+                               initialRandomEffects = 0, ErrorTolerance = 0.0001,
+                               MaxIterations = 25, ...) {
+  rand_struc <- paste0(paste0("(1|", dName), ")")
   domains <- t(unique(pop_data[dName]))
-  boots_pop <- vector(mode="list",length = B)
-  boots_pop <- sapply(boots_pop,function(x){pop_data},simplify =FALSE)
-  n_i <- as.numeric(table(pop_data[[dName]]))
+  in_samp <- domains %in% t(unique(smp_data[dName]))
+  N_i <- as.numeric(table(pop_data[[dName]]))
 
- # DATA PREP  ________________________________________________
-  ran_obj <- ran_comp(Y=Y, smp_data = smp_data, mod=forest_m1, ADJsd = ADJsd, dName = dName)
+  # Prepare data for sampling
+  ran_obj <- ran_comp(Y = Y, smp_data = smp_data, mod = mod, ADJsd = ADJsd, dName = dName)
   ran_effs <- ran_obj$ran_effs
   forest_res <- ran_obj$forest_res
   smp_data <- ran_obj$smp_data
 
-  pred_vals<- predict(forest_m1$Forest, pop_data)$predictions
-  my_pred_f <- function(x){pred_vals}
-  pred_t <- vector(mode="list", length = B)
-  pred_t <- sapply(pred_t, my_pred_f,simplify = FALSE)
+  pred_vals <- predict(mod$Forest, pop_data)$predictions
+  pred_mat <- matrix(pred_vals, nrow = length(pred_vals), ncol = B)
 
-  # Errors
-  block_sample <- function(x){
-    in_samp <- domains %in% t(unique(smp_data[dName]))
-    block_err <- vector(mode="list",length = length(domains))
-
-    for (idd in which(in_samp)){
-      block_err[[idd]] <- sample(forest_res[smp_data[dName]==domains[idd]],size = sum(pop_data[dName] == domains[idd]),replace=TRUE)
-    }
-    if (sum(in_samp)!= length(domains)){
-      for (idd in which(!in_samp)){
-        block_err[[idd]] <- sample(forest_res, size = sum(pop_data[dName] == domains[idd]), replace=TRUE)
-      }
-    }
-    return(unlist(block_err))
+  block_sample_e <- function(x) {
+    block_sample(
+      domains = domains, in_samp = in_samp,
+      smp_data = smp_data, dName = dName,
+      pop_data = pop_data
+    )
   }
 
-  e_ij <- sapply(boots_pop, block_sample, simplify = FALSE)
+  sample_ui <- function(x) {
+    rep(sample(ran_effs,
+      size = length(N_i),
+      replace = TRUE
+    ), N_i)
+  }
+
+  e_ij <- matrix(NA, nrow = length(pred_vals), ncol = B)
+  e_ij <- apply(e_ij, 2, block_sample_e)
+
+  u_i <- apply(pred_mat, 2, sample_ui)
 
   smp_data$forest_res <- NULL
 
-  u_i <- replicate(length(boots_pop),rep(sample(ran_effs, size = length(n_i),
-                                                replace=TRUE), n_i), simplify = FALSE)
+  # combine to y_star
+  y_star <- pred_mat + u_i + e_ij
 
-  # combine
-  y_star_u_star <-  Map(function(x,y,z){x+y+z}, pred_t, e_ij, u_i)
+  indi_agg <- rep(1:length(N_i), N_i)
+  my_agg <- function(x) {
+    tapply(x, indi_agg, mean)
+  }
+  tau_star <- apply(y_star, my_agg, MARGIN = 2)
 
-  boots_pop <- Map(cbind, boots_pop, "y_star_u_star" = y_star_u_star)
+  # get bootstrap samples
+  boots_sample <- vector(mode = "list", length = B)
 
-  agg_form <- formula(paste("y_star_u_star ~ ", paste0(dName)))
-  my_agg <- function(x){aggregate(agg_form, x,  mean)[,2]}
-  tau_star <- sapply(boots_pop, my_agg)
+  for (i in 1:B) {
+    pop_data$y_star <- y_star[, i]
+    boots_sample[[i]] <- sample_select(pop_data, smp = smp_data, dName = dName)
+  }
 
-  # THINK ABOUT SEED
-  sample_b <- function(x){sample_select(x, smp = smp_data, times = 1, dName = dName)}
-  boots_sample <- sapply(boots_pop, sample_b)
-
-
-  # USE BOOTSTRAP SAMPLE TO ESITMATES
-  my_estim_f <- function(x){point_mean(Y = x$y_star_u_star, X = x[,colnames(X)], dName = dName, smp_data = x,
-                                       pop_data = pop_data, initialRandomEffects = initialRandomEffects,
-                                       ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations)[[1]][,2]}
+  # use bootstrap samples to estimate
+  my_estim_f <- function(x) {
+    point_mean(
+      Y = x$y_star, X = x[, colnames(X)], dName = dName, smp_data = x,
+      pop_data = pop_data, initialRandomEffects = initialRandomEffects,
+      ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations, ...
+    )[[1]][, 2]
+  }
 
   tau_b <- pbapply::pbsapply(boots_sample, my_estim_f)
 
   MSE_estimates <- rowMeans((tau_star - tau_b)^2)
 
-  MSE_estimates <- data.frame(unique(pop_data[dName]), Mean=MSE_estimates)
+  MSE_estimates <- data.frame(unique(pop_data[dName]), Mean = MSE_estimates)
   rownames(MSE_estimates) <- NULL
 
-  #___________________________
-
   return(MSE_estimates)
-
 }
-
-

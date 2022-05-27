@@ -42,15 +42,7 @@ point_nonLin <- function(Y, X, dName, threshold, smp_data, pop_data, initialRand
   domains = names(table(pop_data[[dName]]))
   popSize <- as.numeric(table(pop_data[[dName]]))
 
-  if(is.null(threshold)){
-    thresh = 0.6*median(Y, na.rm=TRUE)
-  }
-  if(is.function(threshold)){
-    thresh = threshold(Y)
-  }
-  if(is.numeric(threshold)){
-    thresh = threshold
-  }
+  thresh <- get_thresh(Y,threshold = threshold)
 
   unit_model <- MERFranger(Y = Y,
                            X = X,
@@ -298,15 +290,7 @@ point_MC_nonLin <- function(Y, X, dName, threshold, smp_data, pop_data, initialR
   popSize <- dplyr::left_join(popSize_N, popSize_n, by = dName)
   popSize[,3][is.na(popSize[,3])] <-0
 
-  if(is.null(threshold)){
-    thresh = 0.6*median(Y, na.rm=TRUE)
-  }
-  if(is.function(threshold)){
-    thresh = threshold(Y)
-  }
-  if(is.numeric(threshold)){
-    thresh = threshold
-  }
+  thresh <- get_thresh(Y,threshold = threshold)
 
   unit_model <- MERFranger(Y = Y,
                            X = X,

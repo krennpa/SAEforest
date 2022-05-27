@@ -41,12 +41,6 @@ calc_indicat <- function(Y, threshold, custom){
 
 }
 
-#expand_gridALT <- function(s1, s2) {
-#  cbind(rep.int(s1, length(s2)),
-#        c(t(matrix(rep.int(s2, length(s1)), nrow=length(s2)))))
-#}
-
-
 sae_specs <- function(dName,cns,smp){
   in_dom<- unique(smp[[dName]])
   total_dom <- unique(cns[[dName]])
@@ -62,35 +56,18 @@ sae_specs <- function(dName,cns,smp){
     n_cns = table(cns[[dName]])))
 }
 
-#sort_input <- function(dName, smp_data, pop_data, Y, X){
-
-#  smp_data[[dName]] <- as.character(smp_data[[dName]])
-
-#  smp_sort <- order(smp_data[[dName]])
-#  smp_data <- smp_data[smp_sort,]
-
-#  Y <- Y[smp_sort]
-#  X <- X[smp_sort,]
-
-#  pop_data[[dName]] <- as.character(pop_data[[dName]])
-#  pop_data <- pop_data[order(pop_data[[dName]]),]
-
-#  return(list(smp_data, pop_data, X, Y))
-#}
-
 
 # DEFINE AND USE SAMPLE SELECT WRAPPER FUNCTION in mses ----
-sample_select <- function(pop, smp, dName, times=100, set_seed = 1234){
+sample_select <- function(pop, smp, dName){
   # pop.............. the population or census data
   # smp.............. the sample data
-  # n................ the number of samples drawn
   # set_seed......... set seed for reproduceability
 
   smpSizes <- table(smp[dName])
   smpSizes <- data.frame(smpidD = as.character(names(smpSizes)), n_smp = as.numeric(smpSizes),
                          stringsAsFactors = FALSE)
 
-  smpSizes <- dplyr::left_join(data.frame(idD = unique(pop[[dName]])),
+  smpSizes <- dplyr::left_join(data.frame(idD = as.character(unique(pop[[dName]]))),
                                smpSizes, by = c("idD" = "smpidD"))
 
   smpSizes$n_smp[is.na(smpSizes$n_smp)] <- 0
@@ -105,8 +82,7 @@ sample_select <- function(pop, smp, dName, times=100, set_seed = 1234){
     }, SIMPLIFY = F))
   }
 
-  set.seed(set_seed)
-  samples <- replicate(times, stratSamp(splitPop, smpSizes$n_smp), simplify = FALSE)
+  samples <- stratSamp(splitPop, smpSizes$n_smp)
 
   rm(splitPop)
   return(samples)
@@ -142,6 +118,62 @@ ran_comp <- function(mod, smp_data, Y, dName, ADJsd){
   return(list(forest_res = forest_res,
               ran_effs = ran_effs,
               smp_data = smp_data))
+}
+
+ran_comp_wild <- function(mod, smp_data, Y, dName, ADJsd){
+
+  forest_res <- Y - predict(mod$Forest, smp_data)$predictions-predict(mod$EffectModel, smp_data)
+  forest_res <- forest_res-mean(forest_res)
+
+  # Random Effects
+  ran_effs <- unique(predict(mod$EffectModel, smp_data))
+  ran_effs <- (ran_effs/sd(ran_effs))* mod$RanEffSD
+  ran_effs <- ran_effs-mean(ran_effs)
+
+  return(list(forest_res = forest_res,
+              ran_effs = ran_effs))
+}
+
+# Errors
+block_sample <- function(domains, in_samp, smp_data, dName, pop_data){
+
+  block_err <- vector(mode="list",length = length(domains))
+
+  for (idd in which(in_samp)){
+    block_err[[idd]] <- sample(forest_res[smp_data[dName]==domains[idd]],size = sum(pop_data[dName] == domains[idd]),replace=TRUE)
+  }
+  if (sum(in_samp)!= length(domains)){
+    for (idd in which(!in_samp)){
+      block_err[[idd]] <- sample(forest_res, size = sum(pop_data[dName] == domains[idd]), replace=TRUE)
+    }
+  }
+  return(unlist(block_err))
+}
+
+
+wild_errors <- function(x, mod, smp_data){
+  fitted_s <- predict(mod$Forest, smp_data)$predictions + predict(mod$EffectModel, smp_data)
+  indexer <- vapply(x, function(x) {which.min(abs(x - fitted_s))},
+                    FUN.VALUE = integer(1))
+  # superpopulation individual errors
+  eps <- forest_res[indexer]
+  wu <- sample(c(-1,1),size = length(eps), replace = TRUE)
+  eps <- abs(eps) * wu
+
+  return(eps)}
+
+
+get_thresh <- function(x,threshold){
+  if(is.numeric(threshold)){
+    thresh <- threshold
+  }
+  if(is.null(threshold)){
+    thresh <- 0.6*median(x, na.rm=TRUE)
+  }
+  if(is.function(threshold)){
+    thresh <- threshold(x)
+  }
+  return(thresh)
 }
 
 
