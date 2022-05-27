@@ -6,19 +6,19 @@
 \value{
 Four components are always included in an SAEforest object. \code{MSE_estimates} and \code{AdjustedSD} are
 \code{NULL} except MSE results are requested. An element of \code{NrCovar} only exists for SAEforest objects
-produced by \code{\link{SAEforest_mean}} with option \code{aggData = TRUE}.
+produced by \code{\link{SAEforest_model}} with option \code{aggData = TRUE}.
 
 \item{\code{MERFmodel}}{The included \code{MERFmodel} object comprises information on the model fit, details
 on the performed MERF algorithm as well as details on variance components. See below for an exact description
 of components.}
 \item{\code{Indicators}}{A data frame where the first column is the area-level identifier and additional columns
-are the indicators of interest. Note that objects from \code{\link{SAEforest_mean}}
+are the indicators of interest. Note that objects from \code{\link{SAEforest_model}}
 only report the "Mean".}
 \item{\code{MSE_estimates}}{Only if MSE results requested. A data frame where the first column is the area-level
 identifier and additional columns are the MSE estimates for indicators of interest. Note that objects from
-\code{\link{SAEforest_mean}} only report MSE values for the "Mean".}
+\code{\link{SAEforest_model}} only report MSE values for the "Mean".}
 \item{\code{NrCovar}}{Only if means under aggregated covariate information are estimated, i.e.
-\code{\link{SAEforest_mean}} with option \code{aggData = TRUE}. A list containing variable names of
+\code{\link{SAEforest_model}} with option \code{aggData = TRUE}. A list containing variable names of
 covariates used for the calculation of needed calibration weights for point estimates. see (REF) for
 methodological details an explanations.}
 
@@ -89,6 +89,6 @@ Krennmair, P. Wuerz, N. and Schmid, T. (202X). WP 2
 Krennmair, P., Schmid, T. and Tzavidis N. (202X). WP 3
 }
 \seealso{
-\code{\link{SAEforest_mean}}, \code{\link{SAEforest_nonLin}},
-\code{ \link[ranger]{ranger}}, \code{ \link[lme4]{lmer}}
+\code{\link{SAEforest_model}}, \code{ \link[ranger]{ranger}},
+\code{ \link[lme4]{lmer}}
 }

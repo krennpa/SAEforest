@@ -1,38 +1,222 @@
-
+#' Main function for the estimation of domain-level (nonlinear) indicators with MERFs
+#'
+#' This function enables the use of Mixed Effects Random Forests (MERFs)
+#' for applications of Small Area Estimation (SAE). Unit-level survey-sample and
+#' auxiliary data on predictive covariates is required to produce reliable estimates of various
+#' disaggregated economic and inequality indicators. Option \code{meanOnly} saves computational
+#' itme for users that are only interested in the estimation of domain-specific means using
+#' unit-level and aggregated auxiliarry data. Predefined indicators include
+#' the mean, median, quantiles (10\%, 25\%, 75\% and 90\%), the head count ratio, the poverty gap,
+#' the Gini coefficient and the quintile share ratio. The MERF algorithm is an algorithmic procedure
+#' reminiscent of an EM-algorithm (see Details). Overall, the function serves as a coherent framework
+#' for the estimation of point estimates and if requested for assessing the uncertainty of the
+#' estimates. Methodological details are provided by Krennmair & Schmid (2022) and Krennmair et al. (2022b).
+#' The following examples showcase further potential applications.
+#'
+#' @param Y Continuous input value of target variable.
+#' @param X Matrix or data.frame of predictive covariates.
+#' @param dName Character specifying the name of domain identifier, for which random intercepts
+#' are modeled.
+#' @param smp_data data.frame of survey sample data including the specified elements of \code{Y} and
+#' \code{X}.
+#' @param pop_data data.frame of unit-level population or census level covariate data for
+#' covariates \code{X}. Please note that the column names of predictive covariates must match
+#' column names of \code{smp_data}. This holds especially for the name of the domain identifier.
+#' @param MSE Character input specifying the type of uncertainty estimates. Available options are:
+#' (i) "none" if only point estimates are requested,
+#' (ii) "nonparametric" following the MSE boostrap procedure proposed by Krennmair & Schmid (2022) and by Krennmair et al.
+#' (2022a) if \code{aggData = TRUE}.
+#' (iii) "wild" only for nonlinear indicators proposed by Krennmair et al. (2022b). Defaults to "none".
+#' @param importance Variable importance mode processed by the
+#' random forest from \pkg{ranger}. Must be 'none', 'impurity', 'impurity_corrected',
+#' 'permutation'. A concept of variable importance is needed for the production of
+#' generic plots \code{\link{plot}}. For the estimation of domain-level means under aggregated
+#' covariate  data, variable importance is needed to rank information in the
+#' process of finding suitable calibration weights (Krennmair et al., 2022b). For further information regarding
+#' measures of importance see \link[ranger]{ranger}.
+#' @param initialRandomEffects Numeric value or vector of initial estimate of random effects.
+#' Defaults to 0.
+#' @param ErrorTolerance Numeric value to monitor the MERF algorithm's convergence. Defaults to 1e-04.
+#' @param MaxIterations Numeric value specifying the maximal amount of iterations for the
+#' MERF algorithm. Defaults to 25.
+#' @param B Number of bootstrap replications for MSE estimation procedures. Defaults to 100.
+#' @param B_adj Number of bootstrap replications for the adjustment of residual variance proposed
+#' by Mendez and Lohr (2001). Defaults to 100.
+#' @param na.rm Logical. Whether missing values should be removed. Defaults to \code{TRUE}.
+#' @param ... Additional parameters are directly passed to the random forest \link[ranger]{ranger}.
+#' Most important parameters are for instance \code{mtry} (number of variables to possibly split at
+#' in each node), or \code{num.trees} (number of trees). For further details on possible parameters
+#' see \link[ranger]{ranger} and the example below.
+#' @param threshold Set a custom threshold for indicators, such as the head count ratio. The threshold
+#' can be a known numeric value or function of \code{Y}. If the threshold is \code{NULL}, 60 \% of the
+#' median of \code{Y} are taken as threshold. Defaults to NULL.
+#' @param custom_indicator A list of additional functions containing the indicators to be
+#' calculated. These functions must only depend on the target variable \code{Y} and optionally the
+#' \code{threshold}. Defaults to \code{NULL}
+#' @param smearing Logical input indicating whether a smearing based approach or a Monte Carlo (MC) version for
+#' point estimates should be obtained to estimate (nonlinear) indicators. MC should be used if computational constraints prohibit a
+#' smearing approach. For theoretical details see Krennmair et al (2022b). Defaults to \code{TRUE}.
+#' @param B_MC Number of bootstrap populations in the MC version for point estimates of (nonlinear) indicators.
+#' Defaults to 100.
+#' @param aggData Logical input indicating whether aggregated covariate information or unit-level covariate information
+#' is used for domain-level means. Defaults to \code{FALSE}, assuming unit-level covariate data.
+#' @param popnsize data.frame, comprising information of population size of domains.
+#' only needed if \code{aggData = TRUE} and a MSE is requested. Please note that the name
+#' of the domain identifier must match the column name of \code{smp_data}.
+#' @param OOsample_obs Number of Out-of-sample observations taken from the closest area for potentially unsampled
+#' areas. Only needed if \code{aggData = TRUE} with default set to 25.
+#' @param ADDsamp_obs Number of Out-of-sample observations taken from the closest area if first iteration for the
+#' calculation of calibration weights fails. Only needed if \code{aggData = TRUE} with default set to 0.
+#' @param w_min Minimal number of covariates from which informative weights are calculated.
+#' Only needed if \code{aggData = TRUE}. Defaults to 3.
+#' @param meanOnly Logical. Calculating domain-level means only. Defaults to \code{TRUE}.
+#'
+#' @return An object of class \code{SAEforest} includes point estimates for disaggregated indicators
+#' as well as information on the MERF-model. Optionally corresponding MSE estimates are returned.
+#' Several generic functions have methods for the returned object of class \code{SAEforest}. The saved
+#' For a full list and explanation of components and possibilities for objects of class \code{SAEforest},
+#' see \code{\link{SAEforestObject}}.
+#'
+#' @details
+#' MERFs combine advantages of regression forests (such as implicit model-selection
+#' and robustness properties) with the ability to model hierarchical dependencies.
+#'
+#' The MERF algorithm iteratively optimizes two separate steps: a) the random forest function, assuming the
+#' random effects term to be correct and b) estimates the random effects part, assuming the OOB-predictions
+#' from the forest to be correct. Overall convergence of the algorithm is monitored by log-likelihood of a
+#' joint model of both components. For further details see Krennmair and Schmid (2022).
+#'
+#' Users that are particlarly interested in the estimation of domain-level means save compuation
+#' time setting \code{meanOnly = TRUE}. The MERF requires covariate micro-data. This function, however also
+#' allows for the use of aggregated covariate information, by setting \code{aggData = TRUE}. Aggregated
+#' covariate information is adaptively incorporated through calibration-weights based on empirical likelihood
+#' for the estimation of area-level means. See methodological details in Krennmair et al. (2022a)
+#'
+#' For the estimation of (nonlinear) poverty estimators and/or quantiles, we need information on the
+#' area-specific CDF of \code{Y}. Krennmair et al. (2022b) propose a smearing approach originated by Duan (1983).
+#' Alternatively, Monte-Carlo methods are used to simulate the doamain specific CDF of \code{Y}.
+#'
+#' For the estimation of the MSE, the bootstrap population is built based on a bias-corrected residual
+#' variance as discussed in Krennmair and Schmid (2022). The bootstrap bias correction follows Mendez and Lohr (2011).
+#'
+#' Note that the \code{MERFmodel} object is a composition of elements from a random forest of class
+#' \code{ranger} and a random effects model of class \code{\link[lme4]{merMod}}. Thus, all generic functions are
+#' applicable to corresponding objects. For further details on generic functions see \code{\link[ranger]{ranger}}
+#' and \code{\link[lme4]{lmer}} as well as the examples below.
+#'
+#' @references
+#' Duan, N. (1983). Smearing Estimate: A Nonparametric Retransformation Method.
+#' Journal of the American Statistical Association, 78(383), 605–610.
+#'
+#' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
+#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+#'
+#' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
+#' Mixed Effects Random Forests under Aggregated Census Data.
+#' Available from https://arxiv.org/pdf/2204.10736.
+#'
+#' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
+#' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
+#'
+#' Mendez, G., & Lohr, S. (2011). Estimating residual variance in random forest regression.
+#' Computational Statistics & Data Analysis, 55 (11), 2937–2950.
+#'
+#' @seealso \code{\link{SAEforestObject}}, \code{\link[ranger]{ranger}}, \code{\link[lme4]{lmer}}
+#'
+#' @examples
+#' \dontrun{
+#' #Loading data
+#' data("eusilcA_pop")
+#' data("eusilcA_smp")
+#'
+#' income <- eusilcA_smp$eqIncome
+#' X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#'
+#' #Example 1:
+#' #Calculating point estimates and discussing basic generic functions
+#'
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'                            pop_data = eusilcA_pop)
+#'
+#'#example of SAEforest generic
+#'summary(model1)
+#'
+#'#Example 2:
+#'#Calculating point + MSE estimates for aggregated covariat data and passing
+#'#arguments to the random forest.
+#'#Note that B is unrealistically low to improve example speed
+#'
+#' model2 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                             smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
+#'                             MSE = "nonparametric", popnsize = popNsize,
+#'                             B = 5, mtry=5, num.trees = 100, aggData = TRUE)
+#'
+#'#SAEforest generics:
+#'summarymodel2
+#'summarize_indicators(model2, MSE = TRUE, CV =TRUE)
+#'
+#'
+#'#Example 3:
+#'#Calculating point + MSE estimates and passing arguments to the forest.
+#'#Two additional indicators and function as threshold are added.
+#'#Note that B is unrealistically low to improve example speed.
+#'
+#'model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'                           pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+#'                           B = 5, mtry=5,
+#'                           num.trees = 100, threshold = function(Y){0.5 * median(Y)},
+#'                           custom_indicator = list(my_max = function(Y, threshold){max(Y)},
+#'                           my_quant = function(Y, threshold){quantile(Y, probs=c(0.05,0.95))}),
+#'                           smearing = FALSE)
+#'
+#'#example of SAEforest generic:
+#'summary(model3)
+#'summarize_indicators(model3, MSE = FALSE, CV =TRUE, indicator = c("Gini", "my_max", "my_quant.5%",
+#'"my_quant.95%"))
+#'}
+#'
+#' @export
 
 SAEforest_model <- function(Y, X, dName, smp_data, pop_data, MSE = "none", meanOnly = TRUE,
-                            aggData =FALSE, smearing = TRUE, popnsize = NULL,
-                            importance = "impurity", OOsample_obs = 25, ADDsamp_obs=0,
-                            w_min=3, B=100, B_adj = 100, B_MC=100, threshold = NULL,
-                            custom_indicator =NULL, initialRandomEffects = 0,
-                            ErrorTolerance = 0.0001, MaxIterations = 25, na.rm =TRUE,...){
+                            aggData = FALSE, smearing = TRUE, popnsize = NULL,
+                            importance = "impurity", OOsample_obs = 25, ADDsamp_obs = 0,
+                            w_min = 3, B = 100, B_adj = 100, B_MC = 100, threshold = NULL,
+                            custom_indicator = NULL, initialRandomEffects = 0,
+                            ErrorTolerance = 0.0001, MaxIterations = 25, na.rm = TRUE, ...) {
+  input_checks_model(
+    Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
+    MSE = MSE, meanOnly = meanOnly, aggData = aggData, smearing = smearing,
+    popnsize = popnsize, importance = importance, OOsample_obs = OOsample_obs,
+    ADDsamp_obs = ADDsamp_obs, w_min = w_min, B = B, B_adj = B_adj, B_MC = B_MC,
+    threshold = threshold, custom_indicator = custom_indicator,
+    initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
+    MaxIterations = MaxIterations, na.rm = na.rm
+  )
 
-  input_checks_model(Y =  Y, X =X, dName = dName, smp_data = smp_data, pop_data = pop_data,
-                     MSE = MSE, meanOnly = meanOnly, aggData =aggData, smearing = smearing,
-                     popnsize = popnsize, importance = importance, OOsample_obs = OOsample_obs,
-                     ADDsamp_obs=ADDsamp_obs, w_min=w_min, B=B, B_adj = B_adj, B_MC=B_MC,
-                     threshold = threshold, custom_indicator =custom_indicator,
-                     initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-                     MaxIterations = MaxIterations, na.rm =na.rm)
+  out_call <- match.call()
 
-  if(meanOnly == TRUE || aggData == TRUE){
-      return_obj <- SAEforest_mean(Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data =pop_data,
-                       MSE = MSE, aggData =aggData, popnsize = popnsize, OOsample_obs = OOsample_obs,
-                       ADDsamp_obs=ADDsamp_obs, w_min=w_min, importance = importance,
-                       initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-                       MaxIterations = MaxIterations,  B=B, B_adj = B_adj, na.rm =na.rm,...)
+  if (meanOnly == TRUE || aggData == TRUE) {
+    return_obj <- SAEforest_mean(
+      Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
+      MSE = MSE, aggData = aggData, popnsize = popnsize, OOsample_obs = OOsample_obs,
+      ADDsamp_obs = ADDsamp_obs, w_min = w_min, importance = importance,
+      initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
+      MaxIterations = MaxIterations, B = B, B_adj = B_adj, na.rm = na.rm,
+      out_call = out_call, ...
+    )
 
-      return(return_obj)
+    return(return_obj)
   }
 
-  if(meanOnly == FALSE){
-      return_obj <- SAEforest_nonLin(Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
-                       smearing = smearing, MSE = MSE, importance =importance,
-                       initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-                       MaxIterations = MaxIterations, B=B, B_adj=B_adj, B_MC=B_MC, threshold = threshold,
-                       custom_indicator =custom_indicator, na.rm = na.rm, ...)
+  if (meanOnly == FALSE) {
+    return_obj <- SAEforest_nonLin(
+      Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
+      smearing = smearing, MSE = MSE, importance = importance,
+      initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
+      MaxIterations = MaxIterations, B = B, B_adj = B_adj, B_MC = B_MC, threshold = threshold,
+      custom_indicator = custom_indicator, na.rm = na.rm, out_call = out_call, ...
+    )
 
-  return(return_obj)
+    return(return_obj)
   }
 }
-

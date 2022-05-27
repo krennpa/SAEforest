@@ -10,7 +10,7 @@
 #' all calculated indicators ("all"); (ii) each default indicators name: "Mean",
 #' "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 #' or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-#' If the \code{object} is estimated by \code{\link{SAEforest_mean}} indicator arguments
+#' If the \code{object} is estimated by \code{\link{SAEforest_model}} indicator arguments
 #' are ignored and only the "Mean" is returned.
 #' @param MSE Logical. If \code{TRUE}, MSE estimates for selected indicators
 #' per domain are added to the data frame of point estimates. Defaults to \code{FALSE}.
@@ -28,7 +28,7 @@
 #' see \code{\link[base]{as.data.frame}}), \code{subset} (for default
 #' documentation, see \code{\link[base]{subset}}).
 #'
-#' @seealso \code{\link{SAEforestObject}}, \code{\link{SAEforest_mean}}, \code{\link{SAEforest_nonLin}}
+#' @seealso \code{\link{SAEforestObject}}, \code{\link{SAEforest_model}}
 #'
 #' @examples
 #' \dontrun{
@@ -44,9 +44,9 @@
 #'#Note that B and num.trees are low to speed up estimation time and must be changed for
 #'#practical applications.
 #'
-#'model1 <- SAEforest_nonLin(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'                           pop_data = eusilcA_pop, mse = "nonparametric", B = 2, mtry=5,
-#'                           num.trees = 50, smearing = FALSE)
+#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'                           pop_data = eusilcA_pop, meanOnly =FALSE, MSE = "nonparametric",
+#'                           B = 2, mtry=5, num.trees = 50, smearing = FALSE)
 #'
 #'#Extract indicator and try generics:
 #'Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV =TRUE, indicator = "Hcr")
@@ -78,12 +78,12 @@ summarize_indicators <- function(object, indicator = "all", MSE = FALSE, CV = FA
   selected <- colnames(out_var)[-1]
 
   if ( MSE == TRUE || CV == TRUE ) {
-    mse_estims <- object$MSE_Estimates[indicator]
+    MSE_estims <- object$MSE_Estimates[indicator]
     cv_estims <- sqrt(object$MSE_Estimates[indicator])/object$Indicators[indicator]
     colnames(cv_estims) <- indicator
-    colnames(mse_estims) <- paste0(colnames(mse_estims), "_MSE")
+    colnames(MSE_estims) <- paste0(colnames(MSE_estims), "_MSE")
     colnames(cv_estims) <- paste0(colnames(cv_estims), "_CV")
-    combined <- data.frame(out_var, mse_estims, cv_estims)
+    combined <- data.frame(out_var, MSE_estims, cv_estims)
     endings <- c("","_MSE", "_CV")[c(TRUE,MSE,CV)]
 
     combined <- combined[,c(paste0(colnames(combined)[1]),paste0(rep(selected,each = length(endings)),

@@ -14,7 +14,7 @@ calculated CV's are desired. The object must be of class \code{SAEforest}.}
 all calculated indicators ("all"); (ii) each default indicators name: "Mean",
 "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-If the \code{object} is estimated by \code{\link{SAEforest_mean}} indicator arguments
+If the \code{object} is estimated by \code{\link{SAEforest_model}} indicator arguments
 are ignored and only the "Mean" is returned.}
 
 \item{MSE}{Logical. If \code{TRUE}, MSE estimates for selected indicators
@@ -55,9 +55,9 @@ X_covar <- eusilcA_smp[,-c(1,16,17,18)]
 #Note that B and num.trees are low to speed up estimation time and must be changed for
 #practical applications.
 
-model1 <- SAEforest_nonLin(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                          pop_data = eusilcA_pop, MSE = "nonparametric", B = 2, mtry=5,
-                          num.trees = 50, smearing = FALSE)
+model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+                          pop_data = eusilcA_pop, meanOnly =FALSE, MSE = "nonparametric",
+                          B = 2, mtry=5, num.trees = 50, smearing = FALSE)
 
 #Extract indicator and try generics:
 Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV =TRUE, indicator = "Hcr")
@@ -70,5 +70,5 @@ subset(Hcr1, district == "Wien")
 }
 }
 \seealso{
-\code{\link{SAEforestObject}}, \code{\link{SAEforest_mean}}, \code{\link{SAEforest_nonLin}}
+\code{\link{SAEforestObject}}, \code{\link{SAEforest_model}}
 }

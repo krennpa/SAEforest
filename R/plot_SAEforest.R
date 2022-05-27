@@ -40,8 +40,7 @@
 #' customization and exporting. See the following examples for details.
 #'
 #' @details For the production of importance plots, be sure to specify the parameter of
-#' \code{importance != 'none'} before producing estimates with functions \code{\link{SAEforest_mean}},
-#' or \code{\link{SAEforest_nonLin}}.
+#' \code{importance != 'none'} before producing estimates with functions \code{\link{SAEforest_model}}.
 #'
 #' For pdp plots, note that covariates of type factor or character cannot be used for partial dependence
 #' plots. Dummy-variables can be used, however, their pdp plots are always lines connecting two effect
@@ -61,7 +60,7 @@
 #'#Example 1:
 #'#Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
+#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 #'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees = 50)
 #'
 #'plot(model1)

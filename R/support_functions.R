@@ -57,7 +57,7 @@ sae_specs <- function(dName,cns,smp){
 }
 
 
-# DEFINE AND USE SAMPLE SELECT WRAPPER FUNCTION in mses ----
+# DEFINE AND USE SAMPLE SELECT WRAPPER FUNCTION in MSEs ----
 sample_select <- function(pop, smp, dName){
   # pop.............. the population or census data
   # smp.............. the sample data
@@ -135,7 +135,7 @@ ran_comp_wild <- function(mod, smp_data, Y, dName, ADJsd){
 }
 
 # Errors
-block_sample <- function(domains, in_samp, smp_data, dName, pop_data){
+block_sample <- function(domains, in_samp, smp_data, dName, pop_data, forest_res){
 
   block_err <- vector(mode="list",length = length(domains))
 
@@ -322,5 +322,7 @@ elm_wrapper <- function(X_input_elm,mu_input_elm){
 
 sortAlpha <- function(x, dName){
   orderIndicat <- order(as.character(x[[dName]]))
-  return(x[orderIndicat,])
+  return_val <- x[orderIndicat,]
+  rownames(return_val) <- NULL
+  return(return_val)
 }

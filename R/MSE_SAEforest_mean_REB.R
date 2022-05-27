@@ -19,7 +19,7 @@ MSE_SAEforest_mean <- function(Y, X, dName, smp_data, mod, ADJsd, pop_data, B = 
     block_sample(
       domains = domains, in_samp = in_samp,
       smp_data = smp_data, dName = dName,
-      pop_data = pop_data
+      pop_data = pop_data, forest_res = forest_res
     )
   }
 

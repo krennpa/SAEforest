@@ -8,7 +8,7 @@
 
 
 
- input_checks_model <- function(Y, X, dName, smp_data, pop_data, mse , meanOnly, aggData, smearing,
+ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE , meanOnly, aggData, smearing,
                                 popnsize, importance, OOsample_obs, ADDsamp_obs, w_min, B, B_adj,
                                 B_MC, threshold, custom_indicator, initialRandomEffects, ErrorTolerance,
                                 MaxIterations, na.rm){
@@ -68,11 +68,11 @@
      stop("ErrorTolerance needs to be a single integer value, determining the tolerance to monitor the convergence of the MERF algorithm. The value must be greater than 0. See also help(SAEforest_model).")
    }
 
-   if (is.null(mse) || !(mse == "none" || mse == "wild" || mse == "nonparametric")) {
-     stop("The options for mse are ''none'' and ''nonparametric''. For nonlinear indicators (meanOnly = FALSE) the additional option ''wild'' exists. See also help(SAEforest_model).")
+   if (is.null(MSE) || !(MSE == "none" || MSE == "wild" || MSE == "nonparametric")) {
+     stop("The options for MSE are ''none'' and ''nonparametric''. For nonlinear indicators (meanOnly = FALSE) the additional option ''wild'' exists. See also help(SAEforest_model).")
    }
 
-   if (mse != "none" && !(is.numeric(B) && length(B) == 1 && B > 1)) {
+   if (MSE != "none" && !(is.numeric(B) && length(B) == 1 && B > 1)) {
      stop("If MSE-estimation is specified, B needs to be a single integer value, determining the number of MSE-bootstrap replications. The value must be larger than 1. See also help(SAEforest_model).")
    }
 
@@ -96,7 +96,7 @@
      stop("The option smearing is logical. Insert TRUE for smearing based estimation and the value FALSE for MC-based estimation. See also help(SAEforest_model)")
    }
 
-   if (mse != "none" && !(is.numeric(B_adj) && length(B_adj) == 1 && B_adj > 1)) {
+   if (MSE != "none" && !(is.numeric(B_adj) && length(B_adj) == 1 && B_adj > 1)) {
      stop("If MSE-estimation is specified, B_adj needs to be a single integer value, determining the number of bootstrap replications for the adjustemt of residual variance. The value must be larger than 1. See also help(SAEforest_model).")
    }
 
@@ -130,8 +130,8 @@
      }
    }
 
-   if ((aggData == TRUE) && (mse != "none" && (!is.data.frame(popnsize) || is.null(popnsize[[dName]]) || dim(popnsize)[1] != dim(Xpop_agg)[1] ||
-                                               dim(popnsize)[2] > 2 || !is.numeric(popnsize[, !colnames(popnsize) %in% dName]) || !all.equal(as.character(popnsize[[dName]]), as.character(Xpop_agg[[dName]]))))) {
+   if ((aggData == TRUE) && (MSE != "none" && (!is.data.frame(popnsize) || is.null(popnsize[[dName]]) || dim(popnsize)[1] != dim(pop_data)[1] ||
+                                               dim(popnsize)[2] > 2 || !is.numeric(popnsize[, !colnames(popnsize) %in% dName]) || !all.equal(as.character(popnsize[[dName]]), as.character(pop_data[[dName]]))))) {
      stop(paste("popnsize must be a data frame with two columns: One column named ", dName, "must contain the domains specifiers. The other column must contain information on the population size of domains. See also help(SAEforest_model)."))
    }
 
@@ -143,11 +143,11 @@
      stop('ADDsamp_obs needs to be a single integer value, determining the amount of observations sampled from the "closest" area in the case of failure of calculation of calibration weights. See also help(SAEforest_model).')
    }
 
-   if ((aggData == TRUE) && (!is.numeric(w_min) || length(w_min) != 1 || w_min < 2 || w_min > dim(Xpop_agg)[2])) {
+   if ((aggData == TRUE) && (!is.numeric(w_min) || length(w_min) != 1 || w_min < 2 || w_min > dim(pop_data)[2])) {
      stop("w_min needs to be a single integer value, determining the minimum amount of covariates incorporating auxilliary information for the assessment of calibration weights. Thus, w_min must be smaller or equal to the number of existing covariates. See also help(SAEforest_model).")
    }
 
-   if ((aggData == TRUE || meanOnly == TRUE) && (is.null(mse) || !(mse == "none" || mse == "nonparametric"))) {
+   if ((aggData == TRUE || meanOnly == TRUE) && (is.null(MSE) || !(MSE == "none" || MSE == "nonparametric"))) {
      stop("The options for the MSE for means are ''none'' or ''nonparametric''.")
    }
 

@@ -17,8 +17,8 @@ importance. Additionally, users can summarize and map indicators and correspondi
 uncertainty.
 }
 \details{
-This package includes a main function \code{\link{MERFranger}} that is wrapped into two functions
-\code{\link{SAEforest_mean}} and \code{\link{SAEforest_nonLin}} for an improved SAE workflow.
+This package includes a main function \code{\link{MERFranger}} that is wrapped in
+\code{\link{SAEforest_model}} for an improved SAE workflow.
 Each function produces an object inheriting requested results of regionally disaggregated point
 and uncertainty estimates. Additionally, statistical information on model fit and variable
 importance is accessible through generic functions such as a summary (\code{\link{summary.SAEforest}})

@@ -8,7 +8,7 @@
 }
 \arguments{
 \item{x}{Object of class \code{SAEforest}, representing point and MSE
-estimates obtained by functions: \code{\link{SAEforest_mean}} or \code{\link{SAEforest_nonLin}}.}
+estimates obtained by functions: \code{\link{SAEforest_model}}.}
 
 \item{...}{Optional additional inputs that are ignored for this method.}
 }

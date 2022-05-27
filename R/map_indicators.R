@@ -9,7 +9,7 @@
 #' all calculated indicators ("all"); (ii) each default indicators name: "Mean",
 #' "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 #' or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-#' If the \code{object} is estimated by \code{\link{SAEforest_mean}},
+#' If the \code{object} is estimated by \code{\link{SAEforest_model}},
 #' indicator arguments are ignored and only "Mean" is visualized.
 #' @param MSE Logical. If \code{TRUE}, the MSE is also visualized.
 #' Defaults to \code{FALSE}.
@@ -53,7 +53,7 @@
 #'#Example 1:
 #'#Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
+#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 #'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees=50)
 #'
 #'# Load shape file

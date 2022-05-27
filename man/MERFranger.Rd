@@ -77,7 +77,7 @@ This function enables the use of Mixed Effects Random Forests (MERFs) by effecti
 combining a random forest from \pkg{ranger} with a model capturing random effects from
 \pkg{lme4}. The MERF algorithm is an algorithmic procedure reminiscent of an EM-algorithm
 (see Details). The function is the base-function for the two wrapping functions
-(\code{\link{SAEforest_mean}} and \code{\link{SAEforest_nonLin}})
+(\code{\link{SAEforest_model}}
 and should not be directly used by the reguluar user. Recommended exceptions are applications exceeding
 the scope of existing wrapper functions or further research. The function \code{MERFranger}
 allows to model complex patterns of structural relations (see Examples). The function returns
@@ -129,5 +129,5 @@ Hajjem et al. 2014. MERF paper
 }
 \seealso{
 \code{\link{SAEforest}}, \code{\link[ranger]{ranger}}, \code{\link[lme4]{lmer}},
-\code{\link{SAEforest_mean}}, \code{\link{SAEforest_nonLin}}
+\code{\link{SAEforest_model}}
 }
