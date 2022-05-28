@@ -74,28 +74,29 @@
 #'
 #' @examples
 #' \dontrun{
-#'#Loading data
-#'data("eusilcA_pop")
-#'data("eusilcA_smp")
+#' # Loading data
+#' data("eusilcA_pop")
+#' data("eusilcA_smp")
 #'
-#'income <- eusilcA_smp$eqIncome
-#'X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' income <- eusilcA_smp$eqIncome
+#' X_covar <- eusilcA_smp[,-c(1,16,17,18)]
 #'
-#'#Example 1:
-#'#Calculating point estimates and discussing basic generic functions
+#' # Example 1:
+#' # Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-#'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop)
 #'
-#'#SAEforest generics:
-#'summary(model1)
-#'summarize_indicators(model1)
-#'residuals(model1)
-#'sigma(model1)
-#'VarCorr(model1)
-#'ranef(model1)
-#'fixef(model1)
-#'getData(model1)
+#' #SAEforest generics:
+#'
+#' summary(model1)
+#' summarize_indicators(model1)
+#' residuals(model1)
+#' sigma(model1)
+#' VarCorr(model1)
+#' ranef(model1)
+#' fixef(model1)
+#' getData(model1)
 #'}
 #' @name SAEforestObject
 NULL

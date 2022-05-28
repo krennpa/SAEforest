@@ -60,11 +60,9 @@
 #' # Example 1:
 #' # Calculating point estimates and discussing basic generic functions
 #'
-#' model1 <- SAEforest_model(
-#'   Y = income, X = X_covar, dName = "district",
-#'   smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees = 50
-#' )
-#'
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                           smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+#'                           num.trees = 50)
 #' plot(model1)
 #' }
 #'

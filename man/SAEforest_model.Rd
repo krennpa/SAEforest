@@ -174,10 +174,8 @@ X_covar <- eusilcA_smp[,-c(1, 16, 17, 18)]
 # Example 1:
 # Calculating point estimates and discussing basic generic functions
 
-model1 <- SAEforest_model(
-  Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-  pop_data = eusilcA_pop
-)
+model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+                          smp_data = eusilcA_smp, pop_data = eusilcA_pop)
 
 # SAEforest generics:
 summary(model1)
@@ -187,12 +185,10 @@ summary(model1)
 # arguments to the random forest.
 # Note that B is unrealistically low to improve example speed
 
-model2 <- SAEforest_model(
-  Y = income, X = X_covar, dName = "district",
-  smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
-  MSE = "nonparametric", popnsize = popNsize,
-  B = 5, mtry = 5, num.trees = 100, aggData = TRUE
-)
+model2 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+                          smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
+                          MSE = "nonparametric", popnsize = popNsize,B = 5, mtry = 5,
+                          num.trees = 100, aggData = TRUE)
 
 # SAEforest generics:
 summary(model2)
@@ -203,17 +199,16 @@ summarize_indicators(model2, MSE = TRUE, CV = TRUE)
 # Two additional custom indicators and the threshold is defined as a custom function of Y.
 # Note that B is unrealistically low to improve example speed.
 
-model3 <- SAEforest_model(
- Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
- pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric", B = 5, mtry = 5,
- num.trees = 100, threshold = function(Y) {0.5 * median(Y)},
- custom_indicator = list(my_max = function(Y, threshold){max(Y)},
- mean40 = function(Y, threshold){mean(Y[Y<=quantile(Y,0.4)])}), smearing = FALSE)
+model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+                          pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+                          B = 5, mtry = 5, num.trees = 100, threshold = function(Y){0.5 *
+                          median(Y)}, custom_indicator = list(my_max = function(Y,
+                          threshold){max(Y)}, mean40 = function(Y, threshold){
+                          mean(Y[Y<=quantile(Y,0.4)])}), smearing = FALSE)
 
 # SAEforest generics:
 summary(model3)
-summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c(
-  "Gini", "my_max", "mean40"))
+summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c("Gini", "my_max", "mean40"))
 }
 
 }

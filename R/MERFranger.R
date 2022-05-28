@@ -88,19 +88,18 @@
 #'
 #' # Example 1:
 #' # Calculating general model used in wrapper functions
-#' model1 <- MERFranger(
-#'   Y = income, X = X_covar, random = "(1|district)",
-#'   data = eusilcA_smp, mtry = 5
-#' )
+#'
+#' model1 <- MERFranger(Y = income, X = X_covar, random = "(1|district)",
+#'                      data = eusilcA_smp, mtry = 5)
 #'
 #' # Example 2:
 #' # Calculating a model using 2-level nested design
-#' model2 <- MERFranger(
-#'   Y = income, X = X_covar, random = "(1|district)+(1|state:gender)",
-#'   data = eusilcA_smp, mtry = 3
-#' )
+#'
+#' model2 <- MERFranger(Y = income, X = X_covar, random = "(1|district)+
+#'                      (1|state:gender)", data = eusilcA_smp, mtry = 3)
 #'
 #' # get individual predictions:
+#'
 #' ind_pred <- predict(model2, eusilcA_pop)
 #' }
 #'

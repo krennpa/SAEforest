@@ -44,11 +44,10 @@
 #' # Note that B and num.trees are low to speed up estimation time and must be changed for
 #' # practical applications.
 #'
-#' model1 <- SAEforest_model(
-#'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-#'   B = 5, mtry = 5, num.trees = 50, smearing = FALSE
-#' )
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                           smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+#'                           meanOnly = FALSE, MSE = "nonparametric", B = 5, mtry = 5,
+#'                           num.trees = 50, smearing = FALSE)
 #'
 #' # Extract indicator and show generics:
 #' Gini1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Gini")

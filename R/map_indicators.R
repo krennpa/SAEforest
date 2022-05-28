@@ -53,20 +53,17 @@
 #' # Example 1:
 #' # Calculating point estimates and discussing basic generic functions
 #'
-#' model1 <- SAEforest_model(
-#'   Y = income, X = X_covar, dName = "district",
-#'   smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees = 50
-#' )
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                           smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+#'                           num.trees = 50)
 #'
 #' # Load shape file
 #' load_shapeaustria()
 #'
 #' # Create map plot for mean indicator - point and MSE estimates but no CV
-#' map_indicators(
-#'   object = model1, MSE = FALSE, CV = FALSE,
-#'   map_obj = shape_austria_dis, indicator = c("Mean"),
-#'   map_dom_id = "PB"
-#' )
+#'
+#' map_indicators(object = model1, MSE = FALSE, CV = FALSE, map_obj = shape_austria_dis,
+#'                indicator = c("Mean"), map_dom_id = "PB")
 #'
 #' # Create a suitable mapping table to use numerical identifiers of the shape
 #' # file
@@ -75,19 +72,15 @@
 #' dom_ord <- match(shape_austria_dis@data$PB, model1$Indicators$district)
 #'
 #' # Create the mapping table based on the order obtained above
-#' map_tab <- data.frame(
-#'   pop_data_id = model1$Indicators$district[dom_ord],
-#'   shape_id = shape_austria_dis@data$BKZ
-#' )
+#' map_tab <- data.frame(pop_data_id = model1$Indicators$district[dom_ord],
+#'                       shape_id = shape_austria_dis@data$BKZ)
 #'
 #' # Create map plot for mean indicator - using the numerical domain
 #' # identifiers of the shape file. Additionally save the figure in as a list element.
 #'
-#' map_obj <- map_indicators(
-#'   object = model1, MSE = FALSE, CV = FALSE,
-#'   map_obj = shape_austria_dis, indicator = c("Mean"),
-#'   map_dom_id = "BKZ", map_tab = map_tab, return_plot = TRUE
-#' )
+#' map_obj <- map_indicators(object = model1, MSE = FALSE, CV = FALSE,
+#'                           map_obj = shape_austria_dis, indicator = c("Mean"),
+#'                           map_dom_id = "BKZ", map_tab = map_tab, return_plot = TRUE)
 #' }
 #'
 #' @export
