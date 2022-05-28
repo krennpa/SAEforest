@@ -50,79 +50,91 @@
 #'
 #' @examples
 #' \dontrun{
-#'#Loading data
-#'data("eusilcA_pop")
-#'data("eusilcA_smp")
+#' # Loading data
+#' data("eusilcA_pop")
+#' data("eusilcA_smp")
 #'
-#'income <- eusilcA_smp$eqIncome
-#'X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' income <- eusilcA_smp$eqIncome
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#'#Example 1:
-#'#Calculating point estimates and discussing basic generic functions
+#' # Example 1:
+#' # Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-#'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees = 50)
+#' model1 <- SAEforest_model(
+#'   Y = income, X = X_covar, dName = "district",
+#'   smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees = 50
+#' )
 #'
-#'plot(model1)
-#'}
+#' plot(model1)
+#' }
 #'
 #' @importFrom ggplot2 theme_minimal ggplot aes_string ggtitle geom_line
 #' @export
 plot.SAEforest <- function(x,
-                           num_features = 6, col = "darkgreen", fill = "darkgreen", alpha = 0.8,
-                           include_type = TRUE, horizontal = TRUE, gg_theme = theme_minimal(),
-                           lsize = 1.5, lty = "solid", grid_row = 2, out_list = FALSE, pdp_plot = TRUE, ...){
-
+                           num_features = 6,
+                           col = "darkgreen",
+                           fill = "darkgreen",
+                           alpha = 0.8,
+                           include_type = TRUE,
+                           horizontal = TRUE,
+                           gg_theme = theme_minimal(),
+                           lsize = 1.5,
+                           lty = "solid",
+                           grid_row = 2,
+                           out_list = FALSE,
+                           pdp_plot = TRUE,
+                           ...) {
   class_error(x)
 
-  input_checks_plot(num_features = num_features, alpha = alpha, include_type = include_type, horizontal =horizontal,
-                                lsize = lsize, grid_row = grid_row, out_list = out_list, pdp_plot=pdp_plot, gg_theme = gg_theme)
+  input_checks_plot(
+    num_features = num_features, alpha = alpha, include_type = include_type, horizontal = horizontal,
+    lsize = lsize, grid_row = grid_row, out_list = out_list, pdp_plot = pdp_plot, gg_theme = gg_theme
+  )
 
-  # VIP PLOT
-  vip_plot <- vip::vip(x$MERFmodel$Forest, aes = list(col =col, fill = fill, alpha=alpha),
-                  include_type =include_type, horizontal = horizontal, num_features=num_features)+ ggtitle("Variable Importance")+ gg_theme
+  # produce a vip plot
+  vip_plot <- vip::vip(x$MERFmodel$Forest,
+    aes = list(col = col, fill = fill, alpha = alpha),
+    include_type = include_type, horizontal = horizontal, num_features = num_features
+  ) + ggtitle("Variable Importance") + gg_theme
 
   eval(print(vip_plot))
   cat("Press [enter] to continue")
   line <- readline()
 
-  # PdP PLOT
-  # Check if variables are factors or characters
+  # produce a pdp plot and check if variables are factors or characters
   pdp_curves <- NULL
 
-  if(pdp_plot == TRUE){
-  set_fact <- names(x$MERFmodel$data)[sapply(x$MERFmodel$data,is.factor)]
-  set_char <- names(x$MERFmodel$data)[sapply(x$MERFmodel$data,is.character)]
+  if (pdp_plot == TRUE) {
+    set_fact <- names(x$MERFmodel$data)[sapply(x$MERFmodel$data, is.factor)]
+    set_char <- names(x$MERFmodel$data)[sapply(x$MERFmodel$data, is.character)]
 
-  set_rm <- levels(factor(c(set_fact, set_char)))
+    set_rm <- levels(factor(c(set_fact, set_char)))
 
-  if(length(set_rm) !=0){
-    print(paste0("The data contained ", length(set_rm) ," character or factor variables unsuitable for pdp plots(",paste(set_rm, collapse=", ") ,")."))
+    if (length(set_rm) != 0) {
+      print(paste0("The data contained ", length(set_rm), " character or factor variables unsuitable for pdp plots(", paste(set_rm, collapse = ", "), ")."))
+    }
+
+    forest_imp <- as.data.frame(vip::vi(x$MERFmodel$Forest))
+    forest_imp <- forest_imp[order(forest_imp$Importance, decreasing = TRUE), ]
+    forest_imp <- forest_imp[!forest_imp[, "Variable"] %in% set_rm, ]
+    forest_imp <- na.omit(forest_imp[1:num_features, ])
+    y_name <- as.character(x$MERFmodel$call$Y)
+
+    pdp_curves <- lapply(forest_imp[, "Variable"], FUN = function(feature) {
+      pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = x$MERFmodel$data, plot = FALSE)
+      colnames(pd)[2] <- y_name
+      ggplot(data = pd, aes_string(y = y_name, x = feature)) +
+        geom_line(linetype = lty, color = col, size = lsize) +
+        ggtitle(paste("Partial Dependence of", feature)) +
+        gg_theme
+    })
+
+    vip::grid.arrange(grobs = pdp_curves, nrow = grid_row)
   }
 
-  forest_imp <- as.data.frame(vip::vi(x$MERFmodel$Forest))
-  forest_imp <- forest_imp[order(forest_imp$Importance, decreasing = TRUE),]
-  forest_imp <- forest_imp[!forest_imp[,"Variable"] %in% set_rm,]
-  forest_imp <- na.omit(forest_imp[1:num_features,])
-  y_name <- as.character(x$MERFmodel$call$Y)
-
-  pdp_curves <- lapply(forest_imp[,"Variable"], FUN = function(feature) {
-    pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = x$MERFmodel$data, plot=FALSE)
-    colnames(pd)[2] <- y_name
-    ggplot(data=pd, aes_string(y = y_name, x = feature)) + geom_line(linetype = lty, color=col, size=lsize)+
-      ggtitle(paste("Partial Dependence of",feature)) + gg_theme
-  })
-
-  vip::grid.arrange(grobs = pdp_curves, nrow = grid_row)
-}
-
-  # Output for further adaptions
-  if(out_list == TRUE){
+  # generate output for further modifications
+  if (out_list == TRUE) {
     outlist <- list(vip = vip_plot, pdp = pdp_curves)
     return(outlist)
   }
 }
-
-
-
-

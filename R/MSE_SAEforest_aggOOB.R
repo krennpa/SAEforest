@@ -1,6 +1,18 @@
-MSE_SAEforest_aggOOB <- function(Y, X, dName, smp_data, mod, ADJsd, Xpop_agg, B = 100,
-                                 popnsize, initialRandomEffects, ErrorTolerance,
-                                 MaxIterations, ...) {
+# MSE bootstrap for means under aggregated covariate data ---------------------------------
+MSE_SAEforest_aggOOB <- function(Y,
+                                 X,
+                                 dName,
+                                 smp_data,
+                                 mod,
+                                 ADJsd,
+                                 Xpop_agg,
+                                 B = 100,
+                                 popnsize,
+                                 initialRandomEffects,
+                                 ErrorTolerance,
+                                 MaxIterations,
+                                 ...) {
+
   dom <- smp_data[[dName]]
   in_dom <- as.character(unique(smp_data[[dName]]))
   total_dom <- as.character(mod$Indicators[[dName]])

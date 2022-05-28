@@ -164,54 +164,70 @@ and \code{\link[lme4]{lmer}} as well as the examples below.
 }
 \examples{
 \dontrun{
-#Loading data
+# Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
 
 income <- eusilcA_smp$eqIncome
-X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 
-#Example 1:
-#Calculating point estimates and discussing basic generic functions
+# Example 1:
+# Calculating point estimates and discussing basic generic functions
 
-model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                           pop_data = eusilcA_pop)
+model1 <- SAEforest_model(
+  Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+  pop_data = eusilcA_pop
+)
 
-#example of SAEforest generic
+# example of SAEforest generic
 summary(model1)
 
-#Example 2:
-#Calculating point + MSE estimates for aggregated covariat data and passing
-#arguments to the random forest.
-#Note that B is unrealistically low to improve example speed
+# Example 2:
+# Calculating point + MSE estimates for aggregated covariat data and passing
+# arguments to the random forest.
+# Note that B is unrealistically low to improve example speed
 
-model2 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-                            smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
-                            MSE = "nonparametric", popnsize = popNsize,
-                            B = 5, mtry=5, num.trees = 100, aggData = TRUE)
+model2 <- SAEforest_model(
+  Y = income, X = X_covar, dName = "district",
+  smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
+  MSE = "nonparametric", popnsize = popNsize,
+  B = 5, mtry = 5, num.trees = 100, aggData = TRUE
+)
 
-#SAEforest generics:
+# SAEforest generics:
 summarymodel2
-summarize_indicators(model2, MSE = TRUE, CV =TRUE)
+summarize_indicators(model2, MSE = TRUE, CV = TRUE)
 
 
-#Example 3:
-#Calculating point + MSE estimates and passing arguments to the forest.
-#Two additional custom indicators and the threshold is defined as a custom function of Y.
-#Note that B is unrealistically low to improve example speed.
+# Example 3:
+# Calculating point + MSE estimates and passing arguments to the forest.
+# Two additional custom indicators and the threshold is defined as a custom function of Y.
+# Note that B is unrealistically low to improve example speed.
 
-model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                          pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-                          B = 5, mtry=5,
-                          num.trees = 100, threshold = function(Y){0.5 * median(Y)},
-                          custom_indicator = list(my_max = function(Y, threshold){max(Y)},
-                          my_quant = function(Y, threshold){quantile(Y, probs=c(0.05,0.95))}),
-                          smearing = FALSE)
+model3 <- SAEforest_model(
+  Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+  pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+  B = 5, mtry = 5,
+  num.trees = 100, threshold = function(Y) {
+    0.5 * median(Y)
+  },
+  custom_indicator = list(
+    my_max = function(Y, threshold) {
+      max(Y)
+    },
+    my_quant = function(Y, threshold) {
+      quantile(Y, probs = c(0.05, 0.95))
+    }
+  ),
+  smearing = FALSE
+)
 
-#example of SAEforest generic:
+# example of SAEforest generic:
 summary(model3)
-summarize_indicators(model3, MSE = FALSE, CV =TRUE, indicator = c("Gini", "my_max", "my_quant.5\%",
-"my_quant.95\%"))
+summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c(
+  "Gini", "my_max", "my_quant.5\%",
+  "my_quant.95\%"
+))
 }
 
 }
@@ -220,11 +236,11 @@ Duan, N. (1983). Smearing Estimate: A Nonparametric Retransformation Method.
 Journal of the American Statistical Association, 78(383), 605–610.
 
 Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
-Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
 
 Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
 Mixed Effects Random Forests under Aggregated Census Data.
-Available from https://arxiv.org/pdf/2204.10736.
+Available from \url{https://arxiv.org/pdf/2204.10736}.
 
 Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
 and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.

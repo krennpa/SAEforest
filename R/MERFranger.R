@@ -78,40 +78,54 @@
 #' @import lme4
 #'
 #' @examples \dontrun{
-#'#Load Data
-#'data("eusilcA_pop")
-#'data("eusilcA_smp")
+#' # Load Data
+#' data("eusilcA_pop")
+#' data("eusilcA_smp")
 #'
-#'income <- eusilcA_smp$eqIncome
-#'X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' income <- eusilcA_smp$eqIncome
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#'#Example 1:
-#'#Calculating general model used in wrapper functions
-#'model1 <- MERFranger(Y = income, X = X_covar, random = "(1|district)",
-#'                     data = eusilcA_smp, mtry=5)
+#' # Example 1:
+#' # Calculating general model used in wrapper functions
+#' model1 <- MERFranger(
+#'   Y = income, X = X_covar, random = "(1|district)",
+#'   data = eusilcA_smp, mtry = 5
+#' )
 #'
-#'#Example 2:
-#'#Calculating a model using 2-level nested design
-#'model2 <- MERFranger(Y = income, X = X_covar, random = "(1|district)+(1|state:gender)",
-#'                     data = eusilcA_smp, mtry=3)
+#' # Example 2:
+#' # Calculating a model using 2-level nested design
+#' model2 <- MERFranger(
+#'   Y = income, X = X_covar, random = "(1|district)+(1|state:gender)",
+#'   data = eusilcA_smp, mtry = 3
+#' )
 #'
-#'#get individual predictions:
-#'ind_pred <- predict(model2, eusilcA_pop)
-#'}
+#' # get individual predictions:
+#' ind_pred <- predict(model2, eusilcA_pop)
+#' }
 #'
-MERFranger <- function(Y, X, random, data, importance = "none", initialRandomEffects = 0, ErrorTolerance = 0.0001,
-                        MaxIterations = 25, na.rm = T, ...) {
+MERFranger <- function(Y,
+                       X,
+                       random,
+                       data,
+                       importance = "none",
+                       initialRandomEffects = 0,
+                       ErrorTolerance = 0.0001,
+                       MaxIterations = 25,
+                       na.rm = T,
+                       ...) {
 
-  if(na.rm == TRUE){
+  if (na.rm == TRUE) {
     comp_smp <- complete.cases(data)
-    data <- data[comp_smp,]
+    data <- data[comp_smp, ]
     Y <- Y[comp_smp]
-    X <- X[comp_smp,]
+    X <- X[comp_smp, ]
   }
 
-  input_checks_MERF(Y = Y, X = X, data = data, initialRandomEffects = initialRandomEffects,
-                    ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
-                    importance = importance, na.rm = na.rm)
+  input_checks_MERF(
+    Y = Y, X = X, data = data, initialRandomEffects = initialRandomEffects,
+    ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations,
+    importance = importance, na.rm = na.rm
+  )
 
   Target <- Y
   ContinueCondition <- TRUE
@@ -122,7 +136,7 @@ MERFranger <- function(Y, X, random, data, importance = "none", initialRandomEff
   while (ContinueCondition) {
     iterations <- iterations + 1
     rf <- ranger::ranger(x = X, y = AdjustedTarget, importance = importance, ...)
-    forest_preds  <- rf$predictions
+    forest_preds <- rf$predictions
     f0 <- as.formula(paste0("Target ~ -1+", random))
     lmefit <- lme4::lmer(f0, data = data, REML = FALSE, offset = forest_preds)
 
@@ -132,39 +146,38 @@ MERFranger <- function(Y, X, random, data, importance = "none", initialRandomEff
       iterations < MaxIterations)
     oldLogLik <- c(oldLogLik, newLogLik)
     AllEffects <- predict(lmefit)
-    AdjustedTarget <- Target - (AllEffects-forest_preds)
-    # print(iterations)
+    AdjustedTarget <- Target - (AllEffects - forest_preds)
   }
 
   data$forest_preds <- NULL
   residuals <- Target - predict(lmefit)
 
-  result <- list(Forest = rf,
-                 EffectModel = lmefit,
-                 RandomEffects = lme4::ranef(lmefit),
-                 RanEffSD = as.data.frame(lme4::VarCorr(lmefit))$sdcor[1],
-                 ErrorSD = stats::sigma(lmefit),
-                 VarianceCovariance =lme4::VarCorr(lmefit),
-                 LogLik = oldLogLik,
-                 IterationsUsed = iterations,
-                 OOBresiduals = residuals,
-                 Random = random,
-                 ErrorTolerance = ErrorTolerance,
-                 initialRandomEffects = initialRandomEffects,
-                 MaxIterations = MaxIterations)
+  result <- list(
+    Forest = rf,
+    EffectModel = lmefit,
+    RandomEffects = lme4::ranef(lmefit),
+    RanEffSD = as.data.frame(lme4::VarCorr(lmefit))$sdcor[1],
+    ErrorSD = stats::sigma(lmefit),
+    VarianceCovariance = lme4::VarCorr(lmefit),
+    LogLik = oldLogLik,
+    IterationsUsed = iterations,
+    OOBresiduals = residuals,
+    Random = random,
+    ErrorTolerance = ErrorTolerance,
+    initialRandomEffects = initialRandomEffects,
+    MaxIterations = MaxIterations
+  )
 
   class(result) <- "MERFranger"
 
   return(result)
 }
 
-
+# Generic predict function for MERFranger ------------------------------------------------
 #' @export
-predict.MERFranger <- function(object, ...){
-  retval <- predict(object$Forest, ...)$predictions+
-    predict(object$EffectModel, allow.new.levels=TRUE, ...)
+predict.MERFranger <- function(object, ...) {
+  retval <- predict(object$Forest, ...)$predictions +
+    predict(object$EffectModel, allow.new.levels = TRUE, ...)
 
   return(retval)
 }
-
-

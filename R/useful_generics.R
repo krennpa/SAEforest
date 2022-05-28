@@ -1,6 +1,7 @@
-# Extract fixed effects of a SAEforest object --------------------
-# Output correspondes to an object of class ranger
+# Definition of some useful generics from lme4
 
+# Extract fixed effects of a SAEforest object ---------------------------------------------
+# Output correspondes to an object of class ranger
 #' @export
 #' @method fixef SAEforest
 
@@ -9,8 +10,8 @@ fixef.SAEforest <- function(object, add.dropped = FALSE, ...) {
   object$MERFmodel$Forest
 }
 
-# Extract survey data of a SAEforest object ---------------------
 
+# Extract survey data of a SAEforest object ----------------------------------------------
 #' @export
 #' @method getData SAEforest
 
@@ -20,8 +21,7 @@ getData.SAEforest <- function(object) {
 }
 
 
-# Extract ranef of a SAEforest object ---------------------------
-
+# Extract ranef of a SAEforest object ----------------------------------------------------
 #' @export
 #' @method ranef SAEforest
 
@@ -30,8 +30,8 @@ ranef.SAEforest <- function(object, ...) {
   ranef(object$MERFmodel$EffectModel, ...)
 }
 
-# Extract residuals of a SAEforest object -----------------------
 
+# Extract residuals of a SAEforest object ------------------------------------------------
 #' @export
 #' @method residuals SAEforest
 
@@ -41,7 +41,7 @@ residuals.SAEforest <- function(object, ...) {
 }
 
 
-# Extract sigma of a SAEforest object ---------------------------
+# Extract sigma of a SAEforest object ----------------------------------------------------
 #' @importFrom stats sigma
 #' @export
 #' @method sigma SAEforest
@@ -51,8 +51,8 @@ sigma.SAEforest <- function(object, ...) {
   sigma(object$MERFmodel$EffectModel, ...)
 }
 
-# Extract VarCorr of a SAEforest object -------------------------
 
+# Extract VarCorr of a SAEforest object --------------------------------------------------
 #' @export
 #' @method VarCorr SAEforest
 

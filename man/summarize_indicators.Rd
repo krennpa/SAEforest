@@ -43,24 +43,26 @@ documentation, see \code{\link[base]{subset}}).
 }
 \examples{
 \dontrun{
-#Loading data
+# Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
 
 income <- eusilcA_smp$eqIncome
-X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 
-#Calculating point + MSE estimates and passing arguments to the forest.
-#Additionally, two additional indicators and functions as threshold are added.
-#Note that B and num.trees are low to speed up estimation time and must be changed for
-#practical applications.
+# Calculating point + MSE estimates and passing arguments to the forest.
+# Additionally, two additional indicators and functions as threshold are added.
+# Note that B and num.trees are low to speed up estimation time and must be changed for
+# practical applications.
 
-model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-                          pop_data = eusilcA_pop, meanOnly =FALSE, MSE = "nonparametric",
-                          B = 2, mtry=5, num.trees = 50, smearing = FALSE)
+model1 <- SAEforest_model(
+  Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+  pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+  B = 2, mtry = 5, num.trees = 50, smearing = FALSE
+)
 
-#Extract indicator and try generics:
-Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV =TRUE, indicator = "Hcr")
+# Extract indicator and try generics:
+Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Hcr")
 
 head(Hcr1)
 tail(Hcr1)

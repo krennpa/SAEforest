@@ -2,7 +2,7 @@
 #'
 #' The package \pkg{SAEforest} promotes the use of Mixed Effects Random Forests (MERFs) for
 #' applications of Small Area Estimation (SAE). The package effectively combines functions for
-#' the estimation of regionally disaggregated linear and non-linear economic and inequality
+#' the estimation of regionally disaggregated linear and nonlinear economic and inequality
 #' indicators using survey sample data. Estimated models increase the precision of direct
 #' estimates from survey data, combining unit-level and aggregated population level covariate
 #' information from census or register data. Apart from point estimates, MSE estimates for requested
@@ -23,11 +23,11 @@
 #'
 #' @references
 #' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
-#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+#' Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
 #'
 #' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
 #' Mixed Effects Random Forests under Aggregated Census Data.
-#' Available from https://arxiv.org/pdf/2204.10736.
+#' Available from \url{https://arxiv.org/pdf/2204.10736}.
 #'
 #' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
 #' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.

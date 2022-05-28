@@ -28,7 +28,7 @@ print.SAEforest <- function(x, ...) {
   print(dom_info)
   cat("\n")
   cat("Units in sample:", smp_size, "\n")
-  if(!inherits(x, "SAEforest_meanAGG")){
+  if (!inherits(x, "SAEforest_meanAGG")) {
     cat("Units in population:", pop_size, "\n")
   }
   cat("\n")

@@ -47,7 +47,7 @@
 #' \item{\code{MaxIterations}}{Numeric value specifying the maximal amount of iterations for the
 #' MERF algorithm.}
 #' \item{\code{call}}{The summarized function call producing the object.}
-#' \item{\code{data_specs}}{Data characteristics such as domain specific sample sizes or number of
+#' \item{\code{data_specs}}{Data characteristics such as domain-specific sample sizes or number of
 #' out-of-sample areas.}
 #' \item{\code{data}}{The used survey sample data.}
 #'
@@ -59,11 +59,11 @@
 #'
 #' @references
 #' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
-#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+#' Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
 #'
 #' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
 #' Mixed Effects Random Forests under Aggregated Census Data.
-#' Available from https://arxiv.org/pdf/2204.10736.
+#' Available from \url{https://arxiv.org/pdf/2204.10736}.
 #'
 #' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
 #' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.

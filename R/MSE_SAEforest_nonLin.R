@@ -1,6 +1,22 @@
-MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, pop_data, B = 100,
-                                 B_point, initialRandomEffects = 0, ErrorTolerance = 0.0001,
-                                 MaxIterations = 25, custom_indicator, wild, MC, ...) {
+# MSE bootstrap for nonlinear indicators under unit-level covariate data ------------------
+
+MSE_SAEforest_nonLin <- function(Y,
+                                 X,
+                                 dName,
+                                 threshold,
+                                 smp_data,
+                                 mod,
+                                 ADJsd,
+                                 pop_data,
+                                 B = 100,
+                                 B_point,
+                                 initialRandomEffects = 0,
+                                 ErrorTolerance = 0.0001,
+                                 MaxIterations = 25,
+                                 custom_indicator,
+                                 wild,
+                                 MC, ...) {
+
   rand_struc <- paste0(paste0("(1|", dName), ")")
   domains <- t(unique(pop_data[dName]))
   in_samp <- domains %in% t(unique(smp_data[dName]))
@@ -16,7 +32,7 @@ MSE_SAEforest_nonLin <- function(Y, X, dName, threshold, smp_data, mod, ADJsd, p
     forest_res <- ran_obj$forest_res
 
     sample_e <- function(x) {
-      wild_errors(x = x, mod = mod, smp_data = smp_data, forest_res=forest_res)
+      wild_errors(x = x, mod = mod, smp_data = smp_data, forest_res = forest_res)
     }
   }
 

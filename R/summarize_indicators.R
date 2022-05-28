@@ -32,62 +32,71 @@
 #'
 #' @examples
 #' \dontrun{
-#' #Loading data
+#' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
 #'
 #' income <- eusilcA_smp$eqIncome
-#' X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#'#Calculating point + MSE estimates and passing arguments to the forest.
-#'#Additionally, two additional indicators and functions as threshold are added.
-#'#Note that B and num.trees are low to speed up estimation time and must be changed for
-#'#practical applications.
+#' # Calculating point + MSE estimates and passing arguments to the forest.
+#' # Additionally, two additional indicators and functions as threshold are added.
+#' # Note that B and num.trees are low to speed up estimation time and must be changed for
+#' # practical applications.
 #'
-#'model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'                           pop_data = eusilcA_pop, meanOnly =FALSE, MSE = "nonparametric",
-#'                           B = 2, mtry=5, num.trees = 50, smearing = FALSE)
+#' model1 <- SAEforest_model(
+#'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+#'   B = 2, mtry = 5, num.trees = 50, smearing = FALSE
+#' )
 #'
-#'#Extract indicator and try generics:
-#'Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV =TRUE, indicator = "Hcr")
+#' # Extract indicator and try generics:
+#' Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Hcr")
 #'
-#'head(Hcr1)
-#'tail(Hcr1)
-#'as.data.frame(Hcr1)
-#'as.matrix(Hcr1)
-#'subset(Hcr1, district == "Wien")
-#'}
+#' head(Hcr1)
+#' tail(Hcr1)
+#' as.data.frame(Hcr1)
+#' as.matrix(Hcr1)
+#' subset(Hcr1, district == "Wien")
+#' }
 #' @export
 
 
-summarize_indicators <- function(object, indicator = "all", MSE = FALSE, CV = FALSE){
+summarize_indicators <- function(object,
+                                 indicator = "all",
+                                 MSE = FALSE,
+                                 CV = FALSE) {
 
   summarize_indicators_check(object = object, indicator = indicator, MSE = MSE, CV = CV)
 
-  if (indicator == "all" || indicator == "All"){
-    indicator = colnames(object$Indicators)[-1]
+  if (indicator == "all" || indicator == "All") {
+    indicator <- colnames(object$Indicators)[-1]
   }
 
-  if (inherits(object,"SAEforest_mean") || inherits(object,"SAEforest_meanAGG")){
+  if (inherits(object, "SAEforest_mean") || inherits(object, "SAEforest_meanAGG")) {
     indicator <- "Mean"
   }
 
-  out_var <- data.frame(object$Indicators[colnames(object$Indicators)[1]],
-                        object$Indicators[indicator])
+  out_var <- data.frame(
+    object$Indicators[colnames(object$Indicators)[1]],
+    object$Indicators[indicator]
+  )
 
   selected <- colnames(out_var)[-1]
 
-  if ( MSE == TRUE || CV == TRUE ) {
+  if (MSE == TRUE || CV == TRUE) {
     MSE_estims <- object$MSE_Estimates[indicator]
-    cv_estims <- sqrt(object$MSE_Estimates[indicator])/object$Indicators[indicator]
+    cv_estims <- sqrt(object$MSE_Estimates[indicator]) / object$Indicators[indicator]
     colnames(cv_estims) <- indicator
     colnames(MSE_estims) <- paste0(colnames(MSE_estims), "_MSE")
     colnames(cv_estims) <- paste0(colnames(cv_estims), "_CV")
     combined <- data.frame(out_var, MSE_estims, cv_estims)
-    endings <- c("","_MSE", "_CV")[c(TRUE,MSE,CV)]
+    endings <- c("", "_MSE", "_CV")[c(TRUE, MSE, CV)]
 
-    combined <- combined[,c(paste0(colnames(combined)[1]),paste0(rep(selected,each = length(endings)),
-                                            endings))]
+    combined <- combined[, c(paste0(colnames(combined)[1]), paste0(
+      rep(selected, each = length(endings)),
+      endings
+    ))]
   } else {
     combined <- out_var
   }
@@ -98,8 +107,9 @@ summarize_indicators <- function(object, indicator = "all", MSE = FALSE, CV = FA
 }
 
 
-# Tail/head functions ----------------------------------------------------------
+# Generic Functions for summarize_indicators ----------------------------------------------
 
+# Tail/head functions
 # Prints summarize_indicators.SAEforest objects
 #' @export
 
@@ -124,18 +134,17 @@ tail.summarize_indicators.SAEforest <- function(x, n = 6L, keepnums = TRUE, addr
   tail(x$ind, n = n, keepnums = keepnums, ...)
 }
 
-
 # Transforms summarize_indicators.SAEforest objects into a matrix object
 #' @export
 
-as.matrix.summarize_indicators.SAEforest <- function(x,...) {
-  as.matrix(x$ind[,-1])
+as.matrix.summarize_indicators.SAEforest <- function(x, ...) {
+  as.matrix(x$ind[, -1])
 }
 
 # Transforms summarize_indicators.SAEforest objects into a dataframe object
 #' @export
 
-as.data.frame.summarize_indicators.SAEforest <- function(x,...) {
+as.data.frame.summarize_indicators.SAEforest <- function(x, ...) {
   as.data.frame(x$ind, ...)
 }
 
@@ -144,6 +153,5 @@ as.data.frame.summarize_indicators.SAEforest <- function(x,...) {
 
 subset.summarize_indicators.SAEforest <- function(x, ...) {
   x <- as.data.frame(x)
-  subset(x = x,  ...)
+  subset(x = x, ...)
 }
-

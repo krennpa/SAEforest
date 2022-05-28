@@ -35,6 +35,6 @@ eusilcA_smp
 \description{
 The data set includes synthetic EU-SILC data and is taken from the package \pkg{emdi}.
 Originally, the data builds on \code{eusilcP} from package \pkg{simFrame}
-and was reduced to 18 variables containing regional variables for the states and districts.
+and was reduced to 18 variables containing regional variables for states and districts.
 }
 \keyword{datasets}

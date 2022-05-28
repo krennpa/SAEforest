@@ -96,24 +96,28 @@ and \code{\link[lme4]{lmer}} as well as the examples below.
 }
 \examples{
 \dontrun{
-#Load Data
+# Load Data
 data("eusilcA_pop")
 data("eusilcA_smp")
 
 income <- eusilcA_smp$eqIncome
-X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 
-#Example 1:
-#Calculating general model used in wrapper functions
-model1 <- MERFranger(Y = income, X = X_covar, random = "(1|district)",
-                    data = eusilcA_smp, mtry=5)
+# Example 1:
+# Calculating general model used in wrapper functions
+model1 <- MERFranger(
+  Y = income, X = X_covar, random = "(1|district)",
+  data = eusilcA_smp, mtry = 5
+)
 
-#Example 2:
-#Calculating a model using 2-level nested design
-model2 <- MERFranger(Y = income, X = X_covar, random = "(1|district)+(1|state:gender)",
-                    data = eusilcA_smp, mtry=3)
+# Example 2:
+# Calculating a model using 2-level nested design
+model2 <- MERFranger(
+  Y = income, X = X_covar, random = "(1|district)+(1|state:gender)",
+  data = eusilcA_smp, mtry = 3
+)
 
-#get individual predictions:
+# get individual predictions:
 ind_pred <- predict(model2, eusilcA_pop)
 }
 

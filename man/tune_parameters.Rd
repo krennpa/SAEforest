@@ -49,6 +49,8 @@ is shown. Defaults to \code{TRUE}.}
 \item{return_plot}{If set to \code{TRUE}, a list of the comparative plot produced by \pkg{ggplot2}
 is returned for further individual customization and processing.}
 
+\item{na.rm}{Logical. Whether missing values should be removed. Defaults to \code{TRUE}.}
+
 \item{...}{Additional parameters are directly passed to the random forest \link[ranger]{ranger} and/or
 the training function \link[caret]{train}. An important parameter is for instance \code{na.action = na.omit},
 if \code{NA}s are present. For further details on possible parameters and examples
@@ -67,26 +69,32 @@ for a forest), \code{mtry} (number of variables as split candidates at in each n
 }
 \examples{
 \dontrun{
-#Loading data
+# Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
 library(caret)
 
 income <- eusilcA_smp$eqIncome
-X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 
-#Specific characteristics of Cross-validation
-fitControl <- trainControl(method = "repeatedcv",
-                          number = 5,
-                          repeats = 1)
+# Specific characteristics of Cross-validation
+fitControl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 1
+)
 
 # Define a tuning-grid
-merfGrid <- expand.grid(num.trees = 50,
-                       mtry = c(3,7,9), min.node.size = 10, splitrule =
-                       "variance")
+merfGrid <- expand.grid(
+  num.trees = 50,
+  mtry = c(3, 7, 9), min.node.size = 10, splitrule =
+    "variance"
+)
 
-tune_parameters(Y = income, X = X_covar, data = eusilcA_smp, dName ="district",
-                trControl = fitControl, tuneGrid = merfGrid)
+tune_parameters(
+  Y = income, X = X_covar, data = eusilcA_smp, dName = "district",
+  trControl = fitControl, tuneGrid = merfGrid
+)
 }
 
 }

@@ -110,11 +110,11 @@
 #' Journal of the American Statistical Association, 78(383), 605–610.
 #'
 #' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
-#' Random Forests. Available from https://arxiv.org/pdf/2201.10933.
+#' Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
 #'
 #' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
 #' Mixed Effects Random Forests under Aggregated Census Data.
-#' Available from https://arxiv.org/pdf/2204.10736.
+#' Available from \url{https://arxiv.org/pdf/2204.10736}.
 #'
 #' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
 #' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
@@ -126,64 +126,99 @@
 #'
 #' @examples
 #' \dontrun{
-#' #Loading data
+#' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
 #'
 #' income <- eusilcA_smp$eqIncome
-#' X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#' #Example 1:
-#' #Calculating point estimates and discussing basic generic functions
+#' # Example 1:
+#' # Calculating point estimates and discussing basic generic functions
 #'
-#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'                            pop_data = eusilcA_pop)
+#' model1 <- SAEforest_model(
+#'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'   pop_data = eusilcA_pop
+#' )
 #'
-#'#example of SAEforest generic
-#'summary(model1)
+#' # example of SAEforest generic
+#' summary(model1)
 #'
-#'#Example 2:
-#'#Calculating point + MSE estimates for aggregated covariat data and passing
-#'#arguments to the random forest.
-#'#Note that B is unrealistically low to improve example speed
+#' # Example 2:
+#' # Calculating point + MSE estimates for aggregated covariat data and passing
+#' # arguments to the random forest.
+#' # Note that B is unrealistically low to improve example speed
 #'
-#' model2 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-#'                             smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
-#'                             MSE = "nonparametric", popnsize = popNsize,
-#'                             B = 5, mtry=5, num.trees = 100, aggData = TRUE)
+#' model2 <- SAEforest_model(
+#'   Y = income, X = X_covar, dName = "district",
+#'   smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
+#'   MSE = "nonparametric", popnsize = popNsize,
+#'   B = 5, mtry = 5, num.trees = 100, aggData = TRUE
+#' )
 #'
-#'#SAEforest generics:
-#'summarymodel2
-#'summarize_indicators(model2, MSE = TRUE, CV =TRUE)
+#' # SAEforest generics:
+#' summarymodel2
+#' summarize_indicators(model2, MSE = TRUE, CV = TRUE)
 #'
 #'
-#'#Example 3:
-#'#Calculating point + MSE estimates and passing arguments to the forest.
-#'#Two additional custom indicators and the threshold is defined as a custom function of Y.
-#'#Note that B is unrealistically low to improve example speed.
+#' # Example 3:
+#' # Calculating point + MSE estimates and passing arguments to the forest.
+#' # Two additional custom indicators and the threshold is defined as a custom function of Y.
+#' # Note that B is unrealistically low to improve example speed.
 #'
-#'model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'                           pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-#'                           B = 5, mtry=5,
-#'                           num.trees = 100, threshold = function(Y){0.5 * median(Y)},
-#'                           custom_indicator = list(my_max = function(Y, threshold){max(Y)},
-#'                           my_quant = function(Y, threshold){quantile(Y, probs=c(0.05,0.95))}),
-#'                           smearing = FALSE)
+#' model3 <- SAEforest_model(
+#'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
+#'   B = 5, mtry = 5,
+#'   num.trees = 100, threshold = function(Y) {
+#'     0.5 * median(Y)
+#'   },
+#'   custom_indicator = list(
+#'     my_max = function(Y, threshold) {
+#'       max(Y)
+#'     },
+#'     my_quant = function(Y, threshold) {
+#'       quantile(Y, probs = c(0.05, 0.95))
+#'     }
+#'   ),
+#'   smearing = FALSE
+#' )
 #'
-#'#example of SAEforest generic:
-#'summary(model3)
-#'summarize_indicators(model3, MSE = FALSE, CV =TRUE, indicator = c("Gini", "my_max", "my_quant.5%",
-#'"my_quant.95%"))
-#'}
+#' # example of SAEforest generic:
+#' summary(model3)
+#' summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c(
+#'   "Gini", "my_max", "my_quant.5%",
+#'   "my_quant.95%"
+#' ))
+#' }
 #'
 #' @export
 
-SAEforest_model <- function(Y, X, dName, smp_data, pop_data, MSE = "none", meanOnly = TRUE,
-                            aggData = FALSE, smearing = TRUE, popnsize = NULL,
-                            importance = "impurity", OOsample_obs = 25, ADDsamp_obs = 0,
-                            w_min = 3, B = 100, B_adj = 100, B_MC = 100, threshold = NULL,
-                            custom_indicator = NULL, initialRandomEffects = 0,
-                            ErrorTolerance = 0.0001, MaxIterations = 25, na.rm = TRUE, ...) {
+SAEforest_model <- function(Y,
+                            X,
+                            dName,
+                            smp_data,
+                            pop_data,
+                            MSE = "none",
+                            meanOnly = TRUE,
+                            aggData = FALSE,
+                            smearing = TRUE,
+                            popnsize = NULL,
+                            importance = "impurity",
+                            OOsample_obs = 25,
+                            ADDsamp_obs = 0,
+                            w_min = 3,
+                            B = 100,
+                            B_adj = 100,
+                            B_MC = 100,
+                            threshold = NULL,
+                            custom_indicator = NULL,
+                            initialRandomEffects = 0,
+                            ErrorTolerance = 0.0001,
+                            MaxIterations = 25,
+                            na.rm = TRUE,
+                            ...) {
+
   input_checks_model(
     Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
     MSE = MSE, meanOnly = meanOnly, aggData = aggData, smearing = smearing,
@@ -196,26 +231,58 @@ SAEforest_model <- function(Y, X, dName, smp_data, pop_data, MSE = "none", meanO
 
   out_call <- match.call()
 
+  # Point and MSE estimates for domain-level means ------------------------------------------
+
   if (meanOnly == TRUE || aggData == TRUE) {
     return_obj <- SAEforest_mean(
-      Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
-      MSE = MSE, aggData = aggData, popnsize = popnsize, OOsample_obs = OOsample_obs,
-      ADDsamp_obs = ADDsamp_obs, w_min = w_min, importance = importance,
-      initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-      MaxIterations = MaxIterations, B = B, B_adj = B_adj, na.rm = na.rm,
-      out_call = out_call, ...
+      Y = Y,
+      X = X,
+      dName = dName,
+      smp_data = smp_data,
+      pop_data = pop_data,
+      MSE = MSE,
+      aggData = aggData,
+      popnsize = popnsize,
+      OOsample_obs = OOsample_obs,
+      ADDsamp_obs = ADDsamp_obs,
+      w_min = w_min,
+      importance = importance,
+      initialRandomEffects = initialRandomEffects,
+      ErrorTolerance = ErrorTolerance,
+      MaxIterations = MaxIterations,
+      B = B,
+      B_adj = B_adj,
+      na.rm = na.rm,
+      out_call = out_call,
+      ...
     )
 
     return(return_obj)
   }
 
+  # Point and MSE estimates for domain-level nonlinear indicators and unit-level data -------
+
   if (meanOnly == FALSE) {
     return_obj <- SAEforest_nonLin(
-      Y = Y, X = X, dName = dName, smp_data = smp_data, pop_data = pop_data,
-      smearing = smearing, MSE = MSE, importance = importance,
-      initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-      MaxIterations = MaxIterations, B = B, B_adj = B_adj, B_MC = B_MC, threshold = threshold,
-      custom_indicator = custom_indicator, na.rm = na.rm, out_call = out_call, ...
+      Y = Y,
+      X = X,
+      dName = dName,
+      smp_data = smp_data,
+      pop_data = pop_data,
+      smearing = smearing,
+      MSE = MSE,
+      importance = importance,
+      initialRandomEffects = initialRandomEffects,
+      ErrorTolerance = ErrorTolerance,
+      MaxIterations = MaxIterations,
+      B = B,
+      B_adj = B_adj,
+      B_MC = B_MC,
+      threshold = threshold,
+      custom_indicator = custom_indicator,
+      na.rm = na.rm,
+      out_call = out_call,
+      ...
     )
 
     return(return_obj)

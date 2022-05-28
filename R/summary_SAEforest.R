@@ -13,26 +13,28 @@
 #' @seealso \code{\link{SAEforestObject}}
 #' @examples
 #' \dontrun{
-#'#Loading data
-#'data("eusilcA_pop")
-#'data("eusilcA_smp")
+#' # Loading data
+#' data("eusilcA_pop")
+#' data("eusilcA_smp")
 #'
-#'income <- eusilcA_smp$eqIncome
-#'X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' income <- eusilcA_smp$eqIncome
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#'#Example 1:
-#'#Calculating point estimates and discussing basic generic functions
+#' # Example 1:
+#' # Calculating point estimates and discussing basic generic functions
 #'
-#'model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
-#'                        smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+#' model1 <- SAEforest_mean(
+#'   Y = income, X = X_covar, dName = "district",
+#'   smp_data = eusilcA_smp, pop_data = eusilcA_pop
+#' )
 #'
-#'#SAEforest generics:
-#'summary(model1)
-#'}
+#' # SAEforest generics:
+#' summary(model1)
+#' }
 #' @export
 
 summary.SAEforest <- function(object, ...) {
-  class_error(object=object)
+  class_error(object = object)
 
   call_SAE <- object$MERFmodel$call
 
@@ -47,65 +49,73 @@ summary.SAEforest <- function(object, ...) {
   smp_size <- object$MERFmodel$data_specs$N_surv
   pop_size <- object$MERFmodel$data_specs$N_pop
 
-  if(inherits(object, "SAEforest_meanAGG")){
+  if (inherits(object, "SAEforest_meanAGG")) {
     pop_size <- NULL
   }
 
+  smp_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_smp)[, "Freq"])
+  pop_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_pop)[, "Freq"])
 
-  smp_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_smp)[,"Freq"])
-  pop_size_dom <- summary(as.data.frame(object$MERFmodel$data_specs$ni_pop)[,"Freq"])
+  sizedom_smp_pop <- rbind(
+    Sample_domains = smp_size_dom,
+    Population_domains = pop_size_dom
+  )
 
-  sizedom_smp_pop <- rbind(Sample_domains = smp_size_dom,
-                           Population_domains = pop_size_dom)
-
-  if(inherits(object, "SAEforest_meanAGG")){
+  if (inherits(object, "SAEforest_meanAGG")) {
     sizedom_smp_pop <- rbind(Sample_domains = smp_size_dom)
-}
+  }
 
-  # Information on Forest:
- forest_info<- data.frame(c(object$MERFmodel$Forest$treetype, object$MERFmodel$Forest$num.trees,object$MERFmodel$Forest$num.independent.variables,
-                   object$MERFmodel$Forest$mtry, object$MERFmodel$Forest$min.node.size, object$MERFmodel$Forest$importance.mode,
-                   object$MERFmodel$Forest$splitrule, round(object$MERFmodel$Forest$r.squared, digits = 5)))
+  # information on forest:
+  forest_info <- data.frame(c(
+    object$MERFmodel$Forest$treetype, object$MERFmodel$Forest$num.trees, object$MERFmodel$Forest$num.independent.variables,
+    object$MERFmodel$Forest$mtry, object$MERFmodel$Forest$min.node.size, object$MERFmodel$Forest$importance.mode,
+    object$MERFmodel$Forest$splitrule, round(object$MERFmodel$Forest$r.squared, digits = 5)
+  ))
 
- colnames(forest_info) <- NULL
- rownames(forest_info) <-c("Type:", "Number of trees:", "Number of independent variables:", "Mtry:",
-   "Minimal node size:", "Variable importance mode:", "Splitrule:", "Rsquared (OOB):")
+  colnames(forest_info) <- NULL
+  rownames(forest_info) <- c(
+    "Type:", "Number of trees:", "Number of independent variables:", "Mtry:",
+    "Minimal node size:", "Variable importance mode:", "Splitrule:", "Rsquared (OOB):"
+  )
 
-  # Information on LM:
- sum_lm <- summary(object$MERFmodel$EffectModel)
+  # information on LM:
+  sum_lm <- summary(object$MERFmodel$EffectModel)
 
   # ICC
- icc <- object$MERFmodel$RanEffSD^2/(object$MERFmodel$RanEffSD^2 + object$MERFmodel$ErrorSD^2)
+  icc <- object$MERFmodel$RanEffSD^2 / (object$MERFmodel$RanEffSD^2 + object$MERFmodel$ErrorSD^2)
 
-  # Information on Convergence:
- LogLik <- as.data.frame(t(object$MERFmodel$LogLik))
- rownames(LogLik) <- c("")
- colnames(LogLik) <- NULL
- iter <- object$MERFmodel$IterationsUsed
- maxIter <- object$MERFmodel$MaxIterations
- Tol <- object$MERFmodel$ErrorTolerance
+  # information on convergence:
+  LogLik <- as.data.frame(t(object$MERFmodel$LogLik))
+  rownames(LogLik) <- c("")
+  colnames(LogLik) <- NULL
+  iter <- object$MERFmodel$IterationsUsed
+  maxIter <- object$MERFmodel$MaxIterations
+  Tol <- object$MERFmodel$ErrorTolerance
 
-  sum_SAEforest <- list(call_SAE = call_SAE,
-                        dom_info = dom_info,
-                        smp_size = smp_size,
-                        pop_size = pop_size,
-                        sizedom_smp_pop = sizedom_smp_pop,
-                        forest_info = forest_info,
-                        sum_lm = sum_lm,
-                        icc = icc,
-                        LogLik = LogLik,
-                        iter = iter,
-                        maxIter = maxIter,
-                        Tol = Tol)
+  sum_SAEforest <- list(
+    call_SAE = call_SAE,
+    dom_info = dom_info,
+    smp_size = smp_size,
+    pop_size = pop_size,
+    sizedom_smp_pop = sizedom_smp_pop,
+    forest_info = forest_info,
+    sum_lm = sum_lm,
+    icc = icc,
+    LogLik = LogLik,
+    iter = iter,
+    maxIter = maxIter,
+    Tol = Tol
+  )
 
   class(sum_SAEforest) <- c("summary.SAEforest", "SAEforest")
   sum_SAEforest
 }
 
+# Generic print function for summary.SAEforest --------------------------------------------
 
 #' @export
 print.summary.SAEforest <- function(x, ...) {
-  class_error(object=x)
+  class_error(object = x)
   cat("________________________________________________________________\n")
   cat("Mixed Effects Random Forest for Small Area Estimation\n")
   cat("________________________________________________________________\n")
@@ -119,8 +129,8 @@ print.summary.SAEforest <- function(x, ...) {
   cat("\n")
   cat("Totals:\n")
   cat("Units in sample:", x$smp_size, "\n")
-  if(!is.null(x$pop_size)){
-  cat("Units in population:", x$pop_size, "\n")
+  if (!is.null(x$pop_size)) {
+    cat("Units in population:", x$pop_size, "\n")
   }
   cat("\n")
   print(x$sizedom_smp_pop)
@@ -137,9 +147,8 @@ print.summary.SAEforest <- function(x, ...) {
   cat("\n")
   cat("Convergence of MERF-algorithm: \n")
   cat("________________________________________________________________\n")
-  cat("Convergence achieved after", x$iter,"iterations.\nA maximum of", x$maxIter,"iterations used and tolerance set to:", x$Tol,"\n")
+  cat("Convergence achieved after", x$iter, "iterations.\nA maximum of", x$maxIter, "iterations used and tolerance set to:", x$Tol, "\n")
   cat("\n")
   cat("Monitored Log-Likelihood:")
   print(x$LogLik)
 }
-

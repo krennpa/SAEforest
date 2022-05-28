@@ -28,6 +28,7 @@
 #' is shown. Defaults to \code{TRUE}.
 #' @param return_plot If set to \code{TRUE}, a list of the comparative plot produced by \pkg{ggplot2}
 #' is returned for further individual customization and processing.
+#' @param na.rm Logical. Whether missing values should be removed. Defaults to \code{TRUE}.
 #' @param ... Additional parameters are directly passed to the random forest \link[ranger]{ranger} and/or
 #' the training function \link[caret]{train}. An important parameter is for instance \code{na.action = na.omit},
 #' if \code{NA}s are present. For further details on possible parameters and examples
@@ -38,93 +39,116 @@
 #'
 #' @examples
 #' \dontrun{
-#' #Loading data
+#' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
 #' library(caret)
 #'
 #' income <- eusilcA_smp$eqIncome
-#' X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 #'
-#'#Specific characteristics of Cross-validation
-#' fitControl <- trainControl(method = "repeatedcv",
-#'                           number = 5,
-#'                           repeats = 1)
+#' # Specific characteristics of Cross-validation
+#' fitControl <- trainControl(
+#'   method = "repeatedcv",
+#'   number = 5,
+#'   repeats = 1
+#' )
 #'
-#'# Define a tuning-grid
-#' merfGrid <- expand.grid(num.trees = 50,
-#'                        mtry = c(3,7,9), min.node.size = 10, splitrule =
-#'                        "variance")
+#' # Define a tuning-grid
+#' merfGrid <- expand.grid(
+#'   num.trees = 50,
+#'   mtry = c(3, 7, 9), min.node.size = 10, splitrule =
+#'     "variance"
+#' )
 #'
-#' tune_parameters(Y = income, X = X_covar, data = eusilcA_smp, dName ="district",
-#'                 trControl = fitControl, tuneGrid = merfGrid)
+#' tune_parameters(
+#'   Y = income, X = X_covar, data = eusilcA_smp, dName = "district",
+#'   trControl = fitControl, tuneGrid = merfGrid
+#' )
 #' }
 #'
 #' @export
 #' @import caret
 #' @importFrom ggplot2 theme_minimal ggplot
 
-tune_parameters <- function(Y, X, data, dName, trControl, tuneGrid,
-                             seed = 11235, gg_theme = theme_minimal(),
-                             plot_res =TRUE, return_plot = FALSE,na.rm=TRUE, ...){
+tune_parameters <- function(Y,
+                            X,
+                            data,
+                            dName,
+                            trControl,
+                            tuneGrid,
+                            seed = 11235,
+                            gg_theme = theme_minimal(),
+                            plot_res = TRUE,
+                            return_plot = FALSE,
+                            na.rm = TRUE,
+                            ...) {
+  input_checks_tune(
+    Y = Y, X = X, data = data, seed = seed, gg_theme = gg_theme,
+    plot_res = plot_res, return_plot = return_plot
+  )
 
-  input_checks_tune(Y = Y, X = X, data = data, seed = seed, gg_theme = gg_theme,
-                    plot_res = plot_res, return_plot = return_plot)
-
-  if(na.rm == TRUE){
+  if (na.rm == TRUE) {
     comp_smp <- complete.cases(data)
-    data <- data[comp_smp,]
+    data <- data[comp_smp, ]
     Y <- Y[comp_smp]
-    X <- X[comp_smp,]
+    X <- X[comp_smp, ]
   }
 
   MERF <- define_method(X = X, dName = dName, ...)
 
   set.seed(seed)
-  MERFtune <- caret::train(x = cbind(X, data[dName]),
-                           y = Y,
-                           method = MERF,
-                           trControl = trControl,
-                           tuneGrid = tuneGrid, ...)
+  MERFtune <- caret::train(
+    x = cbind(X, data[dName]),
+    y = Y,
+    method = MERF,
+    trControl = trControl,
+    tuneGrid = tuneGrid, ...
+  )
   print(MERFtune)
 
   paramPlot <- ggplot(MERFtune) + gg_theme
 
-  if(plot_res){
+  if (plot_res) {
     print(paramPlot)
   }
-  if(return_plot){
+  if (return_plot) {
     return(paramPlot)
   }
 }
 
 
-# Defining a custom MERF method
+# Defining a custom MERF method for caret framework ---------------------------------------
+define_method <- function(X, dName, ...) {
 
-define_method <- function(X, dName, ...){
+  random <- paste0(paste0("(1|", dName), ")")
+  colnames_in <- c("Y", colnames(X), dName)
+  m_example <- c(sqrt(dim(X)[2]), dim(X)[2])
 
-  random <- paste0(paste0("(1|",dName),")")
-  colnames_in <- c("Y",colnames(X),dName)
-  m_example <- c(sqrt(dim(X)[2]),dim(X)[2])
-
-  MERF <- list(type = "Regression",
-               library = NULL,
-               loop = NULL)
-  # Parameters to be tuned
-  tp <- data.frame(parameter = c("num.trees", "mtry", "min.node.size", "splitrule"),
-                   class = c("numeric","numeric","numeric", "character"),
-                   label = c("num.trees", "mtry", "min.node.size", "splitrule"))
+  MERF <- list(
+    type = "Regression",
+    library = NULL,
+    loop = NULL
+  )
+  # parameters to be tuned
+  tp <- data.frame(
+    parameter = c("num.trees", "mtry", "min.node.size", "splitrule"),
+    class = c("numeric", "numeric", "numeric", "character"),
+    label = c("num.trees", "mtry", "min.node.size", "splitrule")
+  )
 
   MERF$parameters <- tp
 
   # default grid
   MERFGrid <- function(x, y, len = NULL, search = "grid") {
-    if(search == "grid") {
-      out <- expand.grid(num.trees = c(500, 1000),
-                         mtry = m_example,
-                         min.node.size = 5, splitrule = "variance")
+    if (search == "grid") {
+      out <- expand.grid(
+        num.trees = c(500, 1000),
+        mtry = m_example,
+        min.node.size = 5, splitrule = "variance"
+      )
     } else {
-      stop('random search not yet implemented')
+      stop("random search not yet implemented")
     }
     out
   }
@@ -132,41 +156,31 @@ define_method <- function(X, dName, ...){
   MERF$grid <- MERFGrid
 
   MERFFit <- function(x, y, wts, param, lev, last, weights, classProbs, ...) {
-
-    dat <- as.data.frame(cbind(y,x))
+    dat <- as.data.frame(cbind(y, x))
     colnames(dat) <- colnames_in
 
-    MERFranger(X = x[,(2:dim(dat)[2]-1)],
-               Y = dat[,1],
-               num.trees = param$num.trees,
-               mtry = param$mtry,
-               min.node.size = param$min.node.size,
-               splitrule = param$splitrule,
-               random = random, data = dat,...)
+    MERFranger(
+      X = x[, (2:dim(dat)[2] - 1)],
+      Y = dat[, 1],
+      num.trees = param$num.trees,
+      mtry = param$mtry,
+      min.node.size = param$min.node.size,
+      splitrule = param$splitrule,
+      random = random, data = dat, ...
+    )
   }
   # append to list
   MERF$fit <- MERFFit
 
   MERFPred <- function(modelFit, newdata, preProc = NULL, submodels = NULL) {
-    predict.MERFmodel(modelFit, newdata)
+    predict.MERFranger(modelFit, newdata)
   }
 
   MERF$predict <- MERFPred
-
   MERF$prob <- 0
-
-  MERF$Sort <- function(x){x}
+  MERF$Sort <- function(x) {
+    x
+  }
 
   return(MERF)
 }
-
-
-
-
-
-
-
-
-
-
-

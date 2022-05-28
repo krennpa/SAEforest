@@ -1,6 +1,18 @@
-MSE_SAEforest_mean <- function(Y, X, dName, smp_data, mod, ADJsd, pop_data, B = 100,
-                               initialRandomEffects = 0, ErrorTolerance = 0.0001,
-                               MaxIterations = 25, ...) {
+# MSE bootstrap for means under unit-level covariate data ---------------------------------
+
+MSE_SAEforest_mean <- function(Y,
+                               X,
+                               dName,
+                               smp_data,
+                               mod,
+                               ADJsd,
+                               pop_data,
+                               B = 100,
+                               initialRandomEffects = 0,
+                               ErrorTolerance = 0.0001,
+                               MaxIterations = 25,
+                               ...) {
+
   rand_struc <- paste0(paste0("(1|", dName), ")")
   domains <- t(unique(pop_data[dName]))
   in_samp <- domains %in% t(unique(smp_data[dName]))
