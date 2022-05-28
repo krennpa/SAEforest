@@ -10,7 +10,8 @@ Description: Mixed Effects Random Forests (MERFs) are a data-driven,
     economic and inequality metrics and assess associated uncertainty.
     Emphasis lies on straightforward interpretation and visualization of results.
 License: GPL (>= 2)
-URL: https://github.com/krennpa/SAEforest
+URL: https://github.com/krennpa/SAEforest,
+    https://krennpa.github.io/SAEforest/
 Depends: 
     R (>= 4.1.0)
 Imports: 
