@@ -162,11 +162,9 @@ points for 0 and 1. Most informative pdp plots can be produced for continuous pr
 <span class="r-in"><span class="co"># Example 1:</span></span>
 <span class="r-in"><span class="co"># Calculating point estimates and discussing basic generic functions</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span></span>
-<span class="r-in">  Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
-<span class="r-in">  smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>, num.trees <span class="op">=</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
+<span class="r-in">                          smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>,</span>
+<span class="r-in">                          num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>

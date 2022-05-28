@@ -141,20 +141,17 @@ is returned for further individual customization and processing</p></dd>
 <span class="r-in"><span class="co"># Example 1:</span></span>
 <span class="r-in"><span class="co"># Calculating point estimates and discussing basic generic functions</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span></span>
-<span class="r-in">  Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
-<span class="r-in">  smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>, num.trees <span class="op">=</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
+<span class="r-in">                          smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>,</span>
+<span class="r-in">                          num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Load shape file</span></span>
 <span class="r-in"><span class="fu"><a href="load_shapeaustria.html">load_shapeaustria</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Create map plot for mean indicator - point and MSE estimates but no CV</span></span>
-<span class="r-in"><span class="fu">map_indicators</span><span class="op">(</span></span>
-<span class="r-in">  object <span class="op">=</span> <span class="va">model1</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  map_obj <span class="op">=</span> <span class="va">shape_austria_dis</span>, indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mean"</span><span class="op">)</span>,</span>
-<span class="r-in">  map_dom_id <span class="op">=</span> <span class="st">"PB"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">map_indicators</span><span class="op">(</span>object <span class="op">=</span> <span class="va">model1</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">FALSE</span>, map_obj <span class="op">=</span> <span class="va">shape_austria_dis</span>,</span>
+<span class="r-in">               indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mean"</span><span class="op">)</span>, map_dom_id <span class="op">=</span> <span class="st">"PB"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Create a suitable mapping table to use numerical identifiers of the shape</span></span>
 <span class="r-in"><span class="co"># file</span></span>
@@ -163,19 +160,15 @@ is returned for further individual customization and processing</p></dd>
 <span class="r-in"><span class="va">dom_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">shape_austria_dis</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">PB</span>, <span class="va">model1</span><span class="op">$</span><span class="va">Indicators</span><span class="op">$</span><span class="va">district</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Create the mapping table based on the order obtained above</span></span>
-<span class="r-in"><span class="va">map_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  pop_data_id <span class="op">=</span> <span class="va">model1</span><span class="op">$</span><span class="va">Indicators</span><span class="op">$</span><span class="va">district</span><span class="op">[</span><span class="va">dom_ord</span><span class="op">]</span>,</span>
-<span class="r-in">  shape_id <span class="op">=</span> <span class="va">shape_austria_dis</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">BKZ</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span class="va">map_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>pop_data_id <span class="op">=</span> <span class="va">model1</span><span class="op">$</span><span class="va">Indicators</span><span class="op">$</span><span class="va">district</span><span class="op">[</span><span class="va">dom_ord</span><span class="op">]</span>,</span>
+<span class="r-in">                      shape_id <span class="op">=</span> <span class="va">shape_austria_dis</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">BKZ</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Create map plot for mean indicator - using the numerical domain</span></span>
 <span class="r-in"><span class="co"># identifiers of the shape file. Additionally save the figure in as a list element.</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">map_obj</span> <span class="op">&lt;-</span> <span class="fu">map_indicators</span><span class="op">(</span></span>
-<span class="r-in">  object <span class="op">=</span> <span class="va">model1</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  map_obj <span class="op">=</span> <span class="va">shape_austria_dis</span>, indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mean"</span><span class="op">)</span>,</span>
-<span class="r-in">  map_dom_id <span class="op">=</span> <span class="st">"BKZ"</span>, map_tab <span class="op">=</span> <span class="va">map_tab</span>, return_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span class="va">map_obj</span> <span class="op">&lt;-</span> <span class="fu">map_indicators</span><span class="op">(</span>object <span class="op">=</span> <span class="va">model1</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span class="r-in">                          map_obj <span class="op">=</span> <span class="va">shape_austria_dis</span>, indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mean"</span><span class="op">)</span>,</span>
+<span class="r-in">                          map_dom_id <span class="op">=</span> <span class="st">"BKZ"</span>, map_tab <span class="op">=</span> <span class="va">map_tab</span>, return_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 </code></pre></div>

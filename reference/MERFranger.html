@@ -190,19 +190,18 @@ Random Forests. Available from <a href="https://arxiv.org/pdf/2201.10933" class=
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Example 1:</span></span>
 <span class="r-in"><span class="co"># Calculating general model used in wrapper functions</span></span>
-<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu">MERFranger</span><span class="op">(</span></span>
-<span class="r-in">  Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, random <span class="op">=</span> <span class="st">"(1|district)"</span>,</span>
-<span class="r-in">  data <span class="op">=</span> <span class="va">eusilcA_smp</span>, mtry <span class="op">=</span> <span class="fl">5</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu">MERFranger</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, random <span class="op">=</span> <span class="st">"(1|district)"</span>,</span>
+<span class="r-in">                     data <span class="op">=</span> <span class="va">eusilcA_smp</span>, mtry <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Example 2:</span></span>
 <span class="r-in"><span class="co"># Calculating a model using 2-level nested design</span></span>
-<span class="r-in"><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu">MERFranger</span><span class="op">(</span></span>
-<span class="r-in">  Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, random <span class="op">=</span> <span class="st">"(1|district)+(1|state:gender)"</span>,</span>
-<span class="r-in">  data <span class="op">=</span> <span class="va">eusilcA_smp</span>, mtry <span class="op">=</span> <span class="fl">3</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu">MERFranger</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, random <span class="op">=</span> <span class="st">"(1|district)+</span>
+<span class="r-in">                     (1|state:gender)"</span>, data <span class="op">=</span> <span class="va">eusilcA_smp</span>, mtry <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># get individual predictions:</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="va">ind_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="va">eusilcA_pop</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
