@@ -81,7 +81,7 @@ summary(model1)
 #> Minimal node size:                        5
 #> Variable importance mode:          impurity
 #> Splitrule:                         variance
-#> Rsquared (OOB):                     0.61787
+#> Rsquared (OOB):                     0.62976
 #> 
 #> Structural component of random effects:
 #> ________________________________________________________________
@@ -91,29 +91,27 @@ summary(model1)
 #>  Offset: forest_preds
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
-#>  39236.0  39247.1 -19616.0  39232.0     1943 
+#>  39193.1  39204.2 -19594.5  39189.1     1943 
 #> 
 #> Scaled residuals: 
 #>     Min      1Q  Median      3Q     Max 
-#> -3.2273 -0.5109 -0.0608  0.4389 11.7325 
+#> -2.9730 -0.5194 -0.0759  0.4448 11.8159 
 #> 
 #> Random effects:
 #>  Groups   Name        Variance Std.Dev.
-#>  district (Intercept) 13165471 3628    
-#>  Residual             30864372 5556    
+#>  district (Intercept) 11157235 3340    
+#>  Residual             30335770 5508    
 #> Number of obs: 1945, groups:  district, 70
 #> 
-#> ICC:  0.2990124 
+#> ICC:  0.2688944 
 #> 
 #> Convergence of MERF algorithm: 
 #> ________________________________________________________________
-#> Convergence achieved after 12 iterations.
+#> Convergence achieved after 4 iterations.
 #> A maximum of 25 iterations used and tolerance set to: 1e-04 
 #> 
-#> Monitored Log-Likelihood:                                                                       
-#>  0 -19541.26 -19569.8 -19587.44 -19607.75 -19597.36 -19604.47 -19608.63
-#>                                               
-#>  -19603.26 -19598.86 -19610.1 -19615.77 -19616
+#> Monitored Log-Likelihood:                                          
+#>  0 -19545.67 -19573.45 -19593.59 -19594.53
 ```
 
 I included some further features to inspect the model graphically. For

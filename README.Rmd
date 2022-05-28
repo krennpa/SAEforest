@@ -59,10 +59,6 @@ plot(model1, pdp_plot = F)
 
 We cannot only inspect the model graphically, but also map our indicators. Take a look at this example on Austrian pseudo-data for district-level mean income produced by the function `map_indicators`:
 ```{r , echo = FALSE, warning=FALSE, message=FALSE, results='hide', out.width = "75%"}
-library(rgdal)
-library(maptools)
-if (!require(gpclib)) install.packages("gpclib", type="source")
-gpclibPermit()
 data("eusilcA_pop")
 data("eusilcA_smp")
 
