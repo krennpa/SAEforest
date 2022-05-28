@@ -7,7 +7,7 @@
 #' population numbers:
 #' \describe{
 #' \item{district}{character; districts (94 levels).}
-#' \item{N_i}{numeric; population of district in 2006.}
+#' \item{N_i}{numeric; simulated population of district.}
 #' }
 #' @docType data
 "popNsize"

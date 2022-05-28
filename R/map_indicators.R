@@ -1,4 +1,4 @@
-#' Visualizes regional disaggregated estimates on a map
+#' Visualizes disaggregated estimates on a map
 #'
 #' Function \code{map_indicators} visualizes estimates from a
 #' \code{\link{SAEforestObject}} on a specified map. The function can be seen as a modified
@@ -6,10 +6,10 @@
 #'
 #' @param object An object of class \code{SAEforest}, containing estimates to be visualized.
 #' @param indicator Optional character vector specifying indicators to be mapped: (i)
-#' all calculated indicators ("all"); (ii) each default indicators name: "Mean",
+#' all calculated indicators ("all"); (ii) default indicators name: "Mean",
 #' "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 #' or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-#' If the \code{object} is estimated by \code{\link{SAEforest_model}},
+#' If the \code{object} is estimated wiht option \code{meanOnly = TRUE},
 #' indicator arguments are ignored and only "Mean" is visualized.
 #' @param MSE Logical. If \code{TRUE}, the MSE is also visualized.
 #' Defaults to \code{FALSE}.
@@ -34,7 +34,7 @@
 #' easily be obtained from this data frame via the package \pkg{ggplot2}. Defaults to \code{FALSE}.
 #' @param return_plot If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
 #' is returned for further individual customization and processing
-#' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.
+#' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.
 #'
 #' @return Creates required plots and if selected, a fortified data.frame and a list of plots.
 #'

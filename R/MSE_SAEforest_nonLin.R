@@ -73,7 +73,7 @@ MSE_SAEforest_nonLin <- function(Y,
   y_star_L <- Map(cbind, "y_star" = y_star_L, "thresh" = thresh_L)
 
   my_agg <- function(x) {
-    tapply(x[, 1], pop_data[["idD"]], calc_indicat, threshold = unique(x[, 2]), custom = custom_indicator)
+    tapply(x[, 1], pop_data[[dName]], calc_indicat, threshold = unique(x[, 2]), custom = custom_indicator)
   }
   tau_star <- sapply(y_star_L, my_agg, simplify = FALSE)
   comb <- function(x) {

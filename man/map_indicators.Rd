@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_indicators.R
 \name{map_indicators}
 \alias{map_indicators}
-\title{Visualizes regional disaggregated estimates on a map}
+\title{Visualizes disaggregated estimates on a map}
 \usage{
 map_indicators(
   object,
@@ -24,10 +24,10 @@ map_indicators(
 \item{object}{An object of class \code{SAEforest}, containing estimates to be visualized.}
 
 \item{indicator}{Optional character vector specifying indicators to be mapped: (i)
-all calculated indicators ("all"); (ii) each default indicators name: "Mean",
+all calculated indicators ("all"); (ii) default indicators name: "Mean",
 "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-If the \code{object} is estimated by \code{\link{SAEforest_model}},
+If the \code{object} is estimated wiht option \code{meanOnly = TRUE},
 indicator arguments are ignored and only "Mean" is visualized.}
 
 \item{MSE}{Logical. If \code{TRUE}, the MSE is also visualized.
@@ -63,7 +63,7 @@ easily be obtained from this data frame via the package \pkg{ggplot2}. Defaults 
 \item{return_plot}{If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
 is returned for further individual customization and processing}
 
-\item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.}
+\item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.}
 }
 \value{
 Creates required plots and if selected, a fortified data.frame and a list of plots.

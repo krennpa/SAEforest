@@ -1,40 +1,40 @@
 #' Main function for the estimation of domain-level (nonlinear) indicators with MERFs
 #'
 #' This function enables the use of Mixed Effects Random Forests (MERFs)
-#' for applications of Small Area Estimation (SAE). Unit-level survey-sample and
-#' auxiliary data on predictive covariates is required to produce reliable estimates of various
+#' for applications of Small Area Estimation (SAE). Unit-level survey data on a target and
+#' auxiliary covariates is required to produce reliable estimates of various
 #' disaggregated economic and inequality indicators. Option \code{meanOnly} saves computational
-#' itme for users that are only interested in the estimation of domain-specific means using
-#' unit-level and aggregated auxiliarry data. Predefined indicators include
-#' the mean, median, quantiles (10\%, 25\%, 75\% and 90\%), the head count ratio, the poverty gap,
-#' the Gini coefficient and the quintile share ratio. The MERF algorithm is an algorithmic procedure
+#' time for users that are only interested in the estimation of domain-specific means using
+#' unit-level and aggregated auxiliary data. Predefined indicators include
+#' the mean, median, quantiles (\code{10\%, 25\%, 75\% and 90\%}), the head count ratio, the poverty gap,
+#' the Gini-coefficient and the quintile share ratio. The MERF algorithm is an algorithmic procedure
 #' reminiscent of an EM-algorithm (see Details). Overall, the function serves as a coherent framework
-#' for the estimation of point estimates and if requested for assessing the uncertainty of the
-#' estimates. Methodological details are provided by Krennmair & Schmid (2022) and Krennmair et al. (2022b).
+#' for the estimation of point estimates and if requested uncertainty estimates for the indicators.
+#' Methodological details are found in Krennmair & Schmid (2022) and Krennmair et al. (2022b).
 #' The following examples showcase further potential applications.
 #'
 #' @param Y Continuous input value of target variable.
 #' @param X Matrix or data.frame of predictive covariates.
-#' @param dName Character specifying the name of domain identifier, for which random intercepts
+#' @param dName Character specifying the name of the domain identifier, for which random intercepts
 #' are modeled.
 #' @param smp_data data.frame of survey sample data including the specified elements of \code{Y} and
 #' \code{X}.
-#' @param pop_data data.frame of unit-level population or census level covariate data for
-#' covariates \code{X}. Please note that the column names of predictive covariates must match
-#' column names of \code{smp_data}. This holds especially for the name of the domain identifier.
+#' @param pop_data data.frame of unit-level population covariate data \code{X}. Please note that the
+#' column names of predictive covariates must match column names of \code{smp_data}. This holds especially
+#' for the name of the domain identifier.
 #' @param MSE Character input specifying the type of uncertainty estimates. Available options are:
 #' (i) "none" if only point estimates are requested,
-#' (ii) "nonparametric" following the MSE boostrap procedure proposed by Krennmair & Schmid (2022) and by Krennmair et al.
+#' (ii) "nonparametric" following the MSE bootstrap procedure proposed by Krennmair & Schmid (2022) or by Krennmair et al.
 #' (2022a) if \code{aggData = TRUE}.
 #' (iii) "wild" only for nonlinear indicators proposed by Krennmair et al. (2022b). Defaults to "none".
 #' @param importance Variable importance mode processed by the
-#' random forest from \pkg{ranger}. Must be 'none', 'impurity', 'impurity_corrected',
+#' random forest from \pkg{ranger}. Must be 'none', 'impurity', 'impurity_corrected' or
 #' 'permutation'. A concept of variable importance is needed for the production of
 #' generic plots \code{\link{plot}}. For the estimation of domain-level means under aggregated
 #' covariate  data, variable importance is needed to rank information in the
 #' process of finding suitable calibration weights (Krennmair et al., 2022b). For further information regarding
 #' measures of importance see \link[ranger]{ranger}.
-#' @param initialRandomEffects Numeric value or vector of initial estimate of random effects.
+#' @param initialRandomEffects Numeric value or vector of initial estimates of random effects.
 #' Defaults to 0.
 #' @param ErrorTolerance Numeric value to monitor the MERF algorithm's convergence. Defaults to 1e-04.
 #' @param MaxIterations Numeric value specifying the maximal amount of iterations for the
@@ -48,11 +48,11 @@
 #' in each node), or \code{num.trees} (number of trees). For further details on possible parameters
 #' see \link[ranger]{ranger} and the example below.
 #' @param threshold Set a custom threshold for indicators, such as the head count ratio. The threshold
-#' can be a known numeric value or function of \code{Y}. If the threshold is \code{NULL}, 60 \% of the
-#' median of \code{Y} is taken as threshold. Defaults to NULL.
+#' can be a known numeric value or function of \code{Y}. If the threshold is \code{NULL}, \code{60 \%} of the
+#' median of \code{Y} is taken as threshold. Defaults to \code{NULL}.
 #' @param custom_indicator A list of additional functions containing the indicators to be
 #' calculated. These functions must only depend on the target variable \code{Y} and optionally the
-#' \code{threshold}. Defaults to \code{NULL}
+#' \code{threshold}. Defaults to \code{NULL}.
 #' @param smearing Logical input indicating whether a smearing based approach or a Monte Carlo (MC) version for
 #' point estimates should be obtained to estimate (nonlinear) indicators. MC should be used if computational constraints prohibit a
 #' smearing approach. For theoretical details see Krennmair et al (2022b). Defaults to \code{TRUE}.
@@ -64,17 +64,17 @@
 #' only needed if \code{aggData = TRUE} and a MSE is requested. Please note that the name
 #' of the domain identifier must match the column name of \code{smp_data}.
 #' @param OOsample_obs Number of Out-of-sample observations taken from the closest area for potentially unsampled
-#' areas. Only needed if \code{aggData = TRUE} with default set to 25.
+#' areas. Only needed if \code{aggData = TRUE} with defaults to 25.
 #' @param ADDsamp_obs Number of Out-of-sample observations taken from the closest area if first iteration for the
-#' calculation of calibration weights fails. Only needed if \code{aggData = TRUE} with default set to 0.
+#' calculation of calibration weights fails. Only needed if \code{aggData = TRUE} with defaults to 0.
 #' @param w_min Minimal number of covariates from which informative weights are calculated.
 #' Only needed if \code{aggData = TRUE}. Defaults to 3.
 #' @param meanOnly Logical. Calculating domain-level means only. Defaults to \code{TRUE}.
 #'
 #' @return An object of class \code{SAEforest} includes point estimates for disaggregated indicators
 #' as well as information on the MERF-model. Optionally corresponding MSE estimates are returned.
-#' Several generic functions have methods for the returned object of class \code{SAEforest}. The saved
-#' For a full list and explanation of components and possibilities for objects of class \code{SAEforest},
+#' Several generic functions have methods for the returned object of class \code{SAEforest}. For a full
+#' list and explanation of components and possibilities for objects of class \code{SAEforest},
 #' see \code{\link{SAEforestObject}}.
 #'
 #' @details
@@ -86,7 +86,7 @@
 #' from the forest to be correct. Overall convergence of the algorithm is monitored by log-likelihood of a
 #' joint model of both components. For further details see Krennmair and Schmid (2022).
 #'
-#' Users that are particularly interested in the estimation of domain-level means save compuation
+#' Users that are particularly interested in the estimation of domain-level means save computation
 #' time setting \code{meanOnly = TRUE}. The MERF requires covariate micro-data. This function, however also
 #' allows for the use of aggregated covariate information, by setting \code{aggData = TRUE}. Aggregated
 #' covariate information is adaptively incorporated through calibration-weights based on empirical likelihood
@@ -131,7 +131,7 @@
 #' data("eusilcA_smp")
 #'
 #' income <- eusilcA_smp$eqIncome
-#' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
+#' X_covar <- eusilcA_smp[,-c(1, 16, 17, 18)]
 #'
 #' # Example 1:
 #' # Calculating point estimates and discussing basic generic functions
@@ -141,11 +141,11 @@
 #'   pop_data = eusilcA_pop
 #' )
 #'
-#' # example of SAEforest generic
+#' # SAEforest generics:
 #' summary(model1)
 #'
 #' # Example 2:
-#' # Calculating point + MSE estimates for aggregated covariat data and passing
+#' # Calculating point + MSE estimates for aggregated covariate data and passing
 #' # arguments to the random forest.
 #' # Note that B is unrealistically low to improve example speed
 #'
@@ -157,9 +157,8 @@
 #' )
 #'
 #' # SAEforest generics:
-#' summarymodel2
+#' summary(model2)
 #' summarize_indicators(model2, MSE = TRUE, CV = TRUE)
-#'
 #'
 #' # Example 3:
 #' # Calculating point + MSE estimates and passing arguments to the forest.
@@ -167,30 +166,17 @@
 #' # Note that B is unrealistically low to improve example speed.
 #'
 #' model3 <- SAEforest_model(
-#'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
-#'   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-#'   B = 5, mtry = 5,
-#'   num.trees = 100, threshold = function(Y) {
-#'     0.5 * median(Y)
-#'   },
-#'   custom_indicator = list(
-#'     my_max = function(Y, threshold) {
-#'       max(Y)
-#'     },
-#'     my_quant = function(Y, threshold) {
-#'       quantile(Y, probs = c(0.05, 0.95))
-#'     }
-#'   ),
-#'   smearing = FALSE
-#' )
+#'  Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'  pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric", B = 5, mtry = 5,
+#'  num.trees = 100, threshold = function(Y) {0.5 * median(Y)},
+#'  custom_indicator = list(my_max = function(Y, threshold){max(Y)},
+#'  mean40 = function(Y, threshold){mean(Y[Y<=quantile(Y,0.4)])}), smearing = FALSE)
 #'
-#' # example of SAEforest generic:
+#' # SAEforest generics:
 #' summary(model3)
 #' summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c(
-#'   "Gini", "my_max", "my_quant.5%",
-#'   "my_quant.95%"
-#' ))
-#' }
+#'   "Gini", "my_max", "mean40"))
+#'}
 #'
 #' @export
 

@@ -8,7 +8,7 @@ summarize_indicators(object, indicator = "all", MSE = FALSE, CV = FALSE)
 }
 \arguments{
 \item{object}{Object for which point and/or MSE estimates and/or
-calculated CV's are desired. The object must be of class \code{SAEforest}.}
+calculated CV's are requested. The object must be of class \code{SAEforest}.}
 
 \item{indicator}{Optional character vector specifying indicators to be mapped: (i)
 all calculated indicators ("all"); (ii) each default indicators name: "Mean",
@@ -58,17 +58,17 @@ X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 model1 <- SAEforest_model(
   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-  B = 2, mtry = 5, num.trees = 50, smearing = FALSE
+  B = 5, mtry = 5, num.trees = 50, smearing = FALSE
 )
 
-# Extract indicator and try generics:
-Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Hcr")
+# Extract indicator and show generics:
+Gini1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Gini")
 
-head(Hcr1)
-tail(Hcr1)
-as.data.frame(Hcr1)
-as.matrix(Hcr1)
-subset(Hcr1, district == "Wien")
+head(Gini1)
+tail(Gini1)
+as.data.frame(Gini1)
+as.matrix(Gini1)
+subset(Gini1, district == "Wien")
 }
 }
 \seealso{

@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# SAEforest
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The package \pkg{SAEforest} promotes the use of Mixed Effects Random Forests (MERFs) for applications of Small Area Estimation (SAE). The package effectively combines functions for the estimation of regionally disaggregated linear and nonlinear economic and inequality indicators using survey sample data. Estimated models increase the precision of direct estimates from survey data, combining unit-level and aggregated population level covariate information from census or register data. Apart from point estimates, MSE estimates for requested indicators can be easily obtained. The package provides procedures to facilitate the analysis of model performance of MERFs and visualizes predictive relations from covariates and variable importance. Additionally, users can summarize and map indicators and corresponding measures of uncertainty.
+
+## Installation
+
+You can install the development version of SAEforest from [GitHub](https://github.com/krennpa) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("krennpa/SAEforest")
+```
+
+## Example
+
+This is a basic example which demonstrates the functionality of this package:
+
+```{r example}
+library(SAEforest)
+
+data("eusilcA_pop")
+data("eusilcA_smp")
+
+income <- eusilcA_smp$eqIncome
+X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+
+#Example 1:
+#Calculating point estimates and discussing basic generic functions
+
+model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+                         smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+
+#SAEforest generics:
+summary(model1)
+```
+
+I included some further features to inspect the model graphically. For instance look at the following output from the generic function `plot`, which shows a so-called variable importance plot:
+```{r model1, echo = FALSE, out.width = "75%"}
+plot(model1, pdp_plot = F)
+```
+
+We cannot only inspect the model graphically, but also map our indicators. Take a look at this example on Austrian pseudo-data for district-level mean income produced by the function `map_indicators`:
+```{r , echo = FALSE, warning=FALSE, message=FALSE, results='hide', out.width = "75%"}
+library(rgdal)
+library(maptools)
+if (!require(gpclib)) install.packages("gpclib", type="source")
+gpclibPermit()
+data("eusilcA_pop")
+data("eusilcA_smp")
+
+income <- eusilcA_smp$eqIncome
+X_covar <- eusilcA_smp[,-c(1,16,17,18)]
+
+#Example 1:
+#Calculating point estimates and discussing basic generic functions
+
+model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+                       smp_data = eusilcA_smp, pop_data = eusilcA_pop, num.trees=200)
+
+# Load shape file
+load_shapeaustria()
+
+# Create map plot for mean indicator - point and MSE estimates but no CV
+map_indicators(object = model1, MSE = FALSE, CV = FALSE,
+         map_obj = shape_austria_dis, indicator = c("Mean"),
+         map_dom_id = "PB")
+```
+
+I hope you like this presentation and the package. If you are interested in model-based SAE you should definitely also check out package `emdi` <https://cran.r-project.org/web/packages/emdi/>.

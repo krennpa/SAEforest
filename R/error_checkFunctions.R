@@ -33,7 +33,7 @@ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, a
     stop("X must not contain the domain-level identifier. X must contain only covariate data used for the estimation of fixed effects part of the model.")
   }
 
-  if (dim(pop_data)[1] < dim(smp_data)[1]) {
+  if ((aggData == FALSE) && dim(pop_data)[1] < dim(smp_data)[1]) {
     stop("The population data set cannot have less observations than the sample data set.")
   }
 
@@ -77,7 +77,7 @@ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, a
   }
 
   if (!(inherits(aggData, "logical") && length(aggData) == 1)) {
-    stop("The option aggData is logical. Insert TRUE if you only have aggregated covariate census data. See also help(SAEforest_model)")
+    stop("The option aggData is logical. Insert TRUE if you only have aggregated covariate population data. See also help(SAEforest_model)")
   }
 
   if (!(inherits(meanOnly, "logical") && length(meanOnly) == 1)) {

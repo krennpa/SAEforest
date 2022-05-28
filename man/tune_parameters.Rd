@@ -31,8 +31,8 @@ tune_parameters(
 are modeled.}
 
 \item{trControl}{Control parameters passed to \link[caret]{train}. Most important
-parameters are \code{method} ("repeatedcv" for x-fold cross-validation), \code{number} (the number of folds) and
-\code{repeats} (the number of repetitions). For further details see \link[caret]{trainControl}
+parameters are \code{method} ("repeatedcv" for x-fold cross-validation), \code{number} (the number of folds)
+and \code{repeats} (the number of repetitions). For further details see \link[caret]{trainControl}
 and the example below.}
 
 \item{tuneGrid}{A data.frame with possible tuning values. The columns must have the same names as the
@@ -41,7 +41,7 @@ tuning parameters. For this tuning function the grid must comprise entries for t
 
 \item{seed}{Enabling reproducibility of for cross-validation and tuning. Defaults to \code{11235}.}
 
-\item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.}
+\item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.}
 
 \item{plot_res}{Optional logical. If \code{TRUE}, the plot with results of cross-validation and tuning
 is shown. Defaults to \code{TRUE}.}
@@ -52,14 +52,13 @@ is returned for further individual customization and processing.}
 \item{na.rm}{Logical. Whether missing values should be removed. Defaults to \code{TRUE}.}
 
 \item{...}{Additional parameters are directly passed to the random forest \link[ranger]{ranger} and/or
-the training function \link[caret]{train}. An important parameter is for instance \code{na.action = na.omit},
-if \code{NA}s are present. For further details on possible parameters and examples
+the training function \link[caret]{train}. For further details on possible parameters and examples
 see \link[ranger]{ranger} or \link[caret]{train}.}
 }
 \description{
 Function \code{tune_parameters} allows to tune parameters for the implemented MERF method. Essentially,
-this function can be understood as a modified wrapper for \link[caret]{train} from the package \pkg{caret}, treating
-MERFs as a custom method.
+this function can be understood as a modified wrapper for \link[caret]{train} from the package \pkg{caret},
+treating MERFs as a custom method.
 }
 \details{
 Tuning can be performed on the following four parameters: \code{num.trees} (the number of trees

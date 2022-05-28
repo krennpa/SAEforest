@@ -1,8 +1,8 @@
 #' Tuning and cross-validation of MERF parameters
 #'
 #' Function \code{tune_parameters} allows to tune parameters for the implemented MERF method. Essentially,
-#' this function can be understood as a modified wrapper for \link[caret]{train} from the package \pkg{caret}, treating
-#' MERFs as a custom method.
+#' this function can be understood as a modified wrapper for \link[caret]{train} from the package \pkg{caret},
+#' treating MERFs as a custom method.
 #'
 #' @details Tuning can be performed on the following four parameters: \code{num.trees} (the number of trees
 #' for a forest), \code{mtry} (number of variables as split candidates at in each node), \code{min.node.size}
@@ -16,22 +16,21 @@
 #' @param dName Character specifying the name of domain identifier, for which random intercepts
 #' are modeled.
 #' @param trControl Control parameters passed to \link[caret]{train}. Most important
-#' parameters are \code{method} ("repeatedcv" for x-fold cross-validation), \code{number} (the number of folds) and
-#' \code{repeats} (the number of repetitions). For further details see \link[caret]{trainControl}
+#' parameters are \code{method} ("repeatedcv" for x-fold cross-validation), \code{number} (the number of folds)
+#' and \code{repeats} (the number of repetitions). For further details see \link[caret]{trainControl}
 #' and the example below.
 #' @param tuneGrid A data.frame with possible tuning values. The columns must have the same names as the
 #' tuning parameters. For this tuning function the grid must comprise entries for the following parameters:
 #' \code{num.trees, mtry, min.node.size, splitrule}.
 #' @param seed Enabling reproducibility of for cross-validation and tuning. Defaults to \code{11235}.
-#' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Default is set to \code{theme_minimal}.
+#' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.
 #' @param plot_res Optional logical. If \code{TRUE}, the plot with results of cross-validation and tuning
 #' is shown. Defaults to \code{TRUE}.
 #' @param return_plot If set to \code{TRUE}, a list of the comparative plot produced by \pkg{ggplot2}
 #' is returned for further individual customization and processing.
 #' @param na.rm Logical. Whether missing values should be removed. Defaults to \code{TRUE}.
 #' @param ... Additional parameters are directly passed to the random forest \link[ranger]{ranger} and/or
-#' the training function \link[caret]{train}. An important parameter is for instance \code{na.action = na.omit},
-#' if \code{NA}s are present. For further details on possible parameters and examples
+#' the training function \link[caret]{train}. For further details on possible parameters and examples
 #' see \link[ranger]{ranger} or \link[caret]{train}.
 #'
 #' @seealso \code{\link{SAEforest}}, \code{\link{MERFranger}}, \code{\link[caret]{train}},

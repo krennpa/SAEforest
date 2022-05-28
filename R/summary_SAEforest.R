@@ -145,7 +145,7 @@ print.summary.SAEforest <- function(x, ...) {
   cat("\n")
   cat("ICC: ", x$icc, "\n")
   cat("\n")
-  cat("Convergence of MERF-algorithm: \n")
+  cat("Convergence of MERF algorithm: \n")
   cat("________________________________________________________________\n")
   cat("Convergence achieved after", x$iter, "iterations.\nA maximum of", x$maxIter, "iterations used and tolerance set to:", x$Tol, "\n")
   cat("\n")

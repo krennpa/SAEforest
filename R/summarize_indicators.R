@@ -5,7 +5,7 @@
 #' (CV) from a fitted \code{SAEforest} object.
 #'
 #' @param object Object for which point and/or MSE estimates and/or
-#' calculated CV's are desired. The object must be of class \code{SAEforest}.
+#' calculated CV's are requested. The object must be of class \code{SAEforest}.
 #' @param indicator Optional character vector specifying indicators to be mapped: (i)
 #' all calculated indicators ("all"); (ii) each default indicators name: "Mean",
 #' "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
@@ -47,17 +47,17 @@
 #' model1 <- SAEforest_model(
 #'   Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
 #'   pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "nonparametric",
-#'   B = 2, mtry = 5, num.trees = 50, smearing = FALSE
+#'   B = 5, mtry = 5, num.trees = 50, smearing = FALSE
 #' )
 #'
-#' # Extract indicator and try generics:
-#' Hcr1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Hcr")
+#' # Extract indicator and show generics:
+#' Gini1 <- summarize_indicators(model1, MSE = TRUE, CV = TRUE, indicator = "Gini")
 #'
-#' head(Hcr1)
-#' tail(Hcr1)
-#' as.data.frame(Hcr1)
-#' as.matrix(Hcr1)
-#' subset(Hcr1, district == "Wien")
+#' head(Gini1)
+#' tail(Gini1)
+#' as.data.frame(Gini1)
+#' as.matrix(Gini1)
+#' subset(Gini1, district == "Wien")
 #' }
 #' @export
 
@@ -69,7 +69,7 @@ summarize_indicators <- function(object,
 
   summarize_indicators_check(object = object, indicator = indicator, MSE = MSE, CV = CV)
 
-  if (indicator == "all" || indicator == "All") {
+  if (inherits(indicator, "all") || inherits(indicator, "All")) {
     indicator <- colnames(object$Indicators)[-1]
   }
 

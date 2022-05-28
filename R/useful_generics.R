@@ -1,7 +1,7 @@
 # Definition of some useful generics from lme4
 
 # Extract fixed effects of a SAEforest object ---------------------------------------------
-# Output correspondes to an object of class ranger
+# Output corresponds to an object of class ranger
 #' @export
 #' @method fixef SAEforest
 

@@ -12,7 +12,7 @@
 #' @param x An object of class \code{SAEforest} including a random forest model of class \code{\link[ranger]{ranger}}.
 #' @param num_features Number of features for which a partial dependence plot is required.
 #' @param col Parameter specifying the color of selected plots. The argument must be specified
-#' such that it can be processed by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+#' such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 #' color "darkgreen".
 #' @param fill Parameter specifying the fill of selected plots. The argument must be specified
 #' such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
@@ -21,14 +21,14 @@
 #' The argument must be a number in \code{[0,1]}.
 #' @param include_type Logical. If set to \code{TRUE}, the type of importance specified in the fitting process
 #' of the model is included in the vip plot. Defaults to \code{TRUE}.
-#' @param horizontal Logical. If set to \code{TRUE}, the importance scores are plot on the x-axis. If parameter is
+#' @param horizontal Logical. If set to \code{TRUE}, the importance scores appear on the x-axis. If parameter is
 #' set to \code{FALSE}, the importance scores are plot on the y-axis. Defaults to \code{TRUE}.
 #' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.
 #' @param lsize Parameter specifying the line size of pdp plots. The argument must be specified
-#' such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to 1.5.
+#' such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to 1.5.
 #' @param lty Parameter specifying the line size of pdp plots. The argument must be specified
-#' such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to "solid".
-#' @param grid_row Parameter specifying the amount of rows for the joint pdp plot. Default is set to 2
+#' such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to "solid".
+#' @param grid_row Parameter specifying the amount of rows for the joint pdp plot. Defaults to 2.
 #' @param out_list Logical. If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
 #' is returned for further individual customization and processing. Defaults to \code{FALSE}.
 #' @param pdp_plot Logical. If set to \code{TRUE}, partial dependence plots produced by \code{\link[pdp]{partial}}
@@ -40,11 +40,11 @@
 #' customization and exporting. See the following examples for details.
 #'
 #' @details For the production of importance plots, be sure to specify the parameter of
-#' \code{importance != 'none'} before producing estimates with functions \code{\link{SAEforest_model}}.
+#' \code{importance != 'none'} before producing estimates with function \code{\link{SAEforest_model}}.
 #'
 #' For pdp plots, note that covariates of type factor or character cannot be used for partial dependence
 #' plots. Dummy-variables can be used, however, their pdp plots are always lines connecting two effect
-#' points for 0 and 1. Most informative pdp plots can be produced for continuous covariates.
+#' points for 0 and 1. Most informative pdp plots can be produced for continuous predictors.
 #'
 #' @seealso \code{\link{SAEforestObject}}
 #'

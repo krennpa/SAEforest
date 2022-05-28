@@ -27,7 +27,7 @@
 \item{num_features}{Number of features for which a partial dependence plot is required.}
 
 \item{col}{Parameter specifying the color of selected plots. The argument must be specified
-such that it can be processed by \code{\link[ggplot2]{aes}}. Default is to a character name of the
+such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 color "darkgreen".}
 
 \item{fill}{Parameter specifying the fill of selected plots. The argument must be specified
@@ -40,18 +40,18 @@ The argument must be a number in \code{[0,1]}.}
 \item{include_type}{Logical. If set to \code{TRUE}, the type of importance specified in the fitting process
 of the model is included in the vip plot. Defaults to \code{TRUE}.}
 
-\item{horizontal}{Logical. If set to \code{TRUE}, the importance scores are plot on the x-axis. If parameter is
+\item{horizontal}{Logical. If set to \code{TRUE}, the importance scores appear on the x-axis. If parameter is
 set to \code{FALSE}, the importance scores are plot on the y-axis. Defaults to \code{TRUE}.}
 
 \item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.}
 
 \item{lsize}{Parameter specifying the line size of pdp plots. The argument must be specified
-such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to 1.5.}
+such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to 1.5.}
 
 \item{lty}{Parameter specifying the line size of pdp plots. The argument must be specified
-such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to "solid".}
+such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to "solid".}
 
-\item{grid_row}{Parameter specifying the amount of rows for the joint pdp plot. Default is set to 2}
+\item{grid_row}{Parameter specifying the amount of rows for the joint pdp plot. Defaults to 2.}
 
 \item{out_list}{Logical. If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
 is returned for further individual customization and processing. Defaults to \code{FALSE}.}
@@ -78,11 +78,11 @@ the package \pkg{pdp}. The plot-engine for both plots is \pkg{ggplot2}.
 }
 \details{
 For the production of importance plots, be sure to specify the parameter of
-\code{importance != 'none'} before producing estimates with functions \code{\link{SAEforest_model}}.
+\code{importance != 'none'} before producing estimates with function \code{\link{SAEforest_model}}.
 
 For pdp plots, note that covariates of type factor or character cannot be used for partial dependence
 plots. Dummy-variables can be used, however, their pdp plots are always lines connecting two effect
-points for 0 and 1. Most informative pdp plots can be produced for continuous covariates.
+points for 0 and 1. Most informative pdp plots can be produced for continuous predictors.
 }
 \examples{
 \dontrun{

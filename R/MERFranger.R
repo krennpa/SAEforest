@@ -3,9 +3,8 @@
 #' This function enables the use of Mixed Effects Random Forests (MERFs) by effectively
 #' combining a random forest from \pkg{ranger} with a model capturing random effects from
 #' \pkg{lme4}. The MERF algorithm is an algorithmic procedure reminiscent of an EM-algorithm
-#' (see Details). The function is the base-function for the two wrapping functions
-#' (\code{\link{SAEforest_model}}
-#' and should not be directly used by the reguluar user. Recommended exceptions are applications exceeding
+#' (see Details). The function is the base-function for the wrapping function (\code{\link{SAEforest_model}}
+#' and should not be directly used by the ordinary user. Recommended exceptions are applications exceeding
 #' the scope of existing wrapper functions or further research. The function \code{MERFranger}
 #' allows to model complex patterns of structural relations (see Examples). The function returns
 #' an object of class \code{MERFranger}, which can be used to produce unit-level predictions. In contrast to
@@ -14,7 +13,7 @@
 #' @param Y Continuous input value of target variable.
 #' @param X Matrix of predictive covariates.
 #' @param random Specification of random effects terms following the syntax of \link[lme4]{lmer}.
-#' Random-effect terms are specified by vertical bars (|) separating expressions for design matrices
+#' Random effect terms are specified by vertical bars \code{(|)} separating expressions for design matrices
 #' from grouping factors. For further details see \link[lme4]{lmer} and the example below.
 #' @param data data.frame of sample data including the specified elements of \code{Y} and
 #' \code{X}.
@@ -32,7 +31,7 @@
 #' in each node), or \code{num.trees} (number of trees). For further details on possible parameters
 #' see \link[ranger]{ranger} and the example below.
 #'
-#' @return Object of class MERFranger includes the following elements:
+#' @return An object of class MERFranger includes the following elements:
 #'
 #' \item{\code{Forest}}{A random forest of class \link[ranger]{ranger} modelling fixed effects
 #' of the model.}
@@ -41,7 +40,7 @@
 #' \item{\code{RandomEffects}}{List element containing the values of random intercepts from \code{EffectModel}.}
 #' \item{\code{RanEffSD}}{Numeric value of the standard deviation of random intercepts.}
 #' \item{\code{ErrorSD}}{Numeric value of standard devition of unit-level errors.}
-#' \item{\code{VarianceCovariance}}{VarCor matrix from \code{EffectModel}.}
+#' \item{\code{VarianceCovariance}}{VarCorr matrix from \code{EffectModel}.}
 #' \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
 #' \item{\code{IterationsUsed}}{Numeric number of interatirons used until covergence of the MERF algorithm.}
 #' \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
@@ -57,8 +56,8 @@
 #' The MERF algorithm iteratively optimizes two separate steps: a) the random forest
 #' function, assuming the random effects term to be correct and b) estimates the random
 #' effects part, assuming the OOB-predictions from the forest to be correct. Overall convergence
-#' of the algorithm is monitored by log-likelihood of a joint model of both components. For
-#' further details see Krennmair and Schmid or Hajem et. al. (2014).
+#' of the algorithm is monitored by the log-likelihood of a joint model of both components. For
+#' further details see Krennmair & Schmid (2022) or Hajem et al. (2014).
 #'
 #' Note that the \code{MERFranger} object is a composition of elements from a random forest of class
 #' \code{ranger} and a random effects model of class \code{\link[lme4]{merMod}}. Thus, all generic functions are
@@ -66,9 +65,11 @@
 #' and \code{\link[lme4]{lmer}} as well as the examples below.
 #'
 #' @references
-#' Krennmair, P. and Schmid, T. (202X). WP 1
+#' Hajjem, A., Bellavance, F., & Larocque, D. (2014). Mixed-Effects Random Forest for Clustered
+#' Data. Journal of Statistical Computation and Simulation, 84 (6), 1313–1328.
 #'
-#' Hajjem et al. 2014. MERF paper
+#' Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
+#' Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
 #'
 #' @seealso \code{\link{SAEforest}}, \code{\link[ranger]{ranger}}, \code{\link[lme4]{lmer}},
 #' \code{\link{SAEforest_model}}
