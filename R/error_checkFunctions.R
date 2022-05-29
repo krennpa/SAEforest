@@ -205,8 +205,8 @@ summarize_indicators_check <- function(object, indicator, MSE, CV) {
   if (!(inherits(CV, "logical") && length(CV) == 1)) {
     stop("CV must be a logical value. Set CV to TRUE or FALSE.")
   }
-  if ((inherits(object, "SAEforest_mean") || inherits(object, "SAEforest_meanAGG")) && (indicator != "Mean" && indicator != "all" &&
-    indicator != "All")) {
+  if ((inherits(object, "SAEforest_mean") || inherits(object, "SAEforest_meanAGG")) && !inherits(indicator, "Mean") && (!inherits(indicator, "all") ||
+     !inherits(indicator, "All"))) {
     warning('For objects of class SAEforest_mean or SAEforest_meanAGG, only results for the Indicator "Mean" are reported')
   }
   if (inherits(object, "SAEforest_nonLin")) {
