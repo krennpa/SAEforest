@@ -33,7 +33,7 @@
 #' map data as well as the chosen indicators is returned. Customized maps can
 #' easily be obtained from this data frame via the package \pkg{ggplot2}. Defaults to \code{FALSE}.
 #' @param return_plot If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
-#' is returned for further individual customization and processing
+#' is returned for further individual customization and processing.
 #' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.
 #'
 #' @return Creates required plots and if selected, a fortified data.frame and a list of plots.

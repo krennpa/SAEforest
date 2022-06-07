@@ -19,7 +19,7 @@ identifier and additional columns are the MSE estimates for indicators of intere
 \code{\link{SAEforest_model}} only report MSE values for the "Mean".}
 \item{\code{NrCovar}}{Only if means under aggregated covariate information are estimated, i.e.
 \code{\link{SAEforest_model}} with option \code{aggData = TRUE}. A list containing variable names of
-covariates used for the calculation of needed calibration weights for point estimates. see (REF) for
+covariates used for the calculation of needed calibration weights for point estimates. See Krennmair et al. (2022a) for
 methodological details an explanations.}
 
 Details on object of \code{MERFmodel}:
@@ -33,7 +33,7 @@ structural components of MERFs and modeling random components.}
 \item{\code{ErrorSD}}{Numeric value of standard devition of unit-level errors.}
 \item{\code{VarianceCovariance}}{VarCorr matrix from \code{EffectModel}.}
 \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
-\item{\code{IterationsUsed}}{Numeric number of interatirons used until covergence of the MERF algorithm.}
+\item{\code{IterationsUsed}}{Numeric number of iteratirons used until covergence of the MERF algorithm.}
 \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
@@ -49,7 +49,7 @@ out-of-sample areas.}
 An object of class \code{SAEforest} always includes point estimates of regionally disaggregated economic
 and inequality indicators and a \code{MERFmodel} element including information on the model fit for fixed
 effects as well as random effects. Optionally an \code{SAEforestObject} includes corresponding MSE estimates.
-In the case of mean estimates and aggregated covariate information, the \code{SAEforestObject} object additionally
+In the case of mean estimates and aggregated covariate information, the \code{SAEforestObject} additionally
 includes an element, capturing the number of variables used in the weighting process from aggregated
 covariate information. For an object of class \code{SAEforestObject}, the following generic functions are applicable:
 \code{\link{print}}, \code{\link{plot}}, \code{\link{summary}} and \code{\link{summarize_indicators}}.

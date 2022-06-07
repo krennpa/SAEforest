@@ -15,12 +15,12 @@
 #' such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 #' color "darkgreen".
 #' @param fill Parameter specifying the fill of selected plots. The argument must be specified
-#' such that it can be process by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
+#' such that it can be processed by \code{\link[ggplot2]{aes}}. Defaults to a character name of the
 #' color "darkgreen".
-#' @param alpha Parameter specifying the transparency of \code{fill} for vip plots.
+#' @param alpha Parameter specifying the transparency of \code{fill} for \code{\link[vip]{vip}} plots.
 #' The argument must be a number in \code{[0,1]}.
 #' @param include_type Logical. If set to \code{TRUE}, the type of importance specified in the fitting process
-#' of the model is included in the vip plot. Defaults to \code{TRUE}.
+#' of the model is included in the \code{\link[vip]{vip}} plot. Defaults to \code{TRUE}.
 #' @param horizontal Logical. If set to \code{TRUE}, the importance scores appear on the x-axis. If parameter is
 #' set to \code{FALSE}, the importance scores are plot on the y-axis. Defaults to \code{TRUE}.
 #' @param gg_theme Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.

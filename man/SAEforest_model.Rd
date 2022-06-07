@@ -62,7 +62,7 @@ point estimates should be obtained to estimate (nonlinear) indicators. MC should
 smearing approach. For theoretical details see Krennmair et al (2022b). Defaults to \code{TRUE}.}
 
 \item{popnsize}{data.frame, comprising information of population size of domains.
-only needed if \code{aggData = TRUE} and a MSE is requested. Please note that the name
+Only needed if \code{aggData = TRUE} and a MSE is requested. Please note that the name
 of the domain identifier must match the column name of \code{smp_data}.}
 
 \item{importance}{Variable importance mode processed by the
@@ -73,10 +73,10 @@ covariate  data, variable importance is needed to rank information in the
 process of finding suitable calibration weights (Krennmair et al., 2022b). For further information regarding
 measures of importance see \link[ranger]{ranger}.}
 
-\item{OOsample_obs}{Number of Out-of-sample observations taken from the closest area for potentially unsampled
+\item{OOsample_obs}{Number of out-of-sample observations taken from the closest area for potentially unsampled
 areas. Only needed if \code{aggData = TRUE} with defaults to 25.}
 
-\item{ADDsamp_obs}{Number of Out-of-sample observations taken from the closest area if first iteration for the
+\item{ADDsamp_obs}{Number of out-of-sample observations taken from the closest area if first iteration for the
 calculation of calibration weights fails. Only needed if \code{aggData = TRUE} with defaults to 0.}
 
 \item{w_min}{Minimal number of covariates from which informative weights are calculated.
@@ -143,8 +143,8 @@ random effects term to be correct and b) estimates the random effects part, assu
 from the forest to be correct. Overall convergence of the algorithm is monitored by log-likelihood of a
 joint model of both components. For further details see Krennmair and Schmid (2022).
 
-Users that are particularly interested in the estimation of domain-level means save computation
-time setting \code{meanOnly = TRUE}. The MERF requires covariate micro-data. This function, however also
+Users that are only interested in the estimation of domain-level means should set \code{meanOnly = TRUE}.
+The MERF requires covariate micro-data. This function, however also
 allows for the use of aggregated covariate information, by setting \code{aggData = TRUE}. Aggregated
 covariate information is adaptively incorporated through calibration-weights based on empirical likelihood
 for the estimation of area-level means. See methodological details in Krennmair et al. (2022a)

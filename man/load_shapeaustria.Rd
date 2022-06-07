@@ -7,7 +7,7 @@
 load_shapeaustria()
 }
 \value{
-A shape file of class \code{SpatialPolygonsDataFrame}.
+A shape file of class \code{\link[sp]{SpatialPolygonsDataFrame}}.
 }
 \description{
 The function simplifies the loading of the shape file for Austrian districts.

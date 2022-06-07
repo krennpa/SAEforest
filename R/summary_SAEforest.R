@@ -2,10 +2,10 @@
 #'
 #' Shows additional information about the data, the SAE model and its components.
 #' Information is extracted from a \code{SAEforest} object. The returned object
-#' is suitable for printing with the \code{print}.
+#' is suitable for printing with \code{print}.
 
 #' @param object An object of class \code{SAEforest} representing point
-#' and MSE estimates. Objects differ depending on the estimation method
+#' and MSE estimates. Objects differ depending on the estimation method.
 #' @param ... Optional additional inputs that are ignored for this method.
 #'
 #' @return An object of class \code{summary.SAEforest} including information about the sample

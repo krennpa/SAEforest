@@ -61,7 +61,7 @@ map data as well as the chosen indicators is returned. Customized maps can
 easily be obtained from this data frame via the package \pkg{ggplot2}. Defaults to \code{FALSE}.}
 
 \item{return_plot}{If set to \code{TRUE}, a list of individual plots produced by \pkg{ggplot2}
-is returned for further individual customization and processing}
+is returned for further individual customization and processing.}
 
 \item{gg_theme}{Specify a predefined theme from \pkg{ggplot2}. Defaults to \code{theme_minimal}.}
 }
