@@ -142,7 +142,7 @@ point estimates should be obtained to estimate (nonlinear) indicators. MC should
 smearing approach. For theoretical details see Krennmair et al (2022b). Defaults to <code>TRUE</code>.</p></dd>
 <dt>popnsize</dt>
 <dd><p>data.frame, comprising information of population size of domains.
-only needed if <code>aggData = TRUE</code> and a MSE is requested. Please note that the name
+Only needed if <code>aggData = TRUE</code> and a MSE is requested. Please note that the name
 of the domain identifier must match the column name of <code>smp_data</code>.</p></dd>
 <dt>importance</dt>
 <dd><p>Variable importance mode processed by the
@@ -153,10 +153,10 @@ covariate  data, variable importance is needed to rank information in the
 process of finding suitable calibration weights (Krennmair et al., 2022b). For further information regarding
 measures of importance see <a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a>.</p></dd>
 <dt>OOsample_obs</dt>
-<dd><p>Number of Out-of-sample observations taken from the closest area for potentially unsampled
+<dd><p>Number of out-of-sample observations taken from the closest area for potentially unsampled
 areas. Only needed if <code>aggData = TRUE</code> with defaults to 25.</p></dd>
 <dt>ADDsamp_obs</dt>
-<dd><p>Number of Out-of-sample observations taken from the closest area if first iteration for the
+<dd><p>Number of out-of-sample observations taken from the closest area if first iteration for the
 calculation of calibration weights fails. Only needed if <code>aggData = TRUE</code> with defaults to 0.</p></dd>
 <dt>w_min</dt>
 <dd><p>Minimal number of covariates from which informative weights are calculated.
@@ -209,8 +209,8 @@ and robustness properties) with the ability to model hierarchical dependencies.<
 random effects term to be correct and b) estimates the random effects part, assuming the OOB-predictions
 from the forest to be correct. Overall convergence of the algorithm is monitored by log-likelihood of a
 joint model of both components. For further details see Krennmair and Schmid (2022).</p>
-<p>Users that are particularly interested in the estimation of domain-level means save computation
-time setting <code>meanOnly = TRUE</code>. The MERF requires covariate micro-data. This function, however also
+<p>Users that are only interested in the estimation of domain-level means should set <code>meanOnly = TRUE</code>.
+The MERF requires covariate micro-data. This function, however also
 allows for the use of aggregated covariate information, by setting <code>aggData = TRUE</code>. Aggregated
 covariate information is adaptively incorporated through calibration-weights based on empirical likelihood
 for the estimation of area-level means. See methodological details in Krennmair et al. (2022a)</p>
