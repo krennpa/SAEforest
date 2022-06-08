@@ -46,7 +46,7 @@ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, a
     stop("The survey data or the population data contain missing values. Please set na.rm = TRUE or consider imputation methods handling missing values in your data.")
   }
 
-  if (!all(unique(as.character(smp_data[[dName]])) %in%
+  if (!all(unique(as.character(na.omit(smp_data[[dName]]))) %in%
     unique(as.character(pop_data[[dName]])))) {
     stop("The survey sample data contains domains that are not contained in the population data.")
   }

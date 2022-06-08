@@ -214,6 +214,10 @@ SAEforest_model <- function(Y,
 
   # Point and MSE estimates for domain-level means ------------------------------------------
 
+  smp_data <- as.data.frame(smp_data)
+  pop_data <- as.data.frame(pop_data)
+
+
   if (meanOnly == TRUE || aggData == TRUE) {
     return_obj <- SAEforest_mean(
       Y = Y,
