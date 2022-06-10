@@ -29,7 +29,7 @@ SAEforest_mean <- function(Y,
       smp_data <- smp_data[comp_smp, ]
       Y <- Y[comp_smp]
       X <- X[comp_smp, ]
-      pop_data <- pop_data[complete.cases(pop_data[,colnames(X)]), ]
+      pop_data <- pop_data[complete.cases(pop_data[,c(colnames(X),dName)]), ]
     }
 
     # make domain variable to character and sort data-sets
@@ -119,7 +119,7 @@ SAEforest_mean <- function(Y,
       smp_data <- smp_data[comp_smp, ]
       Y <- Y[comp_smp]
       X <- X[comp_smp, ]
-      pop_data <- pop_data[complete.cases(pop_data), ]
+      pop_data <- pop_data[complete.cases(pop_data[,c(colnames(X),dName)]), ]
     }
 
     # make domain variable to character and sort data-sets
