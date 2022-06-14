@@ -98,6 +98,7 @@ tune_parameters <- function(Y,
     tuneGrid = tuneGrid, ...
   )
   print(MERFtune)
+  return(MERFtune)
 
   paramPlot <- ggplot(MERFtune) + gg_theme
 
@@ -124,9 +125,9 @@ define_method <- function(X, dName, ...) {
   )
   # parameters to be tuned
   tp <- data.frame(
-    parameter = c("num.trees", "mtry", "min.node.size", "splitrule"),
-    class = c("numeric", "numeric", "numeric", "character"),
-    label = c("num.trees", "mtry", "min.node.size", "splitrule")
+    parameter = c("num.trees", "mtry", "min.node.size", "splitrule", "minprop", "alpha"),
+    class = c("numeric", "numeric", "numeric", "character", "numeric", "numeric"),
+    label = c("num.trees", "mtry", "min.node.size", "splitrule", "minprop", "alpha")
   )
 
   MERF$parameters <- tp
@@ -158,7 +159,10 @@ define_method <- function(X, dName, ...) {
       mtry = param$mtry,
       min.node.size = param$min.node.size,
       splitrule = param$splitrule,
-      random = random, data = dat, ...
+      random = random, data = dat,
+      minprop = param$minprop,
+      alpha = param$alpha,
+      ...
     )
   }
   # append to list
