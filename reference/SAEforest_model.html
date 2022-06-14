@@ -113,37 +113,57 @@ The following examples showcase further potential applications.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>Y</dt>
 <dd><p>Continuous input value of target variable.</p></dd>
+
+
 <dt>X</dt>
 <dd><p>Matrix or data.frame of predictive covariates.</p></dd>
+
+
 <dt>dName</dt>
 <dd><p>Character specifying the name of the domain identifier, for which random intercepts
 are modeled.</p></dd>
+
+
 <dt>smp_data</dt>
 <dd><p>data.frame of survey sample data including the specified elements of <code>Y</code> and
 <code>X</code>.</p></dd>
+
+
 <dt>pop_data</dt>
 <dd><p>data.frame of unit-level population covariate data <code>X</code>. Please note that the
 column names of predictive covariates must match column names of <code>smp_data</code>. This holds especially
 for the name of the domain identifier.</p></dd>
+
+
 <dt>MSE</dt>
 <dd><p>Character input specifying the type of uncertainty estimates. Available options are:
 (i) "none" if only point estimates are requested,
 (ii) "nonparametric" following the MSE bootstrap procedure proposed by Krennmair &amp; Schmid (2022) or by Krennmair et al.
 (2022a) if <code>aggData = TRUE</code>.
 (iii) "wild" only for nonlinear indicators proposed by Krennmair et al. (2022b). Defaults to "none".</p></dd>
+
+
 <dt>meanOnly</dt>
 <dd><p>Logical. Calculating domain-level means only. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>aggData</dt>
 <dd><p>Logical input indicating whether aggregated covariate information or unit-level covariate information
 is used for domain-level means. Defaults to <code>FALSE</code>, assuming unit-level covariate data.</p></dd>
+
+
 <dt>smearing</dt>
 <dd><p>Logical input indicating whether a smearing based approach or a Monte Carlo (MC) version for
 point estimates should be obtained to estimate (nonlinear) indicators. MC should be used if computational constraints prohibit a
 smearing approach. For theoretical details see Krennmair et al (2022b). Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>popnsize</dt>
 <dd><p>data.frame, comprising information of population size of domains.
 Only needed if <code>aggData = TRUE</code> and a MSE is requested. Please note that the name
 of the domain identifier must match the column name of <code>smp_data</code>.</p></dd>
+
+
 <dt>importance</dt>
 <dd><p>Variable importance mode processed by the
 random forest from <span class="pkg">ranger</span>. Must be 'none', 'impurity', 'impurity_corrected' or
@@ -152,50 +172,79 @@ generic plots <code><a href="https://rdrr.io/r/graphics/plot.default.html" class
 covariate  data, variable importance is needed to rank information in the
 process of finding suitable calibration weights (Krennmair et al., 2022b). For further information regarding
 measures of importance see <a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a>.</p></dd>
+
+
 <dt>OOsample_obs</dt>
 <dd><p>Number of out-of-sample observations taken from the closest area for potentially unsampled
 areas. Only needed if <code>aggData = TRUE</code> with defaults to 25.</p></dd>
+
+
 <dt>ADDsamp_obs</dt>
 <dd><p>Number of out-of-sample observations taken from the closest area if first iteration for the
 calculation of calibration weights fails. Only needed if <code>aggData = TRUE</code> with defaults to 0.</p></dd>
+
+
 <dt>w_min</dt>
 <dd><p>Minimal number of covariates from which informative weights are calculated.
 Only needed if <code>aggData = TRUE</code>. Defaults to 3.</p></dd>
+
+
 <dt>B</dt>
 <dd><p>Number of bootstrap replications for MSE estimation procedures. Defaults to 100.</p></dd>
+
+
 <dt>B_adj</dt>
 <dd><p>Number of bootstrap replications for the adjustment of residual variance proposed
 by Mendez and Lohr (2001). Defaults to 100.</p></dd>
+
+
 <dt>B_MC</dt>
 <dd><p>Number of bootstrap populations in the MC version for point estimates of (nonlinear) indicators.
 Defaults to 100.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>Set a custom threshold for indicators, such as the head count ratio. The threshold
 can be a known numeric value or function of <code>Y</code>. If the threshold is <code>NULL</code>, <code>60 %</code> of the
 median of <code>Y</code> is taken as threshold. Defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>custom_indicator</dt>
 <dd><p>A list of additional functions containing the indicators to be
 calculated. These functions must only depend on the target variable <code>Y</code> and optionally the
 <code>threshold</code>. Defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>initialRandomEffects</dt>
 <dd><p>Numeric value or vector of initial estimates of random effects.
 Defaults to 0.</p></dd>
+
+
 <dt>ErrorTolerance</dt>
 <dd><p>Numeric value to monitor the MERF algorithm's convergence. Defaults to 1e-04.</p></dd>
+
+
 <dt>MaxIterations</dt>
 <dd><p>Numeric value specifying the maximal amount of iterations for the
 MERF algorithm. Defaults to 25.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Logical. Whether missing values should be removed. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters are directly passed to the random forest <a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a>.
 Most important parameters are for instance <code>mtry</code> (number of variables to possibly split at
 in each node), or <code>num.trees</code> (number of trees). For further details on possible parameters
 see <a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a> and the example below.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>SAEforest</code> includes point estimates for disaggregated indicators
+    
+
+<p>An object of class <code>SAEforest</code> includes point estimates for disaggregated indicators
 as well as information on the MERF-model. Optionally corresponding MSE estimates are returned.
 Several generic functions have methods for the returned object of class <code>SAEforest</code>. For a full
 list and explanation of components and possibilities for objects of class <code>SAEforest</code>,
@@ -305,7 +354,7 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

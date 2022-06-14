@@ -92,47 +92,76 @@ the package <span class="pkg">pdp</span>. The plot-engine for both plots is <spa
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>An object of class <code>SAEforest</code> including a random forest model of class <code><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></code>.</p></dd>
+
+
 <dt>num_features</dt>
 <dd><p>Number of features for which a partial dependence plot is required.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>Parameter specifying the color of selected plots. The argument must be specified
 such that it can be processed by <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>. Defaults to a character name of the
 color "darkgreen".</p></dd>
+
+
 <dt>fill</dt>
 <dd><p>Parameter specifying the fill of selected plots. The argument must be specified
 such that it can be processed by <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>. Defaults to a character name of the
 color "darkgreen".</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Parameter specifying the transparency of <code>fill</code> for <code><a href="https://rdrr.io/pkg/vip/man/vip.html" class="external-link">vip</a></code> plots.
 The argument must be a number in <code>[0,1]</code>.</p></dd>
+
+
 <dt>include_type</dt>
 <dd><p>Logical. If set to <code>TRUE</code>, the type of importance specified in the fitting process
 of the model is included in the <code><a href="https://rdrr.io/pkg/vip/man/vip.html" class="external-link">vip</a></code> plot. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>horizontal</dt>
 <dd><p>Logical. If set to <code>TRUE</code>, the importance scores appear on the x-axis. If parameter is
 set to <code>FALSE</code>, the importance scores are plot on the y-axis. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>gg_theme</dt>
 <dd><p>Specify a predefined theme from <span class="pkg">ggplot2</span>. Defaults to <code>theme_minimal</code>.</p></dd>
+
+
 <dt>lsize</dt>
 <dd><p>Parameter specifying the line size of pdp plots. The argument must be specified
 such that it can be processed by <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>. Defaults to 1.5.</p></dd>
+
+
 <dt>lty</dt>
 <dd><p>Parameter specifying the line size of pdp plots. The argument must be specified
 such that it can be processed by <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>. Defaults to "solid".</p></dd>
+
+
 <dt>grid_row</dt>
 <dd><p>Parameter specifying the amount of rows for the joint pdp plot. Defaults to 2.</p></dd>
+
+
 <dt>out_list</dt>
 <dd><p>Logical. If set to <code>TRUE</code>, a list of individual plots produced by <span class="pkg">ggplot2</span>
 is returned for further individual customization and processing. Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>pdp_plot</dt>
 <dd><p>Logical. If set to <code>TRUE</code>, partial dependence plots produced by <code><a href="https://rdrr.io/pkg/pdp/man/partial.html" class="external-link">partial</a></code>
 from the package <span class="pkg">pdp</span> are included. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional additional inputs that are ignored for this method.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Plots of variable importance and/or partial dependence of covariates ranked by corresponding
+    
+
+<p>Plots of variable importance and/or partial dependence of covariates ranked by corresponding
 importance. Additionally, a list of individual plots can be returned facilitating individual
 customization and exporting. See the following examples for details.</p>
     </div>
@@ -179,7 +208,7 @@ points for 0 and 1. Most informative pdp plots can be produced for continuous pr
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
