@@ -68,7 +68,7 @@ summarize_indicators <- function(object,
 
   summarize_indicators_check(object = object, indicator = indicator, MSE = MSE, CV = CV)
 
-  if (inherits(indicator, "all") || inherits(indicator, "All")) {
+  if ( (sum(indicator == "all")>=1) || sum((indicator == "All")>=1)) {
     indicator <- colnames(object$Indicators)[-1]
   }
 
