@@ -96,11 +96,13 @@ MSE_SAEforest_nonLin <- function(Y,
     boots_sample[[i]] <- sample_select(pop_data, smp = smp_data, dName = dName)
   }
 
+  boots_sample <- Map(cbind, boots_sample, "thresh" = thresh_L)
+
   # uses sample to estimate tau_b
   if (MC == TRUE) {
     my_estim_f <- function(x) {
       point_MC_nonLin(
-        Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = threshold, smp_data = x, pop_data = pop_data,
+        Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = unique(x$thresh), smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance, B_point = B_point,
         MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...
       )[[1]][, -1]
@@ -110,7 +112,7 @@ MSE_SAEforest_nonLin <- function(Y,
   if (MC == FALSE) {
     my_estim_f <- function(x) {
       point_nonLin(
-        Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = threshold, smp_data = x, pop_data = pop_data,
+        Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = unique(x$thresh), smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
         MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...
       )[[1]][, -1]
