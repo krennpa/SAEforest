@@ -76,7 +76,7 @@ SAEforest_nonLin <- function(Y,
     # MSE estimation
     if (MSE != "none") {
       print(paste("Error SD Bootstrap started:"))
-      adj_SD <- adjust_ErrorSD(Y = Y, X = X, smp_data = smp_data, mod = nonLin_preds[[2]], B = B_adj, ...)
+      adj_SD <- adjust_ErrorSD(Y = log(Y), X = X, smp_data = smp_data, mod = nonLin_preds[[2]], B = B_adj, ...)
       print(paste("MSE Bootstrap with", B, "rounds started:"))
     }
 
@@ -182,7 +182,7 @@ SAEforest_nonLin <- function(Y,
     # MSE estimation
     if (MSE != "none") {
       print(paste("Error SD Bootstrap started:"))
-      adj_SD <- adjust_ErrorSD(Y = Y, X = X, smp_data = smp_data, mod = nonLin_preds[[2]], B = B_adj, ...)
+      adj_SD <- adjust_ErrorSD(Y = log(Y), X = X, smp_data = smp_data, mod = nonLin_preds[[2]], B = B_adj, ...)
       print(paste("MSE Bootstrap with", B, "rounds started:"))
     }
 

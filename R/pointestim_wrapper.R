@@ -70,6 +70,9 @@ point_nonLin <- function(Y,
 
   thresh <- get_thresh(Y, threshold = threshold)
 
+  # Add Trafo
+  Y <- log(Y)
+
   unit_model <- MERFranger(
     Y = Y,
     X = X,
@@ -92,7 +95,8 @@ point_nonLin <- function(Y,
   for (i in seq_along(domains)) {
     smear_i <- matrix(rep(unit_model$OOBresiduals, popSize[i]), nrow = popSize[i], ncol = length(unit_model$OOBresiduals), byrow = TRUE)
     smear_i <- smear_i + unit_preds[pop_data[[dName]] == domains[i]]
-    val_i <- c(smear_i)
+    val_i <- exp(c(smear_i))
+    val_i[!is.finite(val_i)] <- NA
     smear_list[[i]] <- calc_indicat(val_i, threshold = thresh, custom = custom_indicator)
   }
 
@@ -334,6 +338,9 @@ point_MC_nonLin <- function(Y,
 
   thresh <- get_thresh(Y, threshold = threshold)
 
+  # use Transformation
+  Y <- log(Y)
+
   unit_model <- MERFranger(
     Y = Y,
     X = X,
@@ -374,7 +381,11 @@ point_MC_nonLin <- function(Y,
   my_agg <- function(x) {
     tapply(x, indi_agg, calc_indicat, threshold = thresh, custom = custom_indicator)
   }
-  tau_star <- apply(y_star, my_agg, MARGIN = 2, simplify = FALSE)
+
+  y_back <- exp(y_star)
+  y_back[!is.finite(y_back)] <- NA
+
+  tau_star <- apply(y_back, my_agg, MARGIN = 2, simplify = FALSE)
 
   col_names <- colnames(tau_star[[1]]$`1`)
 

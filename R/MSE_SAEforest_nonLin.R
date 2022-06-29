@@ -25,6 +25,9 @@ MSE_SAEforest_nonLin <- function(Y,
   pred_vals <- predict(mod$Forest, pop_data)$predictions
   pred_mat <- matrix(pred_vals, nrow = length(pred_vals), ncol = B)
 
+  # Add Trafo
+  Y <- log(Y)
+
   # Prepare data for sampling
   if (wild == TRUE) {
     ran_obj <- ran_comp_wild(Y = Y, smp_data = smp_data, mod = mod, ADJsd = ADJsd, dName = dName)
@@ -64,6 +67,10 @@ MSE_SAEforest_nonLin <- function(Y,
   e_ij <- apply(mu_ij, 2, sample_e)
 
   y_star <- mu_ij + e_ij
+
+  # Backtransform
+  y_star <- exp(y_star)
+  y_star[!is.finite(y_star)] <- NA
 
   # get tau_star
   y_star_L <- split(y_star, col(y_star))
