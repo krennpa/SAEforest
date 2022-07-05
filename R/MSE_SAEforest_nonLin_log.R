@@ -1,6 +1,6 @@
 # MSE bootstrap for nonlinear indicators under unit-level covariate data ------------------
 
-MSE_SAEforest_nonLin <- function(Y,
+MSE_SAEforest_nonLin_log <- function(Y,
                                  X,
                                  dName,
                                  threshold,
@@ -101,7 +101,7 @@ MSE_SAEforest_nonLin <- function(Y,
   # uses sample to estimate tau_b
   if (MC == TRUE) {
     my_estim_f <- function(x) {
-      point_MC_nonLin(
+      point_MC_nonLin_log(
         Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = unique(x$thresh), smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance, B_point = B_point,
         MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...
@@ -111,7 +111,7 @@ MSE_SAEforest_nonLin <- function(Y,
 
   if (MC == FALSE) {
     my_estim_f <- function(x) {
-      point_nonLin(
+      point_nonLin_log(
         Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = unique(x$thresh), smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
         MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...

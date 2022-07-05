@@ -1,4 +1,4 @@
-#' Main function for the estimation of domain-level (nonlinear) indicators with MERFs
+#' Main Log function for the estimation of domain-level (nonlinear) indicators with MERFs
 #'
 #' This function enables the use of Mixed Effects Random Forests (MERFs)
 #' for applications of Small Area Estimation (SAE). Unit-level survey data on a target and
@@ -175,7 +175,7 @@
 #'
 #' @export
 
-SAEforest_model <- function(Y,
+SAEforest_model_log <- function(Y,
                             X,
                             dName,
                             smp_data,
@@ -248,7 +248,7 @@ SAEforest_model <- function(Y,
   # Point and MSE estimates for domain-level nonlinear indicators and unit-level data -------
 
   if (meanOnly == FALSE) {
-    return_obj <- SAEforest_nonLin(
+    return_obj <- SAEforest_nonLin_log(
       Y = Y,
       X = X,
       dName = dName,

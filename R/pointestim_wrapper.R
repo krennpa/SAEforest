@@ -51,7 +51,7 @@ point_mean <- function(Y,
 
 # Point estimates for nonlinear indicators and unit-level data (smearing)------------------
 
-point_nonLin <- function(Y,
+point_nonLin_log <- function(Y,
                          X,
                          dName,
                          threshold,
@@ -312,7 +312,7 @@ point_meanAGG <- function(Y,
 
 # Point estimates for nonlinear indicators and unit-level data (MC version) ---------------
 
-point_MC_nonLin <- function(Y,
+point_MC_nonLin_log <- function(Y,
                             X,
                             dName,
                             threshold,

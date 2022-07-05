@@ -1,6 +1,6 @@
 # Wrapper function for point and MSE estimates for domain-level nonlinear indicators
 
-SAEforest_nonLin <- function(Y,
+SAEforest_nonLin_log <- function(Y,
                              X,
                              dName,
                              smp_data,
@@ -44,7 +44,7 @@ SAEforest_nonLin <- function(Y,
   if (smearing == TRUE) {
 
     # point estimation
-    nonLin_preds <- point_nonLin(
+    nonLin_preds <- point_nonLin_log(
       Y = Y,
       X = X,
       dName = dName,
@@ -81,7 +81,7 @@ SAEforest_nonLin <- function(Y,
     }
 
     if (MSE == "wild") {
-      MSE_estims <- MSE_SAEforest_nonLin(
+      MSE_estims <- MSE_SAEforest_nonLin_log(
         Y = Y,
         X = X,
         mod = nonLin_preds[[2]],
@@ -113,7 +113,7 @@ SAEforest_nonLin <- function(Y,
     }
 
     if (MSE == "nonparametric") {
-      MSE_estims <- MSE_SAEforest_nonLin(
+      MSE_estims <- MSE_SAEforest_nonLin_log(
         Y = Y,
         X = X,
         mod = nonLin_preds[[2]],
@@ -149,7 +149,7 @@ SAEforest_nonLin <- function(Y,
   # Point and MSE estimates for domain-level indicators and unit-level data (MC version) ----
 
   if (smearing == FALSE) {
-    nonLin_preds <- point_MC_nonLin(
+    nonLin_preds <- point_MC_nonLin_log(
       Y = Y,
       X = X,
       dName = dName,
@@ -187,7 +187,7 @@ SAEforest_nonLin <- function(Y,
     }
 
     if (MSE == "wild") {
-      MSE_estims <- MSE_SAEforest_nonLin(
+      MSE_estims <- MSE_SAEforest_nonLin_log(
         Y = Y,
         X = X,
         mod = nonLin_preds[[2]],
@@ -219,7 +219,7 @@ SAEforest_nonLin <- function(Y,
     }
 
     if (MSE == "nonparametric") {
-      MSE_estims <- MSE_SAEforest_nonLin(
+      MSE_estims <- MSE_SAEforest_nonLin_log(
         Y = Y,
         X = X,
         mod = nonLin_preds[[2]],
