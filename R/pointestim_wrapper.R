@@ -404,3 +404,150 @@ point_MC_nonLin_log <- function(Y,
   )
   return(result)
 }
+
+
+point_nonLin <- function(Y,
+                         X,
+                         dName,
+                         threshold,
+                         smp_data,
+                         pop_data,
+                         initialRandomEffects,
+                         ErrorTolerance,
+                         MaxIterations,
+                         importance = "none",
+                         custom_indicator,
+                         ...) {
+
+  random <- paste0(paste0("(1|", dName), ")")
+  domains <- names(table(pop_data[[dName]]))
+  popSize <- as.numeric(table(pop_data[[dName]]))
+
+  thresh <- get_thresh(Y, threshold = threshold)
+
+  unit_model <- MERFranger(
+    Y = Y,
+    X = X,
+    random = random,
+    data = smp_data,
+    initialRandomEffects = initialRandomEffects,
+    ErrorTolerance = ErrorTolerance,
+    MaxIterations = MaxIterations,
+    importance = importance,
+    ...
+  )
+
+  unit_preds <- predict(unit_model$Forest, pop_data)$predictions +
+    predict(unit_model$EffectModel, pop_data, allow.new.levels = TRUE)
+
+
+  #  smearing step
+  smear_list <- vector(mode = "list", length = length(domains))
+
+  for (i in seq_along(domains)) {
+    smear_i <- matrix(rep(unit_model$OOBresiduals, popSize[i]), nrow = popSize[i], ncol = length(unit_model$OOBresiduals), byrow = TRUE)
+    smear_i <- smear_i + unit_preds[pop_data[[dName]] == domains[i]]
+    val_i <- c(smear_i)
+    smear_list[[i]] <- calc_indicat(val_i, threshold = thresh, custom = custom_indicator)
+  }
+
+  indicators <- do.call(rbind.data.frame, smear_list)
+  indicators_out <- cbind(domains, indicators)
+  names(indicators_out)[1] <- dName
+
+  out_ob <- vector(mode = "list", length = 2)
+
+  out_ob[[1]] <- indicators_out
+  out_ob[[2]] <- unit_model
+
+  return(out_ob)
+}
+
+
+
+point_MC_nonLin <- function(Y,
+                            X,
+                            dName,
+                            threshold,
+                            smp_data,
+                            pop_data,
+                            initialRandomEffects,
+                            B_point,
+                            ErrorTolerance,
+                            MaxIterations,
+                            importance = "none",
+                            custom_indicator,
+                            ...) {
+
+  domains <- names(table(pop_data[[dName]]))
+  random <- paste0(paste0("(1|", dName), ")")
+
+  popSize_N <- data.frame(table(pop_data[[dName]]))
+  popSize_n <- data.frame(table(smp_data[[dName]]))
+  colnames(popSize_N) <- c(dName, "N_i")
+  colnames(popSize_n) <- c(dName, "n_i")
+  popSize <- dplyr::left_join(popSize_N, popSize_n, by = dName)
+  popSize[, 3][is.na(popSize[, 3])] <- 0
+
+  thresh <- get_thresh(Y, threshold = threshold)
+
+  unit_model <- MERFranger(
+    Y = Y,
+    X = X,
+    random = random,
+    data = smp_data,
+    initialRandomEffects = initialRandomEffects,
+    ErrorTolerance = ErrorTolerance,
+    MaxIterations = MaxIterations,
+    importance = importance,
+    ...
+  )
+
+  unit_preds <- predict(unit_model$Forest, pop_data)$predictions +
+    predict(unit_model$EffectModel, pop_data, allow.new.levels = TRUE)
+
+  # preparing data for MC step
+  ran_obj <- ran_comp(Y = Y, smp_data = smp_data, mod = unit_model, ADJsd = unit_model$ErrorSD, dName = dName)
+  ran_effs <- ran_obj$ran_effs
+  forest_res <- ran_obj$forest_res
+  smp_data <- ran_obj$smp_data
+
+  pred_val <- matrix(unit_preds,
+                     ncol = B_point,
+                     nrow = length(unit_preds), byrow = FALSE
+  )
+
+  y_hat <- pred_val + sample(forest_res, size = length(pred_val), replace = TRUE)
+
+  gamm_i <- (unit_model$RanEffSD^2) / (unit_model$RanEffSD^2 + (unit_model$ErrorSD^2 / popSize$n_i))
+
+  v_i <- apply(y_hat, 2, function(x) {
+    rep(sample(ran_effs, size = length(popSize$N_i), replace = TRUE), popSize$N_i)
+  })
+  gamm_1 <- rep((1 - gamm_i), popSize$N_i)
+  y_star <- y_hat + gamm_1 * v_i
+
+  indi_agg <- rep(1:length(popSize$N_i), popSize$N_i)
+  my_agg <- function(x) {
+    tapply(x, indi_agg, calc_indicat, threshold = thresh, custom = custom_indicator)
+  }
+  tau_star <- apply(y_star, my_agg, MARGIN = 2, simplify = FALSE)
+
+  col_names <- colnames(tau_star[[1]]$`1`)
+
+  comb <- function(x) {
+    matrix(unlist(x), nrow = length(popSize$N_i), byrow = TRUE)
+  }
+  tau_star <- sapply(tau_star, comb, simplify = FALSE)
+
+  indicators <- Reduce("+", tau_star) / length(tau_star)
+  colnames(indicators) <- col_names
+
+  # preparing final output
+  result <- list(
+    Indicators = cbind(popSize[dName], indicators),
+    model = unit_model
+  )
+  return(result)
+}
+
