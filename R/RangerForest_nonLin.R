@@ -1,4 +1,5 @@
 # RANDOM FOREST WITH SMEARING BUT WITHOUT RANDOM EFFECTS
+#' @export
 
 RangerForest_nonLin <- function(Y, X, dName, smp_data, pop_data,
                                 threshold = NULL, importance ="none",
