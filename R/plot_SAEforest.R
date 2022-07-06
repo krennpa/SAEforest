@@ -117,6 +117,7 @@ plot.SAEforest <- function(x,
     forest_imp <- forest_imp[!forest_imp[, "Variable"] %in% set_rm, ]
     forest_imp <- na.omit(forest_imp[1:num_features, ])
     y_name <- as.character(x$MERFmodel$call$Y)
+    y_name <- paste0(gsub("[[:punct:]]", "", y_name),collapse="")
 
     pdp_curves <- lapply(forest_imp[, "Variable"], FUN = function(feature) {
       pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = x$MERFmodel$data, plot = FALSE)
