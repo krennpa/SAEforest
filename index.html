@@ -78,91 +78,91 @@
 </h2>
 <p>You can install the development version of SAEforest from <a href="https://github.com/krennpa" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"krennpa/SAEforest"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"krennpa/SAEforest"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example which demonstrates the functionality of this package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/krennpa/SAEforest" class="external-link">SAEforest</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span>
-
-<span class="va">income</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">$</span><span class="va">eqIncome</span>
-<span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">16</span>,<span class="fl">17</span>,<span class="fl">18</span><span class="op">)</span><span class="op">]</span>
-
-<span class="co">#Example 1:</span>
-<span class="co">#Calculating point estimates and discussing basic generic functions</span>
-
-<span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,
-                         smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span><span class="op">)</span>
-
-<span class="co">#SAEforest generics:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt; Mixed Effects Random Forest for Small Area Estimation</span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; SAEforest_model(Y = income, X = X_covar, dName = "district", </span>
-<span class="co">#&gt;     smp_data = eusilcA_smp, pop_data = eusilcA_pop)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Domains</span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt;  In-sample Out-of-sample Total</span>
-<span class="co">#&gt;         70            24    94</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Totals:</span>
-<span class="co">#&gt; Units in sample: 1945 </span>
-<span class="co">#&gt; Units in population: 25000 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                    Min. 1st Qu. Median      Mean 3rd Qu. Max.</span>
-<span class="co">#&gt; Sample_domains       14    17.0   22.5  27.78571   29.00  200</span>
-<span class="co">#&gt; Population_domains    5   126.5  181.5 265.95745  265.75 5857</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Random forest component: </span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt;                                            </span>
-<span class="co">#&gt; Type:                            Regression</span>
-<span class="co">#&gt; Number of trees:                        500</span>
-<span class="co">#&gt; Number of independent variables:         14</span>
-<span class="co">#&gt; Mtry:                                     3</span>
-<span class="co">#&gt; Minimal node size:                        5</span>
-<span class="co">#&gt; Variable importance mode:          impurity</span>
-<span class="co">#&gt; Splitrule:                         variance</span>
-<span class="co">#&gt; Rsquared (OOB):                     0.62976</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Structural component of random effects:</span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt; Linear mixed model fit by maximum likelihood  ['lmerMod']</span>
-<span class="co">#&gt; Formula: Target ~ -1 + (1 | district)</span>
-<span class="co">#&gt;    Data: data</span>
-<span class="co">#&gt;  Offset: forest_preds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span>
-<span class="co">#&gt;  39193.1  39204.2 -19594.5  39189.1     1943 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Scaled residuals: </span>
-<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
-<span class="co">#&gt; -2.9730 -0.5194 -0.0759  0.4448 11.8159 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Random effects:</span>
-<span class="co">#&gt;  Groups   Name        Variance Std.Dev.</span>
-<span class="co">#&gt;  district (Intercept) 11157235 3340    </span>
-<span class="co">#&gt;  Residual             30335770 5508    </span>
-<span class="co">#&gt; Number of obs: 1945, groups:  district, 70</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ICC:  0.2688944 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Convergence of MERF algorithm: </span>
-<span class="co">#&gt; ________________________________________________________________</span>
-<span class="co">#&gt; Convergence achieved after 4 iterations.</span>
-<span class="co">#&gt; A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Monitored Log-Likelihood:                                          </span>
-<span class="co">#&gt;  0 -19545.67 -19573.45 -19593.59 -19594.53</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/krennpa/SAEforest" class="external-link">SAEforest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">income</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">$</span><span class="va">eqIncome</span></span>
+<span><span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">16</span>,<span class="fl">17</span>,<span class="fl">18</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">#Example 1:</span></span>
+<span><span class="co">#Calculating point estimates and discussing basic generic functions</span></span>
+<span></span>
+<span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
+<span>                         smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#SAEforest generics:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt; Mixed Effects Random Forest for Small Area Estimation</span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; SAEforest_model(Y = income, X = X_covar, dName = "district", </span></span>
+<span><span class="co">#&gt;     smp_data = eusilcA_smp, pop_data = eusilcA_pop)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Domains</span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt;  In-sample Out-of-sample Total</span></span>
+<span><span class="co">#&gt;         70            24    94</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Totals:</span></span>
+<span><span class="co">#&gt; Units in sample: 1945 </span></span>
+<span><span class="co">#&gt; Units in population: 25000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                    Min. 1st Qu. Median      Mean 3rd Qu. Max.</span></span>
+<span><span class="co">#&gt; Sample_domains       14    17.0   22.5  27.78571   29.00  200</span></span>
+<span><span class="co">#&gt; Population_domains    5   126.5  181.5 265.95745  265.75 5857</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Random forest component: </span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt;                                            </span></span>
+<span><span class="co">#&gt; Type:                            Regression</span></span>
+<span><span class="co">#&gt; Number of trees:                        500</span></span>
+<span><span class="co">#&gt; Number of independent variables:         14</span></span>
+<span><span class="co">#&gt; Mtry:                                     3</span></span>
+<span><span class="co">#&gt; Minimal node size:                        5</span></span>
+<span><span class="co">#&gt; Variable importance mode:          impurity</span></span>
+<span><span class="co">#&gt; Splitrule:                         variance</span></span>
+<span><span class="co">#&gt; Rsquared (OOB):                     0.62976</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Structural component of random effects:</span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt; Linear mixed model fit by maximum likelihood  ['lmerMod']</span></span>
+<span><span class="co">#&gt; Formula: Target ~ -1 + (1 | district)</span></span>
+<span><span class="co">#&gt;    Data: data</span></span>
+<span><span class="co">#&gt;  Offset: forest_preds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
+<span><span class="co">#&gt;  39193.1  39204.2 -19594.5  39189.1     1943 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Scaled residuals: </span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -2.9730 -0.5194 -0.0759  0.4448 11.8159 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Random effects:</span></span>
+<span><span class="co">#&gt;  Groups   Name        Variance Std.Dev.</span></span>
+<span><span class="co">#&gt;  district (Intercept) 11157235 3340    </span></span>
+<span><span class="co">#&gt;  Residual             30335770 5508    </span></span>
+<span><span class="co">#&gt; Number of obs: 1945, groups:  district, 70</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ICC:  0.2688944 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Convergence of MERF algorithm: </span></span>
+<span><span class="co">#&gt; ________________________________________________________________</span></span>
+<span><span class="co">#&gt; Convergence achieved after 4 iterations.</span></span>
+<span><span class="co">#&gt; A maximum of 25 iterations used and tolerance set to: 1e-04 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Monitored Log-Likelihood:                                          </span></span>
+<span><span class="co">#&gt;  0 -19545.67 -19573.45 -19593.59 -19594.53</span></span></code></pre></div>
 <p>I included some further features to inspect the model graphically. For instance look at the following output from the generic function <code>plot</code>, which shows a so-called variable importance plot: <img src="reference/figures/README-model1-1.png" width="75%"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Press [enter] to continue</span></span></code></pre></div>
 <p>We cannot only inspect the model graphically, but also map our indicators. Take a look at this example on Austrian pseudo-data for district-level mean income produced by the function <code>map_indicators</code>: <img src="reference/figures/README-unnamed-chunk-2-1.png" width="75%"></p>

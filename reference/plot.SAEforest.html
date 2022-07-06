@@ -69,23 +69,23 @@ the package <span class="pkg">pdp</span>. The plot-engine for both plots is <spa
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for SAEforest</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>
-  <span class="va">x</span>,
-  num_features <span class="op">=</span> <span class="fl">6</span>,
-  col <span class="op">=</span> <span class="st">"darkgreen"</span>,
-  fill <span class="op">=</span> <span class="st">"darkgreen"</span>,
-  alpha <span class="op">=</span> <span class="fl">0.8</span>,
-  include_type <span class="op">=</span> <span class="cn">TRUE</span>,
-  horizontal <span class="op">=</span> <span class="cn">TRUE</span>,
-  gg_theme <span class="op">=</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>,
-  lsize <span class="op">=</span> <span class="fl">1.5</span>,
-  lty <span class="op">=</span> <span class="st">"solid"</span>,
-  grid_row <span class="op">=</span> <span class="fl">2</span>,
-  out_list <span class="op">=</span> <span class="cn">FALSE</span>,
-  pdp_plot <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for SAEforest</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  num_features <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"darkgreen"</span>,</span>
+<span>  fill <span class="op">=</span> <span class="st">"darkgreen"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  include_type <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  horizontal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  gg_theme <span class="op">=</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  lsize <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  lty <span class="op">=</span> <span class="st">"solid"</span>,</span>
+<span>  grid_row <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  out_list <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  pdp_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -180,23 +180,23 @@ points for 0 and 1. Most informative pdp plots can be produced for continuous pr
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Loading data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">income</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">$</span><span class="va">eqIncome</span></span>
-<span class="r-in"><span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 1:</span></span>
-<span class="r-in"><span class="co"># Calculating point estimates and discussing basic generic functions</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span>
-<span class="r-in">                          smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>,</span>
-<span class="r-in">                          num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Loading data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">income</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">$</span><span class="va">eqIncome</span></span></span>
+<span class="r-in"><span><span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 1:</span></span></span>
+<span class="r-in"><span><span class="co"># Calculating point estimates and discussing basic generic functions</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="SAEforest_model.html">SAEforest_model</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span></span>
+<span class="r-in"><span>                          smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>,</span></span>
+<span class="r-in"><span>                          num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

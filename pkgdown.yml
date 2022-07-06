@@ -2,7 +2,7 @@ pandoc: 2.14.2
 pkgdown: 2.0.5
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-06-25T11:55Z
+last_built: 2022-07-06T11:37Z
 urls:
   reference: https://krennpa.github.io/SAEforest/reference
   article: https://krennpa.github.io/SAEforest/articles
