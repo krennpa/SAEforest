@@ -18,6 +18,7 @@ Imports:
     caret,
     dplyr,
     ggplot2,
+    haven,
     ineq,
     lme4,
     maptools,

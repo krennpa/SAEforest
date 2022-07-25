@@ -91,8 +91,8 @@ plot.SAEforest <- function(x,
 
   # produce a vip plot
   vip_plot <- vip::vip(x$MERFmodel$Forest,
-    aes = list(col = col, fill = fill, alpha = alpha),
-    include_type = include_type, horizontal = horizontal, num_features = num_features
+                       aes = list(col = col, fill = fill, alpha = alpha),
+                       include_type = include_type, horizontal = horizontal, num_features = num_features
   ) + ggtitle("Variable Importance") + gg_theme
 
   eval(print(vip_plot))
@@ -119,8 +119,10 @@ plot.SAEforest <- function(x,
     y_name <- as.character(x$MERFmodel$call$Y)
     y_name <- paste0(gsub("[[:punct:]]", "", y_name),collapse="")
 
+    rm_extraLabels <- haven::zap_labels(x$MERFmodel$data)
+
     pdp_curves <- lapply(forest_imp[, "Variable"], FUN = function(feature) {
-      pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = x$MERFmodel$data, plot = FALSE)
+      pd <- pdp::partial(x$MERFmodel$Forest, pred.var = feature, train = rm_extraLabels, plot = FALSE)
       colnames(pd)[2] <- y_name
       ggplot(data = pd, aes_string(y = y_name, x = feature)) +
         geom_line(linetype = lty, color = col, size = lsize) +
