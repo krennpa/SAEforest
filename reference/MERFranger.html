@@ -158,7 +158,7 @@ structural components of MERFs and modeling random components.</p></dd>
 <dd><p>Numeric value of the standard deviation of random intercepts.</p></dd>
 
 <dt><code>ErrorSD</code></dt>
-<dd><p>Numeric value of standard devition of unit-level errors.</p></dd>
+<dd><p>Numeric value of standard deviation of unit-level errors.</p></dd>
 
 <dt><code>VarianceCovariance</code></dt>
 <dd><p>VarCorr matrix from <code>EffectModel</code>.</p></dd>
@@ -167,7 +167,7 @@ structural components of MERFs and modeling random components.</p></dd>
 <dd><p>Vector with numerical entries showing the loglikelihood of the MERF algorithm.</p></dd>
 
 <dt><code>IterationsUsed</code></dt>
-<dd><p>Numeric number of interatirons used until covergence of the MERF algorithm.</p></dd>
+<dd><p>Numeric number of iterations used until convergence of the MERF algorithm.</p></dd>
 
 <dt><code>OOBresiduals</code></dt>
 <dd><p>Vector of OOB-residuals.</p></dd>
@@ -193,7 +193,7 @@ MERF algorithm.</p></dd>
 function, assuming the random effects term to be correct and b) estimates the random
 effects part, assuming the OOB-predictions from the forest to be correct. Overall convergence
 of the algorithm is monitored by the log-likelihood of a joint model of both components. For
-further details see Krennmair &amp; Schmid (2022) or Hajem et al. (2014).</p>
+further details see Krennmair &amp; Schmid (2022) or Hajjem et al. (2014).</p>
 <p>Note that the <code>MERFranger</code> object is a composition of elements from a random forest of class
 <code>ranger</code> and a random effects model of class <code><a href="https://rdrr.io/pkg/lme4/man/merMod-class.html" class="external-link">merMod</a></code>. Thus, all generic functions are
 applicable to corresponding objects. For further details on generic functions see <code><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></code>
