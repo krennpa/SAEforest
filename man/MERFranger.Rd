@@ -57,10 +57,10 @@ of the model.}
 structural components of MERFs and modeling random components.}
 \item{\code{RandomEffects}}{List element containing the values of random intercepts from \code{EffectModel}.}
 \item{\code{RanEffSD}}{Numeric value of the standard deviation of random intercepts.}
-\item{\code{ErrorSD}}{Numeric value of standard devition of unit-level errors.}
+\item{\code{ErrorSD}}{Numeric value of standard deviation of unit-level errors.}
 \item{\code{VarianceCovariance}}{VarCorr matrix from \code{EffectModel}.}
 \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
-\item{\code{IterationsUsed}}{Numeric number of interatirons used until covergence of the MERF algorithm.}
+\item{\code{IterationsUsed}}{Numeric number of iterations used until convergence of the MERF algorithm.}
 \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
@@ -86,7 +86,7 @@ The MERF algorithm iteratively optimizes two separate steps: a) the random fores
 function, assuming the random effects term to be correct and b) estimates the random
 effects part, assuming the OOB-predictions from the forest to be correct. Overall convergence
 of the algorithm is monitored by the log-likelihood of a joint model of both components. For
-further details see Krennmair & Schmid (2022) or Hajem et al. (2014).
+further details see Krennmair & Schmid (2022) or Hajjem et al. (2014).
 
 Note that the \code{MERFranger} object is a composition of elements from a random forest of class
 \code{ranger} and a random effects model of class \code{\link[lme4]{merMod}}. Thus, all generic functions are

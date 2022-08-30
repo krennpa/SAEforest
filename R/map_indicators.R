@@ -9,7 +9,7 @@
 #' all calculated indicators ("all"); (ii) default indicators name: "Mean",
 #' "Quant10", "Quant25", "Median", "Quant75", "Quant90", "Gini", "Hcr", "Pgap", "Qsr"
 #' or the function name/s of "custom_indicator/s"; (iii) a vector of names of indicators.
-#' If the \code{object} is estimated wiht option \code{meanOnly = TRUE},
+#' If the \code{object} is estimated with option \code{meanOnly = TRUE},
 #' indicator arguments are ignored and only "Mean" is visualized.
 #' @param MSE Logical. If \code{TRUE}, the MSE is also visualized.
 #' Defaults to \code{FALSE}.

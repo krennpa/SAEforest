@@ -31,7 +31,7 @@
 #' Available from \url{https://arxiv.org/pdf/2204.10736}.
 #'
 #' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
-#' and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
+#' and Non-linear Indicators Using Mixed Effects Random Forests. Working Paper.
 #'
 #' @docType package
 #' @name SAEforest

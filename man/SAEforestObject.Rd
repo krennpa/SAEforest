@@ -30,10 +30,10 @@ of the model.}
 structural components of MERFs and modeling random components.}
 \item{\code{RandomEffects}}{List element containing the values of random intercepts from \code{EffectModel}.}
 \item{\code{RanEffSD}}{Numeric value of standard deviation of random intercepts.}
-\item{\code{ErrorSD}}{Numeric value of standard devition of unit-level errors.}
+\item{\code{ErrorSD}}{Numeric value of standard deviation of unit-level errors.}
 \item{\code{VarianceCovariance}}{VarCorr matrix from \code{EffectModel}.}
 \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
-\item{\code{IterationsUsed}}{Numeric number of iteratirons used until covergence of the MERF algorithm.}
+\item{\code{IterationsUsed}}{Numeric number of iteratirons used until convergence of the MERF algorithm.}
 \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
@@ -98,7 +98,7 @@ Mixed Effects Random Forests under Aggregated Census Data.
 Available from \url{https://arxiv.org/pdf/2204.10736}.
 
 Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). Small Area Estimation of Linear
-and Non-linear Indicators Using Mixed Efects Random Forests. Working Paper.
+and Non-linear Indicators Using Mixed Effects Random Forests. Working Paper.
 }
 \seealso{
 \code{\link{SAEforest_model}}, \code{ \link[ranger]{ranger}},
