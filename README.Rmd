@@ -80,4 +80,4 @@ map_indicators(object = model1, MSE = FALSE, CV = FALSE,
          map_dom_id = "PB")
 ```
 
-I hope you like this presentation and the package. If you are interested in model-based SAE you should definitely also check out package `emdi` <https://cran.r-project.org/web/packages/emdi/>.
+I hope you like this presentation and the package. If you are interested in model-based SAE you should definitely also check out package `emdi`.

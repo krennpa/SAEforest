@@ -127,5 +127,4 @@ district-level mean income produced by the function `map_indicators`:
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="75%" />
 
 I hope you like this presentation and the package. If you are interested
-in model-based SAE you should definitely also check out package `emdi`
-<https://cran.r-project.org/web/packages/emdi/>.
+in model-based SAE you should definitely also check out package `emdi`.
