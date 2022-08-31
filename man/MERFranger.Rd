@@ -125,7 +125,7 @@ Hajjem, A., Bellavance, F., & Larocque, D. (2014). Mixed-Effects Random Forest f
 Data. Journal of Statistical Computation and Simulation, 84 (6), 1313–1328.
 
 Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects
-Random Forests. Available from \url{https://arxiv.org/pdf/2201.10933}.
+Random Forests. Journal of Royal Statistical Society: Series C (Applied Statistics) (forthcoming).
 }
 \seealso{
 \code{\link{SAEforest}}, \code{\link[ranger]{ranger}}, \code{\link[lme4]{lmer}},
