@@ -22,7 +22,7 @@ The package \pkg{SAEforest} promotes the use of Mixed Effects Random Forests (ME
 
 ## Installation
 
-You can install the development version of SAEforest from [GitHub](https://github.com/krennpa) with:
+You can install the development version of SAEforest from Github with:
 
 ``` r
 # install.packages("devtools")

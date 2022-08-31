@@ -78,7 +78,8 @@
 #' @import ranger
 #' @import lme4
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' # Load Data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")

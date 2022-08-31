@@ -21,8 +21,7 @@ and map indicators and corresponding measures of uncertainty.
 
 ## Installation
 
-You can install the development version of SAEforest from
-[GitHub](https://github.com/krennpa) with:
+You can install the development version of SAEforest from Github with:
 
 ``` r
 # install.packages("devtools")

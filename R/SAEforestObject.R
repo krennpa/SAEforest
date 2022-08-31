@@ -64,7 +64,6 @@
 #'
 #' Krennmair, P., & Würz, N. & Schmid, T. (2022a). Analysing Opportunity Cost of Care Work using
 #' Mixed Effects Random Forests under Aggregated Census Data.
-#' Available from \url{https://arxiv.org/pdf/2204.10736}.
 #'
 #' Krennmair, P., & Schmid, T & Tzavidis, Nikos. (2022b). The Estimation of Poverty Indicators Using
 #' Mixed Effects Random Forests. Working Paper.
