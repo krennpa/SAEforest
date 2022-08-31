@@ -22,7 +22,7 @@ modified OECD scale.}
 \item{fam_allow}{numeric; family/children related allowances (net).}
 \item{house_allow}{numeric; housing allowances (net).}
 \item{cap_inv}{numeric; interest, dividends, profit from capital investments
-in unincorporated business (net).}
+ in unincorporated business (net).}
 \item{tax_adj}{numeric; repayments/receipts for tax adjustment (net).}
 \item{state}{factor; state (nine levels).}
 \item{district}{factor; districts (94 levels).}

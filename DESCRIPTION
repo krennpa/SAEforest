@@ -28,9 +28,12 @@ Imports:
     reshape2,
     stats,
     vip
+Suggests: 
+    R.rsp,
+    sp,
+    rgeos
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 LazyData: true
-Suggests: R.rsp,
 VignetteBuilder: R.rsp
+NeedsCompilation: no

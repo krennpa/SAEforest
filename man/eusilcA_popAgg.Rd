@@ -20,7 +20,7 @@ modified OECD scale.}
 \item{fam_allow}{numeric; family/children related allowances (net).}
 \item{house_allow}{numeric; housing allowances (net).}
 \item{cap_inv}{numeric; interest, dividends, profit from capital investments
-in unincorporated business (net).}
+ in unincorporated business (net).}
 \item{tax_adj}{numeric; repayments/receipts for tax adjustment (net).}
 \item{ratio_n}{numeric; ratios of the population size per area and the total population size.}
 \item{district}{factor; Austrian districts (94 levels).}
