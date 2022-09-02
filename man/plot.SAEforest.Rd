@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_SAEforest.R
 \name{plot.SAEforest}
 \alias{plot.SAEforest}
-\title{Plot function for an SAEforest object}
+\title{Plot function for a 'SAEforest' object}
 \usage{
 \method{plot}{SAEforest}(
   x,
@@ -85,7 +85,7 @@ plots. Dummy-variables can be used, however, their pdp plots are always lines co
 points for 0 and 1. Most informative pdp plots can be produced for continuous predictors.
 }
 \examples{
-\dontrun{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")

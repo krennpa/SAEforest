@@ -1,4 +1,4 @@
-#' Fitted SAEforest object
+#' Fitted 'SAEforest' object
 #'
 #' An object of class \code{SAEforest} always includes point estimates of regionally disaggregated economic
 #' and inequality indicators and a \code{MERFmodel} element including information on the model fit for fixed
@@ -72,7 +72,6 @@
 #' \code{ \link[lme4]{lmer}}
 #'
 #' @examples
-#' \dontrun{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -84,7 +83,8 @@
 #' # Calculating point estimates and discussing basic generic functions
 #'
 #' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-#'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+#'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+#'                          num.trees=50, mtry = 3)
 #'
 #' #SAEforest generics:
 #'
@@ -92,10 +92,5 @@
 #' summarize_indicators(model1)
 #' residuals(model1)
 #' sigma(model1)
-#' VarCorr(model1)
-#' ranef(model1)
-#' fixef(model1)
-#' getData(model1)
-#'}
 #' @name SAEforestObject
 NULL

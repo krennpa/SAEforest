@@ -42,7 +42,7 @@ see \code{\link[base]{as.data.frame}}), \code{subset} (for default
 documentation, see \code{\link[base]{subset}}).
 }
 \examples{
-\dontrun{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/print_SAEforest.R
 \name{print.SAEforest}
 \alias{print.SAEforest}
-\title{Prints an SAEforest object}
+\title{Prints a 'SAEforest' object}
 \usage{
 \method{print}{SAEforest}(x, ...)
 }
@@ -11,6 +11,9 @@
 estimates obtained by function \code{\link{SAEforest_model}}.}
 
 \item{...}{Optional additional inputs that are ignored for this method.}
+}
+\value{
+Prints basic information on survey data characteristics.
 }
 \description{
 Basic information of an \code{\link{SAEforestObject}} is printed.

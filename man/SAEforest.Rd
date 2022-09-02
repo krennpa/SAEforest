@@ -3,7 +3,7 @@
 \docType{package}
 \name{SAEforest}
 \alias{SAEforest}
-\title{SAEforest - Estimating disaggregated indicators using Mixed Effects Random Forests}
+\title{'SAEforest' - Estimating disaggregated indicators using Mixed Effects Random Forests}
 \description{
 The package \pkg{SAEforest} promotes the use of Mixed Effects Random Forests (MERFs) for
 applications of Small Area Estimation (SAE). The package effectively combines functions for

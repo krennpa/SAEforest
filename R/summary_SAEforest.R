@@ -1,4 +1,4 @@
-#' Summarizes an SAEforest object
+#' Summarizes an 'SAEforest' object
 #'
 #' Shows additional information about the data, the SAE model and its components.
 #' Information is extracted from a \code{SAEforest} object. The returned object
@@ -12,7 +12,6 @@
 #' and population data, the model fit and random forest specific metrics.
 #' @seealso \code{\link{SAEforestObject}}
 #' @examples
-#' \dontrun{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -23,12 +22,12 @@
 #' # Example 1:
 #' # Calculating point estimates and discussing basic generic functions
 #'
-#' model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
-#'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+#' model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+#'                          smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+#'                          num.trees=50, mtry=3)
 #'
 #' # SAEforest generics:
 #' summary(model1)
-#' }
 #' @export
 
 summary.SAEforest <- function(object, ...) {

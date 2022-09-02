@@ -74,7 +74,7 @@ Function \code{map_indicators} visualizes estimates from a
 wrapper of \code{map_plot} from the package \pkg{emdi}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")

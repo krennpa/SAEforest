@@ -2,7 +2,7 @@
 % Please edit documentation in R/SAEforestObject.R
 \name{SAEforestObject}
 \alias{SAEforestObject}
-\title{Fitted SAEforest object}
+\title{Fitted 'SAEforest' object}
 \value{
 Four components are always included in an SAEforest object. \code{MSE_estimates} and \code{AdjustedSD} are
 \code{NULL} except MSE results are requested. An element of \code{NrCovar} only exists for SAEforest objects
@@ -63,7 +63,6 @@ applicable to corresponding objects. For further details on generic functions se
 and \code{\link[lme4]{lmer}} as well as the examples below.
 }
 \examples{
-\dontrun{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
@@ -75,7 +74,8 @@ X_covar <- eusilcA_smp[,-c(1,16,17,18)]
 # Calculating point estimates and discussing basic generic functions
 
 model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
-                         smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+                         smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+                         num.trees=50, mtry = 3)
 
 #SAEforest generics:
 
@@ -83,11 +83,6 @@ summary(model1)
 summarize_indicators(model1)
 residuals(model1)
 sigma(model1)
-VarCorr(model1)
-ranef(model1)
-fixef(model1)
-getData(model1)
-}
 }
 \references{
 Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects

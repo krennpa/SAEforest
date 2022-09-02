@@ -275,7 +275,7 @@ point_meanAGG <- function(Y,
         smp_weightsNames[[pos]] <- colnames(X_input_elm)
       } else {
         if (verbose == TRUE) {
-          print(paste("Calculation of weights failed for area:", i))
+          message(paste("Calculation of weights failed for area:", i))
         }
         rownames(w_smp_data) <- NULL
         w_smp_data$weights <- 1 / dim(w_smp_data)[1]

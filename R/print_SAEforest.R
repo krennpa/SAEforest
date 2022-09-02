@@ -1,10 +1,12 @@
-#' Prints an SAEforest object
+#' Prints a 'SAEforest' object
 #'
 #' Basic information of an \code{\link{SAEforestObject}} is printed.
 #' @param x Object of class \code{SAEforest}, representing point and MSE
 #' estimates obtained by function \code{\link{SAEforest_model}}.
 #' @seealso \code{\link{SAEforestObject}}
 #' @param ... Optional additional inputs that are ignored for this method.
+#'
+#' @return Prints basic information on survey data characteristics.
 #'
 #' @export
 print.SAEforest <- function(x, ...) {

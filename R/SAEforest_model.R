@@ -124,7 +124,7 @@
 #' @seealso \code{\link{SAEforestObject}}, \code{\link[ranger]{ranger}}, \code{\link[lme4]{lmer}}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -146,6 +146,8 @@
 #' # arguments to the random forest.
 #' # Note that B is unrealistically low to improve example speed
 #'
+#' # remove factor for gender
+#' X_covar <- X_covar[,-1]
 #' model2 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 #'                           smp_data = eusilcA_smp, pop_data = eusilcA_popAgg,
 #'                           MSE = "nonparametric", popnsize = popNsize,B = 5, mtry = 5,

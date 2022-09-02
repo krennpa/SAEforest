@@ -55,6 +55,10 @@ is returned for further individual customization and processing.}
 the training function \link[caret]{train}. For further details on possible parameters and examples
 see \link[ranger]{ranger} or \link[caret]{train}.}
 }
+\value{
+Prints requested optimal tuning parameters and (if requested) an additional
+comparative plot produced by \pkg{ggplot2}.
+}
 \description{
 Function \code{tune_parameters} allows to tune parameters for the implemented MERF method. Essentially,
 this function can be understood as a modified wrapper for \link[caret]{train} from the package \pkg{caret},
@@ -67,7 +71,7 @@ for a forest), \code{mtry} (number of variables as split candidates at in each n
 \link[ranger]{ranger}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")

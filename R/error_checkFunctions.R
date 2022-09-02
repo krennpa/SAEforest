@@ -56,6 +56,10 @@ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, a
     stop("smp_data and pop_data must contain columnames for covariates that allow for a clear linkage of covariate data from the survey sample and the population level information. See also help(SAEforest_model)")
   }
 
+  if (!sum(colnames(X) %in% colnames(pop_data)) == dim(X)[2]) {
+    stop("The survey sample covariates X contain predictors that are not contained in the population data. Please ensure a clear linkage of covariate data from the survey sample and the population level information.")
+  }
+
   if (!is.numeric(initialRandomEffects) || (length(initialRandomEffects) != 1 && length(initialRandomEffects) != length(Y))) {
     stop(paste("initialRandomEffects specify initional values of random effects for the MERF. Acceptable inputs are single values such as the default of 0 or numeric vectors of length: ", length(Y)))
   }

@@ -33,11 +33,14 @@
 #' the training function \link[caret]{train}. For further details on possible parameters and examples
 #' see \link[ranger]{ranger} or \link[caret]{train}.
 #'
+#' @return Prints requested optimal tuning parameters and (if requested) an additional
+#' comparative plot produced by \pkg{ggplot2}.
+#'
 #' @seealso \code{\link{SAEforest}}, \code{\link{MERFranger}}, \code{\link[caret]{train}},
 #' \code{\link[ggplot2]{ggplot}}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")

@@ -79,7 +79,6 @@
 #' @import lme4
 #'
 #' @examples
-#' \dontrun{
 #' # Load Data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -91,18 +90,11 @@
 #' # Calculating general model used in wrapper functions
 #'
 #' model1 <- MERFranger(Y = income, X = X_covar, random = "(1|district)",
-#'                      data = eusilcA_smp, mtry = 5)
-#'
-#' # Example 2:
-#' # Calculating a model using 2-level nested design
-#'
-#' model2 <- MERFranger(Y = income, X = X_covar, random = "(1|district)+
-#'                      (1|state:gender)", data = eusilcA_smp, mtry = 3)
+#'                      data = eusilcA_smp, num.trees=50)
 #'
 #' # get individual predictions:
 #'
-#' ind_pred <- predict(model2, eusilcA_pop)
-#' }
+#' ind_pred <- predict(model1, eusilcA_pop)
 #'
 MERFranger <- function(Y,
                        X,
@@ -112,7 +104,7 @@ MERFranger <- function(Y,
                        initialRandomEffects = 0,
                        ErrorTolerance = 0.0001,
                        MaxIterations = 25,
-                       na.rm = T,
+                       na.rm = TRUE,
                        ...) {
 
   if (na.rm == TRUE) {

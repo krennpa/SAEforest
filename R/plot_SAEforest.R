@@ -1,4 +1,4 @@
-#' Plot function for an SAEforest object
+#' Plot function for a 'SAEforest' object
 #'
 #' Plots model-specific characteristics of the fixed effects random forest component of
 #' the MERF from a \code{\link{SAEforestObject}}. A variable importance plot is produced to visualize
@@ -49,7 +49,7 @@
 #' @seealso \code{\link{SAEforestObject}}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -109,7 +109,7 @@ plot.SAEforest <- function(x,
     set_rm <- levels(factor(c(set_fact, set_char)))
 
     if (length(set_rm) != 0) {
-      print(paste0("The data contained ", length(set_rm), " character or factor variables unsuitable for pdp plots(", paste(set_rm, collapse = ", "), ")."))
+      warning(paste0("The data contained ", length(set_rm), " character or factor variables unsuitable for pdp plots(", paste(set_rm, collapse = ", "), ")."))
     }
 
     forest_imp <- as.data.frame(vip::vi(x$MERFmodel$Forest))

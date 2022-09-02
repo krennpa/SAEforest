@@ -77,9 +77,9 @@ SAEforest_mean <- function(Y,
     # MSE estimation
 
     if (MSE != "none") {
-      print(paste("Error SD Bootstrap started:"))
+      message(paste("Error SD Bootstrap started:"))
       adj_SD <- adjust_ErrorSD(Y = Y, X = X, smp_data = smp_data, mod = mean_preds[[2]], B = B_adj, ...)
-      print(paste("Bootstrap with", B, "rounds started"))
+      message(paste("Bootstrap with", B, "rounds started"))
     }
 
     if (MSE == "nonparametric") {
@@ -170,9 +170,9 @@ SAEforest_mean <- function(Y,
 
     # MSE estimation
     if (MSE != "none") {
-      print(paste("Error SD Bootstrap started:"))
+      message(paste("Error SD Bootstrap started:"))
       adj_SD <- adjust_ErrorSD(Y = Y, X = X, smp_data = smp_data, mod = mean_preds[[2]], B = B_adj, ...)
-      print(paste("Bootstrap with", B, "rounds started"))
+      message(paste("Bootstrap with", B, "rounds started"))
     }
 
     if (MSE == "nonparametric") {

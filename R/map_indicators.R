@@ -42,7 +42,7 @@
 #' \code{\link[sp]{SpatialPolygonsDataFrame}}, \code{\link[ggplot2]{ggplot}}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -210,7 +210,7 @@ plot_real <- function(object,
       names(object$Indicators)[1],
       map_dom_id,
       names(map_tab)
-    ), drop = F]
+    ), drop = FALSE]
   } else {
     matcher <- match(map_obj@data[map_dom_id][, 1], map_data[, names(object$Indicators)[1]])
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary_SAEforest.R
 \name{summary.SAEforest}
 \alias{summary.SAEforest}
-\title{Summarizes an SAEforest object}
+\title{Summarizes an 'SAEforest' object}
 \usage{
 \method{summary}{SAEforest}(object, ...)
 }
@@ -22,7 +22,6 @@ Information is extracted from a \code{SAEforest} object. The returned object
 is suitable for printing with \code{print}.
 }
 \examples{
-\dontrun{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
@@ -33,12 +32,12 @@ X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
 # Example 1:
 # Calculating point estimates and discussing basic generic functions
 
-model1 <- SAEforest_mean(Y = income, X = X_covar, dName = "district",
-                         smp_data = eusilcA_smp, pop_data = eusilcA_pop)
+model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
+                         smp_data = eusilcA_smp, pop_data = eusilcA_pop,
+                         num.trees=50, mtry=3)
 
 # SAEforest generics:
 summary(model1)
-}
 }
 \seealso{
 \code{\link{SAEforestObject}}

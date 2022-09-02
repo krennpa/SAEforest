@@ -31,7 +31,7 @@
 #' @seealso \code{\link{SAEforestObject}}, \code{\link{SAEforest_model}}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
