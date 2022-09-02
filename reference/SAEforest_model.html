@@ -297,7 +297,7 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Loading data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span></span></span>
@@ -313,20 +313,251 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># SAEforest generics:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed Effects Random Forest for Small Area Estimation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAEforest_model(Y = income, X = X_covar, dName = "district", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     smp_data = eusilcA_smp, pop_data = eusilcA_pop)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Domains</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  In-sample Out-of-sample Total</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         70            24    94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Totals:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units in sample: 1945 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units in population: 25000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Min. 1st Qu. Median      Mean 3rd Qu. Max.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample_domains       14    17.0   22.5  27.78571   29.00  200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Population_domains    5   126.5  181.5 265.95745  265.75 5857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random forest component: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Type:                            Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of trees:                        500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of independent variables:         14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mtry:                                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minimal node size:                        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variable importance mode:          impurity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Splitrule:                         variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                      0.6297</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Structural component of random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Linear mixed model fit by maximum likelihood  ['lmerMod']</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: Target ~ -1 + (1 | district)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Offset: forest_preds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      AIC      BIC   logLik deviance df.resid </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  39192.7  39203.8 -19594.3  39188.7     1943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Scaled residuals: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2.8523 -0.5400 -0.0705  0.4472 11.9172 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Variance Std.Dev.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept) 11265768 3356    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             30319741 5506    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 1945, groups:  district, 70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.2709061 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence of MERF algorithm: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 5 iterations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19538.31 -19582.77 -19586.1 -19593.2 -19594.34</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2:</span></span></span>
 <span class="r-in"><span><span class="co"># Calculating point + MSE estimates for aggregated covariate data and passing</span></span></span>
 <span class="r-in"><span><span class="co"># arguments to the random forest.</span></span></span>
 <span class="r-in"><span><span class="co"># Note that B is unrealistically low to improve example speed</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove factor for gender</span></span></span>
+<span class="r-in"><span><span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">X_covar</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu">SAEforest_model</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>,</span></span>
 <span class="r-in"><span>                          smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>, pop_data <span class="op">=</span> <span class="va">eusilcA_popAgg</span>,</span></span>
 <span class="r-in"><span>                          MSE <span class="op">=</span> <span class="st">"nonparametric"</span>, popnsize <span class="op">=</span> <span class="va">popNsize</span>,B <span class="op">=</span> <span class="fl">5</span>, mtry <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                          num.trees <span class="op">=</span> <span class="fl">100</span>, aggData <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Eisenstadt (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Melk</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Rust (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Schärding</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Villach (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Wels (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Wiener Neustadt (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Error SD Bootstrap started:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Bootstrap with 5 rounds started</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># SAEforest generics:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed Effects Random Forest for Small Area Estimation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAEforest_model(Y = income, X = X_covar, dName = "district", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     smp_data = eusilcA_smp, pop_data = eusilcA_popAgg, MSE = "nonparametric", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     aggData = TRUE, popnsize = popNsize, B = 5, mtry = 5, num.trees = 100)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Domains</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  In-sample Out-of-sample Total</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         70            24    94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Totals:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units in sample: 1945 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Min. 1st Qu. Median     Mean 3rd Qu. Max.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample_domains   14      17   22.5 27.78571      29  200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random forest component: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Type:                            Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of trees:                        100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of independent variables:         13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mtry:                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minimal node size:                        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variable importance mode:          impurity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Splitrule:                         variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                     0.65397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Structural component of random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Linear mixed model fit by maximum likelihood  ['lmerMod']</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: Target ~ -1 + (1 | district)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Offset: forest_preds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      AIC      BIC   logLik deviance df.resid </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  39137.1  39148.2 -19566.5  39133.1     1943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Scaled residuals: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -4.4393 -0.4981 -0.0166  0.4355 12.1617 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Variance Std.Dev.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept) 10199803 3194    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             29534625 5435    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 1945, groups:  district, 70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.2566994 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence of MERF algorithm: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 12 iterations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19546.27 -19543.81 -19558.19 -19549.38 -19555.75 -19562.11 -19549.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -19542.29 -19557.55 -19552.84 -19565.58 -19566.54</span>
 <span class="r-in"><span><span class="fu"><a href="summarize_indicators.html">summarize_indicators</a></span><span class="op">(</span><span class="va">model2</span>, MSE <span class="op">=</span> <span class="cn">TRUE</span>, CV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>For objects of class SAEforest_mean or SAEforest_meanAGG, only results for the Indicator "Mean" are reported</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Indicator/s: Mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         district      Mean   Mean_MSE    Mean_CV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      Amstetten 14038.474   761388.6 0.06215603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                          Baden 22026.881   438167.1 0.03005155</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        Bludenz 11672.669   915294.9 0.08196159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Braunau am Inn 12323.510  1000189.5 0.08115340</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                        Bregenz 33540.999  9247614.4 0.09066483</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            Bruck an der Leitha 22877.481  2426382.0 0.06808813</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7             Bruck-Mürzzuschlag 24508.780   839137.7 0.03737618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8               Deutschlandsberg 23643.244  2889329.8 0.07189381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                       Dornbirn 19171.148   289682.4 0.02807456</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                      Eferding 12801.205 19797638.0 0.34758083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11            Eisenstadt (Stadt) 28265.309  2715406.9 0.05829935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Eisenstadt-Umgebung 22017.489 27203725.9 0.23688982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                     Feldkirch 17311.324   731719.5 0.04941309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   Feldkirchen 13366.521 21747822.5 0.34889079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Freistadt 16760.155  3057115.1 0.10432247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                       Gmunden 19209.639   543388.6 0.03837391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                         Gmünd 12855.927  1932098.7 0.10812130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Graz (Stadt) 17905.763   153599.8 0.02188782</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 Graz-Umgebung 35562.816  1222469.2 0.03109015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                  Grieskirchen 15530.058  3889738.5 0.12699515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                   Gänserndorf 20017.111   621610.9 0.03938746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                       Güssing 17590.980  4513112.4 0.12076693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                       Hallein 17199.316  2659448.5 0.09481666</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24          Hartberg-Fürstenfeld 12170.911  2815335.5 0.13786118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                      Hermagor 11612.905 27416590.2 0.45088506</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                    Hollabrunn 16493.671  3151151.2 0.10762602</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                          Horn 12940.798 15866305.6 0.30780584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                          Imst 13869.744  1007457.8 0.07236774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29              Innsbruck (Land) 27114.721  1401085.2 0.04365431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30             Innsbruck (Stadt) 17383.723   172476.0 0.02389030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                   Jennersdorf 11727.010 12858880.8 0.30578368</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32        Kirchdorf an der Krems 16037.151  1477504.5 0.07579441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                     Kitzbühel 14037.568  3031001.1 0.12402270</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34             Klagenfurt (Land) 21664.289  1081051.2 0.04799309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35            Klagenfurt (Stadt) 32878.171  2361996.3 0.04674465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                    Korneuburg 25488.387  1425362.5 0.04684037</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                  Krems (Land) 15223.812  5696841.6 0.15678109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38    Krems an der Donau (Stadt) 17840.849 43818856.9 0.37103511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                      Kufstein 19521.079  1085435.1 0.05337011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                       Landeck 12516.998  3455609.2 0.14851220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                      Leibnitz 15665.644   849830.1 0.05884612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                        Leoben 19057.395   633463.4 0.04176353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                         Lienz 11170.198   486117.0 0.06241795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                        Liezen 12131.228   963705.4 0.08092215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                    Lilienfeld 12520.731  5206038.1 0.18223172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                  Linz (Stadt) 22254.221   104216.0 0.01450624</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                     Linz-Land 26696.569   371139.1 0.02281986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                   Mattersburg 19895.318  2900371.7 0.08560043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                          Melk 12651.423   353530.1 0.04699740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                    Mistelbach 19977.994   929983.6 0.04827094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                         Murau 11399.100  4011149.0 0.17569679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                        Murtal 19005.997  3784180.2 0.10235174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                       Mödling 41443.799   369113.9 0.01465955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                   Neunkirchen 15398.402   805611.3 0.05828907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55               Neusiedl am See 18593.315   996575.4 0.05369060</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                Oberpullendorf 16390.178  4322248.4 0.12684437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                      Oberwart 12343.362   685295.1 0.06706646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                          Perg 19255.387  1703754.9 0.06778776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                        Reutte 18007.528  1782951.8 0.07415078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60              Ried im Innkreis 13895.350  1420154.0 0.08576266</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                      Rohrbach 12990.223   835042.7 0.07034573</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                  Rust (Stadt) 15529.543 13926479.5 0.24030454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63              Salzburg (Stadt) 20250.555   464770.2 0.03366528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64             Salzburg-Umgebung 29123.093   778733.8 0.03030100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65        Sankt Johann im Pongau 13181.196  3721610.6 0.14635604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           Sankt Pölten (Land) 17025.069   557821.2 0.04386909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67          Sankt Pölten (Stadt) 16968.259  2756916.8 0.09785309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68        Sankt Veit an der Glan 14861.342  1590959.1 0.08487338</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                      Scheibbs 12620.827  8223417.5 0.22721571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                        Schwaz 15474.703   510082.6 0.04615279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71                     Schärding 10757.941   833979.4 0.08488843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72           Spittal an der Drau 13054.907   441948.9 0.05092280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73                 Steyr (Stadt) 19121.895 16386702.4 0.21169707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74                    Steyr-Land 24949.939  1585081.7 0.05046106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75              Südoststeiermark 13903.565  4230988.4 0.14794311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76                       Tamsweg 16042.995  6322918.9 0.15673766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77                         Tulln 20925.637   548763.4 0.03540087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78               Urfahr-Umgebung 38894.053  4755535.0 0.05606818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79               Villach (Stadt) 21939.594  3107738.9 0.08035144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80                  Villach Land 19005.327 10597305.8 0.17128620</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81                     Voitsberg 16985.173  3144530.6 0.10440179</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82                   Vöcklabruck 18298.747   480530.2 0.03788253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83                   Völkermarkt 15181.050  1456945.4 0.07950965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84        Waidhofen an der Thaya 11279.176  9985304.3 0.28015817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85 Waidhofen an der Ybbs (Stadt) 16425.427  3705231.2 0.11719012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86                          Weiz 15294.560   753448.2 0.05675312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87                  Wels (Stadt) 13919.292  1009923.3 0.07219831</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88                     Wels-Land 23680.703 14580600.3 0.16124754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89                          Wien 20757.950   390644.6 0.03010970</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90        Wiener Neustadt (Land) 20754.239   810530.9 0.04337885</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91       Wiener Neustadt (Stadt) 14135.666  3909895.9 0.13988344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92                     Wolfsberg 17186.457  1581628.3 0.07317552</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93                   Zell am See  9803.019   963673.9 0.10013946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94                        Zwettl 10982.225 21967761.5 0.42677855</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3:</span></span></span>
 <span class="r-in"><span><span class="co"># Calculating point + MSE estimates and passing arguments to the forest.</span></span></span>
@@ -339,11 +570,274 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-in"><span>                          <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">}</span>, custom_indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>my_max <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">Y</span>,</span></span>
 <span class="r-in"><span>                          <span class="va">threshold</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">}</span>, mean40 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">Y</span>, <span class="va">threshold</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>                          <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y</span><span class="op">[</span><span class="va">Y</span><span class="op">&lt;=</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">Y</span>,<span class="fl">0.4</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>, smearing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Error SD Bootstrap started:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> MSE Bootstrap with 5 rounds started:</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># SAEforest generics:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed Effects Random Forest for Small Area Estimation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAEforest_model(Y = income, X = X_covar, dName = "district", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     smp_data = eusilcA_smp, pop_data = eusilcA_pop, MSE = "nonparametric", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     meanOnly = FALSE, smearing = FALSE, B = 5, threshold = function(Y) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         0.5 * median(Y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }, custom_indicator = list(my_max = function(Y, threshold) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         max(Y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }, mean40 = function(Y, threshold) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mean(Y[Y &lt;= quantile(Y, 0.4)])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }), mtry = 5, num.trees = 100)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Domains</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  In-sample Out-of-sample Total</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         70            24    94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Totals:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units in sample: 1945 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units in population: 25000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Min. 1st Qu. Median      Mean 3rd Qu. Max.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample_domains       14    17.0   22.5  27.78571   29.00  200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Population_domains    5   126.5  181.5 265.95745  265.75 5857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random forest component: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Type:                            Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of trees:                        100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of independent variables:         13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mtry:                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minimal node size:                        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variable importance mode:          impurity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Splitrule:                         variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                     0.66844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Structural component of random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Linear mixed model fit by maximum likelihood  ['lmerMod']</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: Target ~ -1 + (1 | district)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Offset: forest_preds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      AIC      BIC   logLik deviance df.resid </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  39083.5  39094.6 -19539.7  39079.5     1943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Scaled residuals: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -4.0682 -0.5170 -0.0513  0.4268 12.1747 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Variance Std.Dev.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept)  7689148 2773    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             28970242 5382    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 1945, groups:  district, 70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.2097457 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence of MERF algorithm: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 4 iterations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19519.14 -19541.96 -19537.78 -19539.73</span>
 <span class="r-in"><span><span class="fu"><a href="summarize_indicators.html">summarize_indicators</a></span><span class="op">(</span><span class="va">model3</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">TRUE</span>, indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gini"</span>, <span class="st">"my_max"</span>, <span class="st">"mean40"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Indicator/s: Gini</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Indicator/s: my_max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Indicator/s: mean40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         district      Gini    Gini_CV    my_max my_max_CV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      Amstetten 0.2496166 0.06139391  53367.94 0.5124650</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                          Baden 0.1821222 0.07004379  69365.94 0.3929977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        Bludenz 0.2836343 0.10597374  45119.26 0.2913200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Braunau am Inn 0.2769782 0.07798593  53789.77 0.5638769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                        Bregenz 0.1623321 0.07778439  82887.97 0.1120534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            Bruck an der Leitha 0.1786187 0.07669723  69086.14 0.1365179</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7             Bruck-Mürzzuschlag 0.1668700 0.09485270  71669.91 0.2235948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8               Deutschlandsberg 0.1897958 0.08023022  57235.93 0.1824685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                       Dornbirn 0.2181016 0.06908320  56893.75 0.3678049</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                      Eferding 0.2345167 0.18489711  42421.92 0.6557794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11            Eisenstadt (Stadt) 0.1910494 0.17611874  68312.35 0.1181623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Eisenstadt-Umgebung 0.2009430 0.12954595  58555.45 0.1984942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                     Feldkirch 0.2317475 0.10229294  59428.59 0.3881409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   Feldkirchen 0.2446526 0.18556621  40754.56 0.2536565</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Freistadt 0.2154424 0.12854458  53101.29 0.4965489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                       Gmunden 0.1999884 0.09455086  61906.52 0.2955842</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                         Gmünd 0.2561330 0.29310131  39789.79 0.5867452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Graz (Stadt) 0.2176966 0.06736820  76946.33 0.1984235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 Graz-Umgebung 0.1861077 0.16841540  95132.01 0.2606042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                  Grieskirchen 0.2167425 0.10161904  52493.09 0.2587489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                   Gänserndorf 0.1995323 0.10132979  61202.70 0.4011403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                       Güssing 0.2331344 0.08623459  42441.73 0.3973735</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                       Hallein 0.2258108 0.12961906  51111.93 0.3519029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24          Hartberg-Fürstenfeld 0.2645503 0.07211716  55098.67 0.3520621</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                      Hermagor 0.2523298 0.16283129  33864.60 0.7615479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                    Hollabrunn 0.2223246 0.11138456  48751.66 0.4628220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                          Horn 0.2338976 0.19230341  43554.09 0.3160812</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                          Imst 0.2377699 0.08142345  46086.11 0.2619329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29              Innsbruck (Land) 0.2040890 0.08602366  77048.75 0.1486210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30             Innsbruck (Stadt) 0.2065810 0.10692276  60773.36 0.4932663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                   Jennersdorf 0.2494483 0.17889506  34599.53 0.1609961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32        Kirchdorf an der Krems 0.2325506 0.09950261  50549.39 0.5055384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                     Kitzbühel 0.2505483 0.11280844  45226.13 0.4784815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34             Klagenfurt (Land) 0.1825540 0.08386088  57705.76 0.3781472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35            Klagenfurt (Stadt) 0.1639245 0.06938104  81294.83 0.3479100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                    Korneuburg 0.1603203 0.08917155  63771.42 0.3168946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                  Krems (Land) 0.2391255 0.08436111  50278.43 0.2209006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38    Krems an der Donau (Stadt) 0.2199381 0.11800657  40318.15 0.3457054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                      Kufstein 0.1847680 0.07407301  58083.20 0.2491800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                       Landeck 0.2615573 0.07132085  38413.82 0.7690219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                      Leibnitz 0.2315831 0.11104392  53370.41 0.4808914</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                        Leoben 0.1927015 0.12717968  58604.30 0.2134696</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                         Lienz 0.2608947 0.12025133  45782.32 0.4455413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                        Liezen 0.2734132 0.13385868  53213.01 0.4873165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                    Lilienfeld 0.2443897 0.19718093  42680.27 0.7047444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                  Linz (Stadt) 0.1866490 0.07613662  76815.99 0.1997204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                     Linz-Land 0.1685493 0.04476869  77998.89 0.2628937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                   Mattersburg 0.2068680 0.18340054  52645.18 0.2048766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                          Melk 0.2735880 0.08773104  48230.46 0.2642358</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                    Mistelbach 0.2036992 0.12599481  60321.48 0.1358387</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                         Murau 0.2529370 0.14983048  35311.93 0.3188117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                        Murtal 0.2150873 0.07773061  53926.56 0.4617912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                       Mödling 0.1496726 0.19444333  87746.94 0.1476431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                   Neunkirchen 0.2167925 0.13399309  56766.39 0.3887731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55               Neusiedl am See 0.2056638 0.09013821  54394.24 0.2373192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                Oberpullendorf 0.2331675 0.21982944  46670.48 0.5692763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                      Oberwart 0.2583104 0.14040406  47608.62 0.5629113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                          Perg 0.2127375 0.09274623  53158.31 0.1649124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                        Reutte 0.1984683 0.10557539  43351.78 0.2284484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60              Ried im Innkreis 0.2474063 0.12518031  50045.91 0.3044791</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                      Rohrbach 0.2188741 0.12589123  48102.63 0.2523869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                  Rust (Stadt) 0.2697352 0.18642302  23357.17 0.1908323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63              Salzburg (Stadt) 0.1932685 0.07948163  68674.85 0.1591554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64             Salzburg-Umgebung 0.1679929 0.09598427  89310.34 0.1694144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65        Sankt Johann im Pongau 0.2453427 0.09941047  53633.28 0.2670028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           Sankt Pölten (Land) 0.2298954 0.08762768  62305.47 0.2294852</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67          Sankt Pölten (Stadt) 0.2221361 0.16899913  49775.06 0.5028214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68        Sankt Veit an der Glan 0.2455244 0.10072608  51492.05 0.3967974</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                      Scheibbs 0.2480215 0.19712089  42353.38 0.3760305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                        Schwaz 0.2298244 0.15086416  52413.72 0.2150530</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71                     Schärding 0.3029931 0.08659790  43510.19 0.3755736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72           Spittal an der Drau 0.2589875 0.07263732  58545.46 0.2843762</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73                 Steyr (Stadt) 0.2144196 0.28573383  47224.17 0.5252292</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74                    Steyr-Land 0.1730117 0.09023882  57873.40 0.4890363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75              Südoststeiermark 0.2509470 0.06872722  55264.52 0.4612891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76                       Tamsweg 0.2162900 0.10130196  40879.56 0.1156401</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77                         Tulln 0.2054317 0.08278396  61652.68 0.1982365</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78               Urfahr-Umgebung 0.1443740 0.15581748  89357.50 0.1001912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79               Villach (Stadt) 0.1941162 0.11158736  60944.94 0.1558012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80                  Villach Land 0.2069803 0.07776880  56018.43 0.2372981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81                     Voitsberg 0.2100369 0.12259307  48686.29 0.5232139</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82                   Vöcklabruck 0.2111293 0.05842563  63596.83 0.2556668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83                   Völkermarkt 0.2349521 0.10301081  47016.00 0.2725515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84        Waidhofen an der Thaya 0.2660027 0.15929675  35849.69 0.1811430</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85 Waidhofen an der Ybbs (Stadt) 0.2109265 0.26315102  35962.63 0.1605012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86                          Weiz 0.2452848 0.08436544  51603.52 0.3177342</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87                  Wels (Stadt) 0.2408120 0.09499697  47470.60 0.2739218</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88                     Wels-Land 0.2001741 0.08472676  59415.56 0.2160322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89                          Wien 0.2447866 0.05381822 109676.70 0.2103532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90        Wiener Neustadt (Land) 0.2057335 0.09337493  57415.41 0.2618388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91       Wiener Neustadt (Stadt) 0.2105591 0.09349449  45909.63 0.2722959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92                     Wolfsberg 0.2332638 0.09679308  50785.10 0.2186416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93                   Zell am See 0.2933377 0.02306185  45910.49 0.3219887</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94                        Zwettl 0.2677241 0.11152893  45474.82 0.5364367</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       mean40  mean40_CV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   8104.170 0.02902325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  15735.431 0.02839009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   6234.411 0.22953106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   6253.489 0.25399596</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  23840.219 0.03849579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  16660.491 0.03372998</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  17345.005 0.09502401</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  14506.407 0.11582412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  12450.326 0.09412046</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  9565.550 0.35804410</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 27297.832 0.30017683</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 17758.733 0.20886305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 10075.268 0.13719385</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  8402.480 0.27306219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 10754.675 0.10974376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 13368.639 0.04987205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  7485.412 0.85402883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 11365.140 0.05354266</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 24264.907 0.05996671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 10584.374 0.08537967</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 13424.339 0.10829529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 10275.955 0.14684277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 10024.918 0.10733773</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  7309.488 0.15066485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  7087.851 0.31167004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 10231.910 0.09760702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  9405.537 0.44537825</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  8610.950 0.15825954</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 17869.057 0.05511827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 11623.388 0.07832363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  7667.007 0.23136868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 10030.946 0.12467688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  7138.563 0.10963907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 15789.840 0.09034039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 24134.944 0.05707198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 20230.548 0.06131129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  9220.980 0.12094249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 10874.673 0.11124036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 14157.177 0.05572605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  6690.407 0.22772454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  9564.511 0.08729996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 13783.134 0.10627174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  7211.216 0.14491196</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  6485.282 0.23510147</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  8939.741 0.48175894</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 15460.731 0.06819121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 19818.833 0.03775992</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 14359.113 0.36398719</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49  6209.175 0.11881243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 13183.924 0.07627689</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51  7260.136 0.21362813</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 12128.811 0.12253665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53 30477.641 0.04364185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54 10333.526 0.14205719</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55 12630.609 0.06372049</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56 10385.815 0.41585492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57  7387.320 0.22284874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58 11466.888 0.14186941</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59 12948.996 0.13908392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60  8129.388 0.25564883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61  9546.130 0.12819871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62  6752.316 0.21863140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63 13423.428 0.05639137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64 22100.403 0.04523701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65  8542.659 0.13930779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66 10368.832 0.06807740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67 10210.859 0.17509699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68  8725.549 0.13554502</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69  7794.362 0.21527478</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70  9618.193 0.09631738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71  4738.325 0.29389391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72  7703.324 0.09920418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73 12093.106 0.43165920</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74 17657.622 0.09946456</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75  7923.985 0.21775466</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76 10633.185 0.12228878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77 13220.184 0.07271324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78 32063.473 0.05584124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79 15122.046 0.09816730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80 12793.717 0.04483305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81 11390.310 0.15038505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82 11800.726 0.06066700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83  9235.364 0.13208011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84  6855.515 0.33219771</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85 11547.659 0.45972960</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86  8482.244 0.08870874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87  8464.953 0.09782143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88 13509.826 0.08020484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89 12093.349 0.02981109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90 12484.619 0.08173127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91 11126.650 0.11644553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92 10536.540 0.09727307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93  4909.782 0.13866430</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94  7230.085 0.23743497</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

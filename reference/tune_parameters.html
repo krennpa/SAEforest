@@ -135,6 +135,13 @@ see <a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">r
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>Prints requested optimal tuning parameters and (if requested) an additional
+comparative plot produced by <span class="pkg">ggplot2</span>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Tuning can be performed on the following four parameters: <code>num.trees</code> (the number of trees
 for a forest), <code>mtry</code> (number of variables as split candidates at in each node), <code>min.node.size</code>
@@ -149,11 +156,13 @@ for a forest), <code>mtry</code> (number of variables as split candidates at in 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Loading data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_pop"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eusilcA_smp"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/topepo/caret/" class="external-link">caret</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ggplot2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: lattice</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">income</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">$</span><span class="va">eqIncome</span></span></span>
 <span class="r-in"><span><span class="va">X_covar</span> <span class="op">&lt;-</span> <span class="va">eusilcA_smp</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span><span class="op">)</span><span class="op">]</span></span></span>
@@ -169,7 +178,29 @@ for a forest), <code>mtry</code> (number of variables as split candidates at in 
 <span class="r-in"><span><span class="fu">tune_parameters</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, data <span class="op">=</span> <span class="va">eusilcA_smp</span>,</span></span>
 <span class="r-in"><span>                dName <span class="op">=</span> <span class="st">"district"</span>, trControl <span class="op">=</span> <span class="va">fitControl</span>,</span></span>
 <span class="r-in"><span>                tuneGrid <span class="op">=</span> <span class="va">merfGrid</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1945 samples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   15 predictor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> No pre-processing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Resampling: Cross-Validated (5 fold, repeated 1 times) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of sample sizes: 1557, 1557, 1556, 1556, 1554 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Resampling results across tuning parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mtry  RMSE      Rsquared   MAE     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3     5757.157  0.7120835  3830.652</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   7     5518.994  0.7281565  3588.959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   9     5606.048  0.7184037  3655.541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tuning parameter 'num.trees' was held constant at a value of 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tuning parameter 'min.node.size' was held constant at a value of 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tuning parameter 'splitrule' was held constant at a value of variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RMSE was used to select the optimal model using the smallest value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The final values used for the model were num.trees = 50, mtry =</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7, min.node.size = 10 and splitrule = variance.</span>
+<span class="r-plt img"><img src="tune_parameters-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
