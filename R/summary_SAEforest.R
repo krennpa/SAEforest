@@ -12,6 +12,7 @@
 #' and population data, the model fit and random forest specific metrics.
 #' @seealso \code{\link{SAEforestObject}}
 #' @examples
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -28,6 +29,7 @@
 #'
 #' # SAEforest generics:
 #' summary(model1)
+#' }
 #' @export
 
 summary.SAEforest <- function(object, ...) {

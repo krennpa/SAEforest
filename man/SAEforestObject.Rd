@@ -33,11 +33,11 @@ structural components of MERFs and modeling random components.}
 \item{\code{ErrorSD}}{Numeric value of standard deviation of unit-level errors.}
 \item{\code{VarianceCovariance}}{VarCorr matrix from \code{EffectModel}.}
 \item{\code{LogLik}}{Vector with numerical entries showing the loglikelihood of the MERF algorithm.}
-\item{\code{IterationsUsed}}{Numeric number of iteratirons used until convergence of the MERF algorithm.}
+\item{\code{IterationsUsed}}{Numeric number of iterations used until convergence of the MERF algorithm.}
 \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
-\item{\code{initialRandomEffects}}{Numeric value or vector of intial specification of random effects.}
+\item{\code{initialRandomEffects}}{Numeric value or vector of initial specification of random effects.}
 \item{\code{MaxIterations}}{Numeric value specifying the maximal amount of iterations for the
 MERF algorithm.}
 \item{\code{call}}{The summarized function call producing the object.}
@@ -63,6 +63,7 @@ applicable to corresponding objects. For further details on generic functions se
 and \code{\link[lme4]{lmer}} as well as the examples below.
 }
 \examples{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
@@ -83,6 +84,7 @@ summary(model1)
 summarize_indicators(model1)
 residuals(model1)
 sigma(model1)
+}
 }
 \references{
 Krennmair, P., & Schmid, T. (2022). Flexible Domain Prediction Using Mixed Effects

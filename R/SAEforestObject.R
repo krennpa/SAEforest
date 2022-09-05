@@ -44,7 +44,7 @@
 #' \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 #' \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 #' \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
-#' \item{\code{initialRandomEffects}}{Numeric value or vector of intial specification of random effects.}
+#' \item{\code{initialRandomEffects}}{Numeric value or vector of initial specification of random effects.}
 #' \item{\code{MaxIterations}}{Numeric value specifying the maximal amount of iterations for the
 #' MERF algorithm.}
 #' \item{\code{call}}{The summarized function call producing the object.}
@@ -72,6 +72,7 @@
 #' \code{ \link[lme4]{lmer}}
 #'
 #' @examples
+#' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
@@ -92,5 +93,6 @@
 #' summarize_indicators(model1)
 #' residuals(model1)
 #' sigma(model1)
+#' }
 #' @name SAEforestObject
 NULL

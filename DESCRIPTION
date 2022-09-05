@@ -34,9 +34,11 @@ Imports:
 Suggests: 
     R.rsp,
     sp,
-    rgeos
+    rgeos,
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 RoxygenNote: 7.2.1
 LazyData: true
 VignetteBuilder: R.rsp
 NeedsCompilation: no
+Config/testthat/edition: 3

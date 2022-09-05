@@ -64,7 +64,7 @@ structural components of MERFs and modeling random components.}
 \item{\code{OOBresiduals}}{Vector of OOB-residuals.}
 \item{\code{Random}}{Character specifying the random intercept in the random effects model.}
 \item{\code{ErrorTolerance}}{Numerical value to monitor the MERF algorithm's convergence.}
-\item{\code{initialRandomEffects}}{Numeric value or vector of intial specification of random effects.}
+\item{\code{initialRandomEffects}}{Numeric value or vector of initial specification of random effects.}
 \item{\code{MaxIterations}}{Numeric value specifying the maximal amount of iterations for the
 MERF algorithm.}
 }
@@ -94,6 +94,7 @@ applicable to corresponding objects. For further details on generic functions se
 and \code{\link[lme4]{lmer}} as well as the examples below.
 }
 \examples{
+\donttest{
 # Load Data
 data("eusilcA_pop")
 data("eusilcA_smp")
@@ -110,7 +111,7 @@ model1 <- MERFranger(Y = income, X = X_covar, random = "(1|district)",
 # get individual predictions:
 
 ind_pred <- predict(model1, eusilcA_pop)
-
+}
 }
 \references{
 Hajjem, A., Bellavance, F., & Larocque, D. (2014). Mixed-Effects Random Forest for Clustered

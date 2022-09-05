@@ -22,6 +22,7 @@ Information is extracted from a \code{SAEforest} object. The returned object
 is suitable for printing with \code{print}.
 }
 \examples{
+\donttest{
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
@@ -38,6 +39,7 @@ model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 
 # SAEforest generics:
 summary(model1)
+}
 }
 \seealso{
 \code{\link{SAEforestObject}}
