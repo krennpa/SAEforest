@@ -343,7 +343,7 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minimal node size:                        5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Variable importance mode:          impurity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Splitrule:                         variance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                     0.62088</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                     0.62275</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Structural component of random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
@@ -353,31 +353,29 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Offset: forest_preds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      AIC      BIC   logLik deviance df.resid </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  39223.9  39235.1 -19610.0  39219.9     1943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  39218.7  39229.9 -19607.4  39214.7     1943 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Scaled residuals: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2.9852 -0.5270 -0.0548  0.4496 11.7601 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -3.0918 -0.5268 -0.0645  0.4316 11.8137 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Variance Std.Dev.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept) 14247532 3775    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             30584801 5530    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept) 12469172 3531    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             30638685 5535    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 1945, groups:  district, 70</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.3177959 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.2892552 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Convergence of MERF algorithm: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 17 iterations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 10 iterations.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                                                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19536.71 -19576.98 -19586.87 -19604.73 -19606.93 -19597.86 -19604.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -19592.61 -19596.54 -19613.04 -19601.85 -19607.6 -19600.91 -19602.9 -19619.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -19609.07 -19609.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19537.25 -19569.41 -19593.44 -19604.86 -19608.9 -19594.06 -19602.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -19597.04 -19608.84 -19607.37</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2:</span></span></span>
 <span class="r-in"><span><span class="co"># Calculating point + MSE estimates for aggregated covariate data and passing</span></span></span>
@@ -394,8 +392,8 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Melk</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Rust (Stadt)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Schärding</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Villach (Stadt)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Wels (Stadt)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Wiener Neustadt (Land)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculation of weights failed for area: Wiener Neustadt (Stadt)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Error SD Bootstrap started:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bootstrap with 5 rounds started</span>
@@ -431,7 +429,7 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minimal node size:                        5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Variable importance mode:          impurity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Splitrule:                         variance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                      0.6833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rsquared (OOB):                     0.66581</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Structural component of random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
@@ -441,125 +439,125 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Offset: forest_preds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      AIC      BIC   logLik deviance df.resid </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  39079.6  39090.8 -19537.8  39075.6     1943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  39080.9  39092.0 -19538.4  39076.9     1943 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Scaled residuals: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -3.8278 -0.5038 -0.0359  0.4176 12.5974 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2.8852 -0.5134 -0.0424  0.4355 12.3507 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Variance Std.Dev.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept)  6600725 2569    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             29050872 5390    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  district (Intercept)  8452340 2907    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             28842427 5371    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 1945, groups:  district, 70</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.1851453 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0.2266361 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Convergence of MERF algorithm: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ________________________________________________________________</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 2 iterations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Convergence achieved after 4 iterations.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A maximum of 25 iterations used and tolerance set to: 1e-04 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19536.89 -19537.81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Monitored Log-Likelihood:                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0 -19530.11 -19545.68 -19536.9 -19538.43</span>
 <span class="r-in"><span><span class="fu"><a href="summarize_indicators.html">summarize_indicators</a></span><span class="op">(</span><span class="va">model2</span>, MSE <span class="op">=</span> <span class="cn">TRUE</span>, CV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>For objects of class SAEforest_mean or SAEforest_meanAGG, only results for the Indicator "Mean" are reported</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Indicator/s: Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         district      Mean   Mean_MSE    Mean_CV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      Amstetten 14062.091   588789.0 0.05456698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                          Baden 22175.000   511260.3 0.03224463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        Bludenz 11546.144   415630.3 0.05583630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Braunau am Inn 12447.349   853988.8 0.07424193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                        Bregenz 34358.119 13860032.1 0.10835594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6            Bruck an der Leitha 23420.716  2079885.6 0.06157714</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7             Bruck-Mürzzuschlag 24554.443  1168036.8 0.04401474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8               Deutschlandsberg 23963.643  4287048.1 0.08640250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                       Dornbirn 19320.204   464413.3 0.03527286</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                      Eferding 13797.787 13994630.1 0.27112606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11            Eisenstadt (Stadt) 32352.103  2807337.0 0.05178986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Eisenstadt-Umgebung 24459.857 17944149.8 0.17318391</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                     Feldkirch 17135.798   794586.4 0.05201951</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   Feldkirchen 14280.430 14792272.9 0.26932470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Freistadt 16728.751  2187405.8 0.08840995</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                       Gmunden 19317.467   390287.2 0.03234015</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                         Gmünd 13367.710  1453675.6 0.09019381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Graz (Stadt) 17899.685   170496.1 0.02306810</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 Graz-Umgebung 35896.902  3318190.4 0.05074505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                  Grieskirchen 15462.475  3930965.9 0.12822439</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                   Gänserndorf 20307.402   258795.1 0.02505092</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                       Güssing 18820.354  4119636.6 0.10784541</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                       Hallein 16959.635  2029197.0 0.08399348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24          Hartberg-Fürstenfeld 11930.490  4354367.6 0.17490583</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                      Hermagor 12056.244 15452683.7 0.32605429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                    Hollabrunn 16292.502  2769544.4 0.10214483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                          Horn 14111.638  9038983.9 0.21305042</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                          Imst 13848.170  2787717.0 0.12056797</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29              Innsbruck (Land) 27583.751  1952185.9 0.05065324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30             Innsbruck (Stadt) 17513.755   277194.7 0.03006168</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                   Jennersdorf 12194.533  8296626.6 0.23620311</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32        Kirchdorf an der Krems 15866.980   984732.0 0.06254099</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33                     Kitzbühel 14080.761  1741733.9 0.09372702</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34             Klagenfurt (Land) 21588.945  1785511.9 0.06189420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35            Klagenfurt (Stadt) 33273.618  3200462.2 0.05376583</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36                    Korneuburg 25886.743  2980504.1 0.06669103</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37                  Krems (Land) 14800.114  6088291.4 0.16671806</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38    Krems an der Donau (Stadt) 18918.250 32984526.5 0.30358070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39                      Kufstein 19773.838  1208637.1 0.05559772</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40                       Landeck 13048.344  3212089.1 0.13735308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41                      Leibnitz 15309.087   746657.0 0.05644315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42                        Leoben 19099.215   380927.2 0.03231510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43                         Lienz 11428.608   506147.1 0.06225082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44                        Liezen 11986.705  1571992.0 0.10459847</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45                    Lilienfeld 13662.710  4043163.6 0.14717153</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46                  Linz (Stadt) 22534.774   185801.1 0.01912806</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47                     Linz-Land 27177.697   842744.9 0.03377812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48                   Mattersburg 21260.254  2043469.1 0.06723812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49                          Melk 12751.184   719947.5 0.06654262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50                    Mistelbach 19917.638   756509.8 0.04366862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51                         Murau 11824.820  4924579.1 0.18766791</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52                        Murtal 19304.406  1488908.0 0.06320879</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53                       Mödling 42771.069  2501151.1 0.03697599</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54                   Neunkirchen 15220.880  1225323.8 0.07272532</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55               Neusiedl am See 18534.978   235009.9 0.02615478</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56                Oberpullendorf 17531.368  2304358.8 0.08658831</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57                      Oberwart 12281.699   915323.5 0.07789846</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58                          Perg 19230.563   830244.2 0.04738173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59                        Reutte 19291.535   657298.5 0.04202566</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60              Ried im Innkreis 13536.100  1477643.3 0.08980309</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61                      Rohrbach 12887.994   923126.5 0.07454960</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62                  Rust (Stadt) 16392.398  6899972.0 0.16024378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63              Salzburg (Stadt) 20284.987   522407.6 0.03563116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64             Salzburg-Umgebung 29445.328   399896.4 0.02147620</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65        Sankt Johann im Pongau 13034.789  4007245.1 0.15357444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66           Sankt Pölten (Land) 17327.617   595676.3 0.04454165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67          Sankt Pölten (Stadt) 17095.222  2438940.4 0.09135364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68        Sankt Veit an der Glan 14678.631   999419.5 0.06810647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69                      Scheibbs 13205.734  8467696.3 0.22035357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70                        Schwaz 15448.996   391613.2 0.04050684</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71                     Schärding 10672.998  1526366.1 0.11575584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72           Spittal an der Drau 12735.793   212306.4 0.03617892</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73                 Steyr (Stadt) 20589.268 10947428.5 0.16069973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74                    Steyr-Land 25381.814  1625343.7 0.05022847</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75              Südoststeiermark 13822.743  3748875.8 0.14007360</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76                       Tamsweg 16890.332  3806286.2 0.11550812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77                         Tulln 20875.870   687991.7 0.03973260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78               Urfahr-Umgebung 39342.265  2354711.2 0.03900403</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79               Villach (Stadt) 22629.089  3226947.0 0.07938324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80                  Villach Land 18769.418 13722314.4 0.19736170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81                     Voitsberg 16976.188  1757074.3 0.07808271</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82                   Vöcklabruck 18420.326   552193.2 0.04034115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83                   Völkermarkt 15300.322  2180136.7 0.09650310</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84        Waidhofen an der Thaya 11684.951  7463975.1 0.23380736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85 Waidhofen an der Ybbs (Stadt) 17399.285  1963568.2 0.08053629</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86                          Weiz 15173.942   486523.4 0.04596777</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87                  Wels (Stadt) 13876.304   996198.3 0.07192818</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88                     Wels-Land 23776.479 11035993.0 0.13971987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89                          Wien 20866.513   328872.0 0.02748296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90        Wiener Neustadt (Land) 20913.193   781496.3 0.04227106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91       Wiener Neustadt (Stadt) 15096.291  4092898.4 0.13401247</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92                     Wolfsberg 17000.241  3285707.9 0.10662509</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93                   Zell am See  9729.792   696399.5 0.08576807</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94                        Zwettl 11392.369 13874376.4 0.32695854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         district      Mean    Mean_MSE    Mean_CV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      Amstetten 14135.317   657332.58 0.05735708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                          Baden 21951.442   413942.01 0.02930938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        Bludenz 11621.274   464777.75 0.05866363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Braunau am Inn 12597.084  1156299.45 0.08536211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                        Bregenz 33297.055  6327049.96 0.07554310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            Bruck an der Leitha 23042.506  2475066.69 0.06827532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7             Bruck-Mürzzuschlag 24865.717  1032321.86 0.04086077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8               Deutschlandsberg 23955.082  3717969.35 0.08049247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                       Dornbirn 18915.704   532746.55 0.03858672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                      Eferding 14023.639 17132458.67 0.29515430</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11            Eisenstadt (Stadt) 30050.700  2130814.84 0.04857561</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Eisenstadt-Umgebung 23344.340 21733590.17 0.19970279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                     Feldkirch 17399.220   586312.42 0.04400832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   Feldkirchen 14383.079 20085977.42 0.31159798</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Freistadt 16988.474  3033833.21 0.10252776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                       Gmunden 19072.684   180054.38 0.02224795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                         Gmünd 13489.836  1858751.79 0.10106575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Graz (Stadt) 17958.167   194760.90 0.02457474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 Graz-Umgebung 35414.722   811747.48 0.02544056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                  Grieskirchen 15440.110  4944898.16 0.14402182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                   Gänserndorf 20088.473   592459.24 0.03831619</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                       Güssing 18453.440  4467533.70 0.11453984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                       Hallein 17278.072  2505258.30 0.09160749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24          Hartberg-Fürstenfeld 11969.495  3730349.46 0.16136114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                      Hermagor 12374.440 23495844.05 0.39171479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                    Hollabrunn 16505.534  3472865.63 0.11290532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                          Horn 13988.406 13803274.20 0.26559679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                          Imst 14306.561  1211421.21 0.07693294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29              Innsbruck (Land) 27191.633  1563194.19 0.04598023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30             Innsbruck (Stadt) 17433.943    82623.99 0.01648760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                   Jennersdorf 12353.559 12170287.62 0.28239585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32        Kirchdorf an der Krems 17348.211  2888672.33 0.09797030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                     Kitzbühel 13960.165  2328073.51 0.10929688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34             Klagenfurt (Land) 21831.248  1002278.25 0.04585805</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35            Klagenfurt (Stadt) 33211.356  3357504.83 0.05517238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                    Korneuburg 25562.174  1944028.65 0.05454482</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                  Krems (Land) 15076.249  5395255.76 0.15406809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38    Krems an der Donau (Stadt) 18639.752 41355160.06 0.34500448</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                      Kufstein 19634.107  1389233.06 0.06003111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                       Landeck 13145.299  2835864.88 0.12810684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                      Leibnitz 15633.550  1020096.05 0.06460452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                        Leoben 18999.326   227981.62 0.02513111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                         Lienz 11320.668   506588.46 0.06287176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                        Liezen 12341.481   953941.20 0.07913954</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                    Lilienfeld 13621.226  3534604.21 0.13802387</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                  Linz (Stadt) 22130.384   206304.88 0.02052418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                     Linz-Land 26849.288   289884.55 0.02005302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                   Mattersburg 20665.787  2252250.02 0.07262002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                          Melk 13044.506   879862.90 0.07190844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                    Mistelbach 19998.198  1026869.09 0.05067184</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                         Murau 12006.335  3399499.92 0.15356670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                        Murtal 19683.321  3629201.30 0.09678480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                       Mödling 42198.989  1448871.97 0.02852417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                   Neunkirchen 15586.912   611033.98 0.05015019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55               Neusiedl am See 18755.666   647835.05 0.04291407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                Oberpullendorf 17391.258  3800938.04 0.11210227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                      Oberwart 12602.341   566250.03 0.05971080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                          Perg 19460.215  1592863.58 0.06485473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                        Reutte 18907.533  1505825.15 0.06490115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60              Ried im Innkreis 13761.687  1159157.25 0.07823471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                      Rohrbach 13222.997   993048.24 0.07536250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                  Rust (Stadt) 16464.422 10375405.54 0.19563928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63              Salzburg (Stadt) 20384.646   190317.58 0.02140111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64             Salzburg-Umgebung 29189.512   717474.19 0.02901859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65        Sankt Johann im Pongau 13149.922  4205702.06 0.15595385</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           Sankt Pölten (Land) 17100.871   629452.79 0.04639416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67          Sankt Pölten (Stadt) 17143.582  2998842.71 0.10101254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68        Sankt Veit an der Glan 14734.028  1543359.18 0.08431639</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                      Scheibbs 13262.605  7422515.07 0.20542189</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                        Schwaz 15646.132   317185.67 0.03599563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71                     Schärding 11068.035   656646.54 0.07321420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72           Spittal an der Drau 12868.566   516930.14 0.05587091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73                 Steyr (Stadt) 19821.453 15285857.22 0.19724654</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74                    Steyr-Land 25014.330   849180.40 0.03683928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75              Südoststeiermark 13816.180  3197755.95 0.12942991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76                       Tamsweg 17363.983  5916916.98 0.14008718</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77                         Tulln 21054.793   637867.12 0.03793273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78               Urfahr-Umgebung 41896.272   620766.33 0.01880567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79               Villach (Stadt) 20607.880  3058054.60 0.08485732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80                  Villach Land 19021.468  9864066.70 0.16511403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81                     Voitsberg 17331.357  2881597.10 0.09794540</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82                   Vöcklabruck 18310.537   371392.24 0.03328245</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83                   Völkermarkt 15324.990  1693699.57 0.08492156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84        Waidhofen an der Thaya 11999.250  7048876.56 0.22126149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85 Waidhofen an der Ybbs (Stadt) 17260.723  2874101.93 0.09821823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86                          Weiz 15430.482   789206.26 0.05757259</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87                  Wels (Stadt) 13821.142   733994.64 0.06198727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88                     Wels-Land 19986.564  2089701.03 0.07232758</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89                          Wien 20781.158   450061.96 0.03228244</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90        Wiener Neustadt (Land) 21034.346   583571.62 0.03631768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91       Wiener Neustadt (Stadt) 14906.716  3895930.69 0.13241087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92                     Wolfsberg 17254.426  2135487.69 0.08469310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93                   Zell am See  9905.901  1627371.63 0.12878029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94                        Zwettl 11700.097 16702630.32 0.34930354</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3:</span></span></span>
 <span class="r-in"><span><span class="co"># Calculating point + MSE estimates and passing arguments to the forest.</span></span></span>

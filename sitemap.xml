@@ -40,9 +40,6 @@
     <loc>https://krennpa.github.io/SAEforest/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://krennpa.github.io/SAEforest/reference/load_shapeaustria.html</loc>
-  </url>
-  <url>
     <loc>https://krennpa.github.io/SAEforest/reference/map_indicators.html</loc>
   </url>
   <url>
@@ -53,6 +50,9 @@
   </url>
   <url>
     <loc>https://krennpa.github.io/SAEforest/reference/print.SAEforest.html</loc>
+  </url>
+  <url>
+    <loc>https://krennpa.github.io/SAEforest/reference/shape_Aut.html</loc>
   </url>
   <url>
     <loc>https://krennpa.github.io/SAEforest/reference/summarize_indicators.html</loc>
