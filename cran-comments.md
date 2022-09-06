@@ -1,3 +1,16 @@
+## Third Submission
+
+* Incorporated Comment (Please do not modifiy the .GlobalEnv. This is not allowed by the CRAN
+policies. -> R/load_shapeaustria.R) by removing the function and adapting and reorganizing the example.
+
+### Test environments
+* Ubuntu 20.04.4 LTS, R 4.2.0
+* Fedora Linux, R-devel, clang, gfortran
+
+### R CMD check results (locally)
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+
 ## Second Resubmission
 
 * Removed examples with CPU time > 2.5 times elapsed time and added automated tests instead.
