@@ -15,8 +15,8 @@
 #' Defaults to \code{FALSE}.
 #' @param CV Logical. If \code{TRUE}, the CV is also visualized.
 #' Defaults to \code{FALSE}.
-#' @param map_obj An \code{SpatialPolygonsDataFrame} object as defined by the
-#' \pkg{sp} package on which the data should be visualized.
+#' @param map_obj An \code{"sf", "data.frame"} object as defined by the
+#' \pkg{sf} package on which the data should be visualized.
 #' @param map_dom_id Character string containing the name of a variable in
 #' \code{map_obj} that indicates the domains.
 #' @param map_tab A \code{data.frame} object with two columns that matches the
@@ -38,15 +38,16 @@
 #'
 #' @return Creates required plots and if selected, a fortified data.frame and a list of plots.
 #'
-#' @seealso \code{\link{SAEforest}}, \code{\link[maptools]{readShapePoly}},
-#' \code{\link[sp]{SpatialPolygonsDataFrame}}, \code{\link[ggplot2]{ggplot}}.
+#' @seealso \code{\link{SAEforest}}, \code{\link[sf]{sf}}, \code{\link[ggplot2]{ggplot}}.
 #'
 #' @examples
 #' \donttest{
 #' # Loading data
 #' data("eusilcA_pop")
 #' data("eusilcA_smp")
-#' data("shape_Aut")
+#'
+#' # Load shape file
+#' load_shapeaustria()
 #'
 #' income <- eusilcA_smp$eqIncome
 #' X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
@@ -60,33 +61,34 @@
 #'
 #' # Create map plot for mean indicator - point and MSE estimates but no CV
 #'
-#' map_indicators(object = model1, MSE = FALSE, CV = FALSE, map_obj = shape_Aut,
-#'                indicator = c("Mean"), map_dom_id = "PB")
+#'map_indicators(object = model1, MSE = FALSE, CV = FALSE, map_obj = shape_austria_dis,
+#'                           indicator = c("Mean"), map_dom_id = "PB")
 #'
 #' # Create a suitable mapping table to use numerical identifiers of the shape
 #' # file
 #'
 #' # First find the right order
-#' dom_ord <- match(shape_Aut@data$PB, model1$Indicators$district)
+#' dom_ord <- match(shape_austria_dis$PB, model1$Indicators$district)
 #'
 #' # Create the mapping table based on the order obtained above
 #' map_tab <- data.frame(pop_data_id = model1$Indicators$district[dom_ord],
-#'                       shape_id = shape_Aut@data$BKZ)
+#'                       shape_id = shape_austria_dis$BKZ)
 #'
 #' # Create map plot for mean indicator - using the numerical domain
 #' # identifiers of the shape file. Additionally save the figure in as a list element.
 #'
 #' map_obj <- map_indicators(object = model1, MSE = FALSE, CV = FALSE,
-#'                           map_obj = shape_Aut, indicator = c("Mean"),
+#'                           map_obj = shape_austria_dis, indicator = c("Mean"),
 #'                           map_dom_id = "BKZ", map_tab = map_tab, return_plot = TRUE)
 #' }
 #'
 #' @export
+#' @import sf
 #' @importFrom reshape2 melt
-#' @importFrom ggplot2 aes geom_polygon facet_wrap fortify coord_equal labs
+#' @importFrom ggplot2 aes geom_polygon geom_sf facet_wrap coord_equal labs
 #' @importFrom ggplot2 theme element_blank guides scale_fill_gradient
 #' @importFrom ggplot2 scale_colour_gradient theme_minimal ggplot
-#' @import maptools
+#' @importFrom rlang .data
 
 map_indicators <- function(object,
                            indicator = "all",
@@ -118,16 +120,16 @@ map_indicators <- function(object,
   }
 
   plot_real(object,
-    indicator = indicator,
-    MSE = MSE,
-    CV = CV,
-    map_obj = map_obj,
-    map_dom_id = map_dom_id,
-    map_tab = map_tab,
-    col = color,
-    scale_points = scale_points,
-    return_data = return_data,
-    guide = guide, gg_theme = gg_theme, return_plot = return_plot
+            indicator = indicator,
+            MSE = MSE,
+            CV = CV,
+            map_obj = map_obj,
+            map_dom_id = map_dom_id,
+            map_tab = map_tab,
+            col = color,
+            scale_points = scale_points,
+            return_data = return_data,
+            guide = guide, gg_theme = gg_theme, return_plot = return_plot
   )
 }
 
@@ -142,6 +144,7 @@ map_pseudo <- function(object, indicator, panelplot, MSE, CV, gg_theme, return_p
   tplot <- get_polygone(values = values)
 
   plot_list <- vector(mode = "list", length = length(indicator))
+
   names(plot_list) <- indicator
 
   if (panelplot) {
@@ -151,9 +154,9 @@ map_pseudo <- function(object, indicator, panelplot, MSE, CV, gg_theme, return_p
   } else {
     for (ind in indicator) {
       plot_list[[ind]] <- eval(substitute(ggplot(tplot[tplot$variable == ind, ], aes(x = x, y = y)) +
-        ggtitle(paste0(ind)) +
-        geom_polygon(aes(group = id, fill = value)) +
-        gg_theme, list(ind = ind)))
+                                            ggtitle(paste0(ind)) +
+                                            geom_polygon(aes(group = id, fill = value)) +
+                                            gg_theme, list(ind = ind)))
 
       print(plot_list[[ind]])
       cat("Press [enter] to continue")
@@ -191,9 +194,11 @@ plot_real <- function(object,
   if (!is.null(map_tab)) {
     map_data <- merge(
       x = map_data, y = map_tab,
-      by.x = names(object$Indicators)[1], by.y = names(map_tab)[1]
+      by.x = names(object$Indicators)[1],
+      by.y = names(map_tab)[1]
     )
-    matcher <- match(map_obj@data[map_dom_id][, 1], map_data[, names(map_tab)[2]])
+    matcher <- match(map_obj[[map_dom_id]],
+                     map_data[, names(map_tab)[2]])
 
     if (any(is.na(matcher))) {
       if (all(is.na(matcher))) {
@@ -206,11 +211,17 @@ plot_real <- function(object,
     map_data <- map_data[matcher, ]
     map_data <- map_data[, !colnames(map_data) %in% c(
       names(object$Indicators)[1],
-      map_dom_id,
-      names(map_tab)
-    ), drop = FALSE]
+      map_dom_id),
+      drop = FALSE]
+
+    map_data$Domain <- map_data[, colnames(map_data) %in% names(map_tab)]
   } else {
-    matcher <- match(map_obj@data[map_dom_id][, 1], map_data[, names(object$Indicators)[1]])
+
+    # Ich glaube hier gibt es Probleme
+    map_data$Domain <- map_data[, colnames(map_data) %in% names(object$Indicators)[1]]
+    map_data[,1] <- NULL
+    matcher <- match(map_obj[[map_dom_id]], map_data[, "Domain"])
+    #matcher <- match(map_obj[[map_dom_id]], map_data[, names(object$Indicators)[1]])
 
     if (any(is.na(matcher))) {
       if (all(is.na(matcher))) {
@@ -223,29 +234,20 @@ plot_real <- function(object,
     map_data <- map_data[matcher, ]
   }
 
-  map_obj@data[colnames(map_data)] <- map_data
-
-
-  map_obj.fort <- fortify(map_obj, region = map_dom_id)
-  map_obj.fort <- merge(map_obj.fort, map_obj@data,
-    by.x = "id", by.y = map_dom_id
-  )
+  map_obj.merged <- merge(map_obj, map_data, by.x = map_dom_id, by.y = "Domain")
 
   indicator <- colnames(map_data)
-  indicator <- indicator[!(indicator %in% names(object$Indicators)[1])]
+  indicator <- indicator[!(indicator %in% c("Domain", "shape_id"))]
 
   plot_list <- vector(mode = "list", length = length(indicator))
   names(plot_list) <- indicator
 
   for (ind in indicator) {
-    map_obj.fort[ind][, 1][!is.finite(map_obj.fort[ind][, 1])] <- NA
-    scale_point <- get_scale_points(map_obj.fort[ind][, 1], ind, scale_points)
-    plot_list[[ind]] <- eval(substitute(ggplot(map_obj.fort, aes(long, lat,
-      group = group,
-      fill = map_obj.fort[ind][, 1]
-    )) +
-      geom_polygon(color = "azure3") +
-      coord_equal() +
+    map_obj.merged[[ind]][!is.finite(map_obj.merged[[ind]])] <- NA
+    scale_point <- get_scale_points(map_obj.merged[[ind]], ind, scale_points)
+
+    plot_list[[ind]] <- ggplot(map_obj.merged, aes(long, lat, group = group, fill = .data[[ind]])) +
+      geom_sf(color = "azure3") +
       labs(x = "", y = "", fill = ind) +
       ggtitle(gsub(pattern = "_", replacement = " ", x = ind)) +
       scale_fill_gradient(
@@ -256,7 +258,8 @@ plot_real <- function(object,
       theme(
         axis.ticks = element_blank(), axis.text = element_blank(),
         legend.title = element_blank()
-      ), list(ind = ind)))
+      )
+
 
     print(plot_list[[ind]])
 
@@ -266,13 +269,13 @@ plot_real <- function(object,
     }
   }
   if (return_data == TRUE && return_plot == FALSE) {
-    return(map_obj.fort)
+    return(map_obj.merged)
   }
   if (return_data == FALSE && return_plot == TRUE) {
     return(plot_list)
   }
   if (return_data == TRUE && return_plot == TRUE) {
-    return(list(mapObj = map_obj.fort, plotObj = plot_list))
+    return(list(mapObj = map_obj.merged, plotObj = plot_list))
   }
 }
 

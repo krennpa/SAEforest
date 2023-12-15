@@ -1,7 +1,8 @@
 Package: SAEforest
 Title: Mixed Effect Random Forests for Small Area Estimation
-Version: 1.0.0
-Authors@R: person("Patrick", "Krennmair", email = "patrick.krennmair@fu-berlin.de", role = c("aut", "cre"))
+Version: 1.0.1
+Authors@R: c(person("Patrick", "Krennmair", email = "patrick.krennmair@fu-berlin.de", role = c("aut", "cre")),
+           person("Nicolas", "Frink", email = "nicolas.frink@fu-berlin.de", role = "aut"))
 Description: Mixed Effects Random Forests (MERFs) are a data-driven,
     nonparametric alternative to current methods of Small Area Estimation
     (SAE). 'SAEforest' provides functions for the estimation of regionally
@@ -24,20 +25,19 @@ Imports:
     haven,
     ineq,
     lme4,
-    maptools,
     pbapply,
     pdp,
     ranger,
     reshape2,
+    rlang,
+    sf,
     stats,
     vip
 Suggests: 
     R.rsp,
-    sp,
-    rgeos,
-    testthat (>= 3.0.0)
+    testthat  (>= 3.0.0)
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 LazyData: true
 VignetteBuilder: R.rsp
 NeedsCompilation: no

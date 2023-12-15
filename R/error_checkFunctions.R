@@ -269,9 +269,8 @@ map_indicators_check <- function(object, indicator, MSE, CV, map_obj, map_dom_id
     stop("gg_theme must be a single function of type 'gg' determining the theme of plots.")
   }
 
-  if (!inherits(map_obj, "SpatialPolygonsDataFrame") ||
-    attr(class(map_obj), "package") != "sp") {
-    stop("map_obj is not of class SpatialPolygonsDataFrame from the sp package")
+  if (!inherits(map_obj, "sf")) {
+    stop("map_obj is not of class sf from the sf package")
   }
   if (!is.null(map_tab) && !(inherits(map_tab, "data.frame") &&
     dim(map_tab)[2] == 2)) {

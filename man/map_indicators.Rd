@@ -36,8 +36,8 @@ Defaults to \code{FALSE}.}
 \item{CV}{Logical. If \code{TRUE}, the CV is also visualized.
 Defaults to \code{FALSE}.}
 
-\item{map_obj}{An \code{SpatialPolygonsDataFrame} object as defined by the
-\pkg{sp} package on which the data should be visualized.}
+\item{map_obj}{An \code{"sf", "data.frame"} object as defined by the
+\pkg{sf} package on which the data should be visualized.}
 
 \item{map_dom_id}{Character string containing the name of a variable in
 \code{map_obj} that indicates the domains.}
@@ -78,7 +78,9 @@ wrapper of \code{map_plot} from the package \pkg{emdi}.
 # Loading data
 data("eusilcA_pop")
 data("eusilcA_smp")
-data("shape_Aut")
+
+# Load shape file
+load_shapeaustria()
 
 income <- eusilcA_smp$eqIncome
 X_covar <- eusilcA_smp[, -c(1, 16, 17, 18)]
@@ -92,29 +94,28 @@ model1 <- SAEforest_model(Y = income, X = X_covar, dName = "district",
 
 # Create map plot for mean indicator - point and MSE estimates but no CV
 
-map_indicators(object = model1, MSE = FALSE, CV = FALSE, map_obj = shape_Aut,
-               indicator = c("Mean"), map_dom_id = "PB")
+map_indicators(object = model1, MSE = FALSE, CV = FALSE, map_obj = shape_austria_dis,
+                          indicator = c("Mean"), map_dom_id = "PB")
 
 # Create a suitable mapping table to use numerical identifiers of the shape
 # file
 
 # First find the right order
-dom_ord <- match(shape_Aut@data$PB, model1$Indicators$district)
+dom_ord <- match(shape_austria_dis$PB, model1$Indicators$district)
 
 # Create the mapping table based on the order obtained above
 map_tab <- data.frame(pop_data_id = model1$Indicators$district[dom_ord],
-                      shape_id = shape_Aut@data$BKZ)
+                      shape_id = shape_austria_dis$BKZ)
 
 # Create map plot for mean indicator - using the numerical domain
 # identifiers of the shape file. Additionally save the figure in as a list element.
 
 map_obj <- map_indicators(object = model1, MSE = FALSE, CV = FALSE,
-                          map_obj = shape_Aut, indicator = c("Mean"),
+                          map_obj = shape_austria_dis, indicator = c("Mean"),
                           map_dom_id = "BKZ", map_tab = map_tab, return_plot = TRUE)
 }
 
 }
 \seealso{
-\code{\link{SAEforest}}, \code{\link[maptools]{readShapePoly}},
-\code{\link[sp]{SpatialPolygonsDataFrame}}, \code{\link[ggplot2]{ggplot}}.
+\code{\link{SAEforest}}, \code{\link[sf]{sf}}, \code{\link[ggplot2]{ggplot}}.
 }
