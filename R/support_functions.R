@@ -55,7 +55,8 @@ sae_specs <- function(dName, cns, smp) {
     D_in = length(in_dom),
     D_total = length(total_dom),
     ni_smp = table(smp[[dName]]),
-    ni_pop = table(cns[[dName]])
+    ni_pop = table(cns[[dName]]),
+    dName = dName
   ))
 }
 

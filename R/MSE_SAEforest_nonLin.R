@@ -15,7 +15,9 @@ MSE_SAEforest_nonLin <- function(Y,
                                  MaxIterations = 25,
                                  custom_indicator,
                                  wild,
-                                 MC, ...) {
+                                 MC,
+                                 aggregate_to,
+                                 ...) {
 
   rand_struc <- paste0(paste0("(1|", dName), ")")
   domains <- t(unique(pop_data[dName]))
@@ -72,13 +74,29 @@ MSE_SAEforest_nonLin <- function(Y,
   }, simplify = FALSE)
   y_star_L <- Map(cbind, "y_star" = y_star_L, "thresh" = thresh_L)
 
-  my_agg <- function(x) {
+  if(is.null(aggregate_to)){
+    my_agg <- function(x) {
     tapply(x[, 1], pop_data[[dName]], calc_indicat, threshold = unique(x[, 2]), custom = custom_indicator)
+    }
+  } else{
+    my_agg <- function(x) {
+      tapply(x[, 1], pop_data[[aggregate_to]], calc_indicat, threshold = unique(x[, 2]), custom = custom_indicator)
+    }
   }
+
   tau_star <- sapply(y_star_L, my_agg, simplify = FALSE)
-  comb <- function(x) {
+
+  if(is.null(aggregate_to)){
+    comb <- function(x) {
     matrix(unlist(x), nrow = length(N_i), byrow = TRUE)
+    }
+  } else{
+    N_i_agg <- as.numeric(table(pop_data[[aggregate_to]]))
+    comb <- function(x) {
+      matrix(unlist(x), nrow = length(N_i_agg), byrow = TRUE)
+    }
   }
+
   tau_star <- sapply(tau_star, comb, simplify = FALSE)
 
   # get bootstrap samples
@@ -95,7 +113,7 @@ MSE_SAEforest_nonLin <- function(Y,
       point_MC_nonLin(
         Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = threshold, smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance, B_point = B_point,
-        MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...
+        MaxIterations = MaxIterations, custom_indicator = custom_indicator, aggregate_to = aggregate_to, ...
       )[[1]][, -1]
     }
   }
@@ -105,7 +123,7 @@ MSE_SAEforest_nonLin <- function(Y,
       point_nonLin(
         Y = x$y_star, X = x[, colnames(X)], dName = dName, threshold = threshold, smp_data = x, pop_data = pop_data,
         initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-        MaxIterations = MaxIterations, custom_indicator = custom_indicator, ...
+        MaxIterations = MaxIterations, custom_indicator = custom_indicator, aggregate_to = aggregate_to, ...
       )[[1]][, -1]
     }
   }
@@ -119,8 +137,15 @@ MSE_SAEforest_nonLin <- function(Y,
   Mean_square_B <- mapply(mean_square, tau_b, tau_star, SIMPLIFY = FALSE)
 
   MSE_estimates <- Reduce("+", Mean_square_B) / length(Mean_square_B)
-  MSE_estimates_out <- data.frame(unique(pop_data[dName]), MSE_estimates)
-  colnames(MSE_estimates_out) <- c(dName, colnames(MSE_estimates))
+
+  if(is.null(aggregate_to)){
+    MSE_estimates_out <- data.frame(unique(pop_data[dName]), MSE_estimates)
+    colnames(MSE_estimates_out) <- c(dName, colnames(MSE_estimates))
+  } else{
+    MSE_estimates_out <- data.frame(unique(pop_data[aggregate_to]), MSE_estimates)
+    colnames(MSE_estimates_out) <- c(aggregate_to, colnames(MSE_estimates))
+  }
+
   rownames(MSE_estimates_out) <- NULL
 
   # __________________________

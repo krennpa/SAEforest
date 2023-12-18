@@ -27,6 +27,7 @@ SAEforest_model(
   initialRandomEffects = 0,
   ErrorTolerance = 1e-04,
   MaxIterations = 25,
+  aggregate_to = NULL,
   na.rm = TRUE,
   ...
 )
@@ -105,6 +106,11 @@ Defaults to 0.}
 
 \item{MaxIterations}{Numeric value specifying the maximal amount of iterations for the
 MERF algorithm. Defaults to 25.}
+
+\item{aggregate_to}{Character containing the name of a variable from
+population data that indicates the target domain level for which the
+results are to be displayed. Only available if \code{aggData = FALSE}.
+Defaults to \code{NULL}.}
 
 \item{na.rm}{Logical. Whether missing values should be removed. Defaults to \code{TRUE}.}
 
@@ -211,6 +217,18 @@ model3 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data 
 # SAEforest generics:
 summary(model3)
 summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c("Gini", "my_max", "mean40"))
+
+# Example 4:
+# Calculating point + MSE estimates with random effect on the district level
+# while the output is at state level.
+# Note that B is unrealistically low to improve example speed
+
+model4 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+                          pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "wild", B = 5,
+                          num.trees = 50, aggregate_to = "state")
+
+summary(model4)
+summarize_indicators(model4, CV = TRUE)
 }
 
 }

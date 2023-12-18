@@ -17,6 +17,7 @@ SAEforest_mean <- function(Y,
                            MaxIterations = 25,
                            B = 100,
                            B_adj = 100,
+                           aggregate_to = NULL,
                            na.rm = TRUE,
                            out_call,
                            ...) {
@@ -55,16 +56,20 @@ SAEforest_mean <- function(Y,
       ErrorTolerance = ErrorTolerance,
       MaxIterations = MaxIterations,
       importance = importance,
+      aggregate_to = aggregate_to,
       ...
     )
 
+    if(is.null(aggregate_to)){
     data_specs <- sae_specs(dName = dName, cns = pop_data, smp = smp_data)
-
+    } else{
+    data_specs <- sae_specs(dName = aggregate_to, cns = pop_data, smp = smp_data)
+    }
 
     if (MSE == "none") {
       result <- list(
         MERFmodel = c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data = list(smp_data)),
-        Indicators = sortAlpha(mean_preds[[1]], dName = dName),
+        Indicators = sortAlpha(mean_preds[[1]], dName = data_specs$dName),
         MSE_Estimates = NULL,
         AdjustedSD = NULL,
         NrCovar = NULL
@@ -95,13 +100,13 @@ SAEforest_mean <- function(Y,
         initialRandomEffects = initialRandomEffects,
         ErrorTolerance = ErrorTolerance,
         MaxIterations = MaxIterations,
-        ...
+        aggregate_to = aggregate_to,
       )
 
       result <- list(
         MERFmodel = c(mean_preds[[2]], call = out_call, data_specs = list(data_specs), data = list(smp_data)),
-        Indicators = sortAlpha(mean_preds[[1]], dName = dName),
-        MSE_Estimates = sortAlpha(MSE_estims, dName = dName),
+        Indicators = sortAlpha(mean_preds[[1]], dName = data_specs$dName),
+        MSE_Estimates = sortAlpha(MSE_estims, dName = data_specs$dName),
         AdjustedSD = adj_SD,
         NrCovar = NULL
       )

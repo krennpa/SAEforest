@@ -12,7 +12,7 @@ class_error <- function(object) {
 input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, aggData, smearing,
                                popnsize, importance, OOsample_obs, ADDsamp_obs, w_min, B, B_adj,
                                B_MC, threshold, custom_indicator, initialRandomEffects, ErrorTolerance,
-                               MaxIterations, na.rm) {
+                               MaxIterations, aggregate_to, na.rm) {
   if (!is.numeric(Y) || !data.frame(Y) %in% smp_data) {
     stop("Y must be a continuous vector containing the target variable. Additionally Y must be included in the data frame of survey sample data. See also help(SAEforest_model)")
   }
@@ -152,6 +152,22 @@ input_checks_model <- function(Y, X, dName, smp_data, pop_data, MSE, meanOnly, a
   if ((aggData == TRUE || meanOnly == TRUE) && (is.null(MSE) || !(MSE == "none" || MSE == "nonparametric"))) {
     stop('The options for the MSE for means are "none" or "nonparametric".')
   }
+
+  if(is.null(aggregate_to) != TRUE){
+    if (!(aggregate_to %in% colnames(pop_data))) {
+      stop(paste0("The domain variable ", aggregate_to, " is not contained in
+                  pop_data. Please provide valid variable name for the
+                  aggregation."))
+    }
+  }
+
+  if(is.null(aggregate_to) != TRUE){
+    if (!(is.character(aggregate_to) ||
+          length(aggregate_to) != 1)) {
+      stop(paste0(aggregate_to, "must be an input of class character."))
+    }
+  }
+
 }
 
 # Checking inputs for the generic plot function ------------------------------------------

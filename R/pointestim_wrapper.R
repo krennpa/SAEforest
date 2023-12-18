@@ -11,6 +11,7 @@ point_mean <- function(Y,
                        ErrorTolerance,
                        MaxIterations,
                        importance = "none",
+                       aggregate_to,
                        ...) {
 
   random <- paste0(paste0("(1|", dName), ")")
@@ -30,15 +31,24 @@ point_mean <- function(Y,
   unit_preds <- predict(unit_model$Forest, pop_data)$predictions +
     predict(unit_model$EffectModel, pop_data, allow.new.levels = TRUE)
 
-  unit_preds_ID <- cbind(pop_data[dName], unit_preds)
+  if(is.null(aggregate_to)){
+    unit_preds_ID <- cbind(pop_data[dName], unit_preds)
+    f0 <- as.formula(paste0("unit_preds ", " ~ ", dName))
+    mean_preds <- aggregate(f0,
+                            data = unit_preds_ID,
+                            FUN = mean
+    )
+    colnames(mean_preds) <- c(dName, "Mean")
+    }else{
+      unit_preds_ID <- cbind(pop_data[aggregate_to], unit_preds)
+      f0 <- as.formula(paste0("unit_preds ", " ~ ", aggregate_to))
+      mean_preds <- aggregate(f0,
+                              data = unit_preds_ID,
+                              FUN = mean
+      )
+      colnames(mean_preds) <- c(aggregate_to, "Mean")
+  }
 
-  f0 <- as.formula(paste0("unit_preds ", " ~ ", dName))
-
-  mean_preds <- aggregate(f0,
-    data = unit_preds_ID,
-    FUN = mean
-  )
-  colnames(mean_preds) <- c(dName, "Mean")
 
   out_ob <- vector(mode = "list", length = 2)
 
@@ -62,12 +72,17 @@ point_nonLin <- function(Y,
                          MaxIterations,
                          importance = "none",
                          custom_indicator,
+                         aggregate_to,
                          ...) {
 
   random <- paste0(paste0("(1|", dName), ")")
-  domains <- names(table(pop_data[[dName]]))
-  popSize <- as.numeric(table(pop_data[[dName]]))
-
+  if(is.null(aggregate_to)){
+    domains <- names(table(pop_data[[dName]]))
+    popSize <- as.numeric(table(pop_data[[dName]]))
+  } else{
+    domains <- names(table(pop_data[[aggregate_to]]))
+    popSize <- as.numeric(table(pop_data[[aggregate_to]]))
+  }
   thresh <- get_thresh(Y, threshold = threshold)
 
   unit_model <- MERFranger(
@@ -88,6 +103,12 @@ point_nonLin <- function(Y,
 
   #  smearing step
   smear_list <- vector(mode = "list", length = length(domains))
+
+  if(is.null(aggregate_to)){
+    dName = dName
+  } else{
+    dName = aggregate_to
+  }
 
   for (i in seq_along(domains)) {
     smear_i <- matrix(rep(unit_model$OOBresiduals, popSize[i]), nrow = popSize[i], ncol = length(unit_model$OOBresiduals), byrow = TRUE)
@@ -320,6 +341,7 @@ point_MC_nonLin <- function(Y,
                             MaxIterations,
                             importance = "none",
                             custom_indicator,
+                            aggregate_to,
                             ...) {
 
   domains <- names(table(pop_data[[dName]]))
@@ -370,7 +392,19 @@ point_MC_nonLin <- function(Y,
   gamm_1 <- rep((1 - gamm_i), popSize$N_i)
   y_star <- y_hat + gamm_1 * v_i
 
-  indi_agg <- rep(1:length(popSize$N_i), popSize$N_i)
+  if(is.null(aggregate_to)){
+    indi_agg <- rep(1:length(popSize$N_i), popSize$N_i)
+    comb <- function(x) {
+      matrix(unlist(x), nrow = length(popSize$N_i), byrow = TRUE)
+    }
+  } else{
+    N_i_agg <- as.numeric(table(pop_data[[aggregate_to]]))
+    indi_agg <- rep(1:length(N_i_agg), N_i_agg)
+    comb <- function(x) {
+      matrix(unlist(x), nrow = length(N_i_agg), byrow = TRUE)
+    }
+  }
+
   my_agg <- function(x) {
     tapply(x, indi_agg, calc_indicat, threshold = thresh, custom = custom_indicator)
   }
@@ -378,9 +412,6 @@ point_MC_nonLin <- function(Y,
 
   col_names <- colnames(tau_star[[1]]$`1`)
 
-  comb <- function(x) {
-    matrix(unlist(x), nrow = length(popSize$N_i), byrow = TRUE)
-  }
   tau_star <- sapply(tau_star, comb, simplify = FALSE)
 
   indicators <- Reduce("+", tau_star) / length(tau_star)
@@ -388,8 +419,14 @@ point_MC_nonLin <- function(Y,
 
   # preparing final output
   result <- list(
-    Indicators = cbind(popSize[dName], indicators),
+    if(is.null(aggregate_to)){
+    Indicators = cbind(popSize[dName], indicators)
+    } else {
+      Indicators = cbind(unique(pop_data[aggregate_to]), indicators)
+    }
+    ,
     model = unit_model
   )
+
   return(result)
 }

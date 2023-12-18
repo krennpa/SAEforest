@@ -11,6 +11,7 @@ MSE_SAEforest_mean <- function(Y,
                                initialRandomEffects = 0,
                                ErrorTolerance = 0.0001,
                                MaxIterations = 25,
+                               aggregate_to = NULL,
                                ...) {
 
   rand_struc <- paste0(paste0("(1|", dName), ")")
@@ -52,7 +53,13 @@ MSE_SAEforest_mean <- function(Y,
   # combine to y_star
   y_star <- pred_mat + u_i + e_ij
 
+  if(is.null(aggregate_to)){
   indi_agg <- rep(1:length(N_i), N_i)
+  } else{
+    N_i_agg <- as.numeric(table(pop_data[[aggregate_to]]))
+    indi_agg <- rep(1:length(N_i_agg), N_i_agg)
+  }
+
   my_agg <- function(x) {
     tapply(x, indi_agg, mean)
   }
@@ -71,7 +78,7 @@ MSE_SAEforest_mean <- function(Y,
     point_mean(
       Y = x$y_star, X = x[, colnames(X)], dName = dName, smp_data = x,
       pop_data = pop_data, initialRandomEffects = initialRandomEffects,
-      ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations, ...
+      ErrorTolerance = ErrorTolerance, MaxIterations = MaxIterations, aggregate_to = aggregate_to, ...
     )[[1]][, 2]
   }
 
@@ -79,7 +86,11 @@ MSE_SAEforest_mean <- function(Y,
 
   MSE_estimates <- rowMeans((tau_star - tau_b)^2)
 
+  if(is.null(aggregate_to)){
   MSE_estimates <- data.frame(unique(pop_data[dName]), Mean = MSE_estimates)
+  } else{
+   MSE_estimates <- data.frame(unique(pop_data[aggregate_to]), Mean = MSE_estimates)
+  }
   rownames(MSE_estimates) <- NULL
 
   return(MSE_estimates)

@@ -70,6 +70,10 @@
 #' @param w_min Minimal number of covariates from which informative weights are calculated.
 #' Only needed if \code{aggData = TRUE}. Defaults to 3.
 #' @param meanOnly Logical. Calculating domain-level means only. Defaults to \code{TRUE}.
+#' @param aggregate_to Character containing the name of a variable from
+#' population data that indicates the target domain level for which the
+#' results are to be displayed. Only available if \code{aggData = FALSE}.
+#' Defaults to \code{NULL}.
 #'
 #' @return An object of class \code{SAEforest} includes point estimates for disaggregated indicators
 #' as well as information on the MERF-model. Optionally corresponding MSE estimates are returned.
@@ -172,6 +176,18 @@
 #' # SAEforest generics:
 #' summary(model3)
 #' summarize_indicators(model3, MSE = FALSE, CV = TRUE, indicator = c("Gini", "my_max", "mean40"))
+#'
+#' # Example 4:
+#' # Calculating point + MSE estimates with random effect on the district level
+#' # while the output is at state level.
+#' # Note that B is unrealistically low to improve example speed
+#'
+#' model4 <- SAEforest_model(Y = income, X = X_covar, dName = "district", smp_data = eusilcA_smp,
+#'                           pop_data = eusilcA_pop, meanOnly = FALSE, MSE = "wild", B = 5,
+#'                           num.trees = 50, aggregate_to = "state")
+#'
+#' summary(model4)
+#' summarize_indicators(model4, CV = TRUE)
 #'}
 #'
 #' @export
@@ -198,6 +214,7 @@ SAEforest_model <- function(Y,
                             initialRandomEffects = 0,
                             ErrorTolerance = 0.0001,
                             MaxIterations = 25,
+                            aggregate_to = NULL,
                             na.rm = TRUE,
                             ...) {
 
@@ -208,7 +225,7 @@ SAEforest_model <- function(Y,
     ADDsamp_obs = ADDsamp_obs, w_min = w_min, B = B, B_adj = B_adj, B_MC = B_MC,
     threshold = threshold, custom_indicator = custom_indicator,
     initialRandomEffects = initialRandomEffects, ErrorTolerance = ErrorTolerance,
-    MaxIterations = MaxIterations, na.rm = na.rm
+    MaxIterations = MaxIterations, aggregate_to = aggregate_to, na.rm = na.rm
   )
 
   out_call <- match.call()
@@ -238,6 +255,7 @@ SAEforest_model <- function(Y,
       MaxIterations = MaxIterations,
       B = B,
       B_adj = B_adj,
+      aggregate_to = aggregate_to,
       na.rm = na.rm,
       out_call = out_call,
       ...
@@ -266,6 +284,7 @@ SAEforest_model <- function(Y,
       B_MC = B_MC,
       threshold = threshold,
       custom_indicator = custom_indicator,
+      aggregate_to = aggregate_to,
       na.rm = na.rm,
       out_call = out_call,
       ...
