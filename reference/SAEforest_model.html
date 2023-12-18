@@ -107,6 +107,7 @@ The following examples showcase further potential applications.</p>
 <span>  initialRandomEffects <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  ErrorTolerance <span class="op">=</span> <span class="fl">1e-04</span>,</span>
 <span>  MaxIterations <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  aggregate_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -232,6 +233,13 @@ Defaults to 0.</p></dd>
 MERF algorithm. Defaults to 25.</p></dd>
 
 
+<dt>aggregate_to</dt>
+<dd><p>Character containing the name of a variable from
+population data that indicates the target domain level for which the
+results are to be displayed. Only available if <code>aggData = FALSE</code>.
+Defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Logical. Whether missing values should be removed. Defaults to <code>TRUE</code>.</p></dd>
 
@@ -353,6 +361,21 @@ Computational Statistics &amp; Data Analysis, 55 (11), 2937–2950.</p>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'model3' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summarize_indicators.html">summarize_indicators</a></span><span class="op">(</span><span class="va">model3</span>, MSE <span class="op">=</span> <span class="cn">FALSE</span>, CV <span class="op">=</span> <span class="cn">TRUE</span>, indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gini"</span>, <span class="st">"my_max"</span>, <span class="st">"mean40"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'model3' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 4:</span></span></span>
+<span class="r-in"><span><span class="co"># Calculating point + MSE estimates with random effect on the district level</span></span></span>
+<span class="r-in"><span><span class="co"># while the output is at state level.</span></span></span>
+<span class="r-in"><span><span class="co"># Note that B is unrealistically low to improve example speed</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model4</span> <span class="op">&lt;-</span> <span class="fu">SAEforest_model</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income</span>, X <span class="op">=</span> <span class="va">X_covar</span>, dName <span class="op">=</span> <span class="st">"district"</span>, smp_data <span class="op">=</span> <span class="va">eusilcA_smp</span>,</span></span>
+<span class="r-in"><span>                          pop_data <span class="op">=</span> <span class="va">eusilcA_pop</span>, meanOnly <span class="op">=</span> <span class="cn">FALSE</span>, MSE <span class="op">=</span> <span class="st">"wild"</span>, B <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>                          num.trees <span class="op">=</span> <span class="fl">50</span>, aggregate_to <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initializePtr():</span> function 'cholmod_factor_ldetA' not provided by package 'Matrix'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model4</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'model4' not found</span>
+<span class="r-in"><span><span class="fu"><a href="summarize_indicators.html">summarize_indicators</a></span><span class="op">(</span><span class="va">model4</span>, CV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'model4' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
